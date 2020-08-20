@@ -30,7 +30,7 @@ Need to do some stuff
 npx react-native run-android
 
 
-npx react-native run-iod
+npx react-native run-ios
 
 
 ```
