@@ -6,5 +6,8 @@ This repository is for Android app of Wander List.
 
 # Details
 
+# Screenshots
 
 
+# React Native
+https://reactnative.dev/
