@@ -21,13 +21,18 @@
 ## Install
 
 ```sh
-Unavailable
+Need to do some stuff
 ```
 
 ## Usage
 
 ```sh
-Unavailable
+npx react-native run-android
+
+
+npx react-native run-iod
+
+
 ```
 
 ## Run tests
