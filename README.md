@@ -62,5 +62,3 @@ Give a ⭐️ if this project helped you!
 Copyright © 2020 [Unavailable](https://github.com/Unavailable).<br />
 This project is [Unavailable](Unavailable) licensed.
 
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
