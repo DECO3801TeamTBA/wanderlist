@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to WanderList App 👋</h1>
+<h1 align="center">Welcome to WanderList 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-MVP 1.0-blue.svg?cacheSeconds=2592000" />
   <a href="Unavailable" target="_blank">
@@ -7,39 +7,46 @@
   <a href="Unavailable" target="_blank">
     <img alt="License: Unavailable" src="https://img.shields.io/badge/License-Unavailable-yellow.svg" />
   </a>
-  <a href="https://twitter.com/Unavailable" target="_blank">
-    <img alt="Twitter: Unavailable" src="https://img.shields.io/twitter/follow/Unavailable.svg?style=social" />
-  </a>
 </p>
 
 > A team based mobile application project that promotes sustainable behaviours within destination communities in support of the tourism industry and meaningful interaction between tourists and local businesses.
 
-### 🏠 [Homepage](This repository is for Android app of Wander List.Unavailable)
+### 🏠 [Homepage](Unavailable)
 
 ### ✨ [Demo](Unavailable)
 
+## Environment Set-up
 
-## Install
+[React Native CLI QuickStart](https://reactnative.dev/docs/environment-setup)
+
+## Run Instructions
 
 ```sh
-Need to do some stuff
+Run instructions for iOS:
+
+• cd "/Users/steven/wanderlist" && npx react-native run-ios
+- or -
+• Open wanderlist/ios/wanderlist.xcworkspace in Xcode or run "xed -b ios"
+• Hit the Run button
+
+
+
+Run instructions for Android:
+
+• Have an Android emulator running (quickest way to get started), or a device connected.
+• cd "/Users/steven/wanderlist" && npx react-native run-android
+
+
+
+Run instructions for Windows and macOS:
+
+• See https://aka.ms/ReactNative for the latest up-to-date instructions.
 ```
 
-## Usage
+## Testing
 
 ```sh
-npx react-native run-android
-
-
-npx react-native run-ios
-
-
-```
-
-## Run tests
-
-```sh
-Unavailable
+TBD
 ```
 
 ## Author
@@ -49,28 +56,15 @@ Unavailable
 * Designers: 
 * Front-end Developers: 
 * Back-end Developers:
-<!-- [@Unavailable](https://twitter.com/Unavailable)
+<!--
 * Github: [@Unavailable](https://github.com/Unavailable)
-* LinkedIn: [@Unavailable](https://linkedin.com/in/Unavailable) -->
+-->
 
 ## Short docs
-App.js contains main Navigation
-RegisterScreen.js for the Register Screen
 
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](Unavailable). You can also take a look at the [contributing guide](Unavailable).
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-<a href="https://www.patreon.com/Unavailable">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
+App.js is responsible for the main navigation of the app.<br>
+RegisterScreen.js is the registration screen.
 
 ## 📝 License
 
-Copyright © 2020 [Unavailable](https://github.com/Unavailable).<br />
-This project is [Unavailable](Unavailable) licensed.
-
+Copyright © 2020 [Unavailable](https://github.com/Unavailable)
