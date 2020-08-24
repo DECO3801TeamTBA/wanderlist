@@ -18,6 +18,7 @@
 
 ### ✨ [Demo](Unavailable)
 
+
 ## Install
 
 ```sh
@@ -43,12 +44,18 @@ Unavailable
 
 ## Author
 
-👤 **Unavailable**
+👤 **TEAM TBA**
 
-* Website: Unavailable
-* Twitter: [@Unavailable](https://twitter.com/Unavailable)
+* Designers: 
+* Front-end Developers: 
+* Back-end Developers:
+<!-- [@Unavailable](https://twitter.com/Unavailable)
 * Github: [@Unavailable](https://github.com/Unavailable)
-* LinkedIn: [@Unavailable](https://linkedin.com/in/Unavailable)
+* LinkedIn: [@Unavailable](https://linkedin.com/in/Unavailable) -->
+
+## Short docs
+App.js contains main Navigation
+RegisterScreen.js for the Register Screen
 
 ## 🤝 Contributing
 
