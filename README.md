@@ -11,6 +11,8 @@
 
 > A team based mobile application project that promotes sustainable behaviours within destination communities in support of the tourism industry and meaningful interaction between tourists and local businesses.
 
+> This is React Native application using APIs from https://github.com/johnpaulsmith87/TBABackend
+
 ### 🏠 [Homepage](Unavailable)
 
 ### ✨ [Demo](Unavailable)
@@ -53,9 +55,9 @@ TBD
 
 👤 **TEAM TBA**
 
-* Designers: 
-* Front-end Developers: 
-* Back-end Developers:
+* (UI/UX)Designers: 
+* Front-end (React Native)Developers: @thanhtrv, 
+* Back-end (.Net and C#)Developers of https://github.com/johnpaulsmith87/TBABackend can be found here.
 <!--
 * Github: [@Unavailable](https://github.com/Unavailable)
 -->
