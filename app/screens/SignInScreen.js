@@ -1,3 +1,8 @@
+/*
+This is login screen
+author: Thanh Tran Vo @thanhtrv
+*/ 
+
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 

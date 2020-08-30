@@ -1,3 +1,8 @@
+/*
+This is signup screen
+author: Thanh Tran Vo @thanhtrv
+*/ 
+
 import React from 'react';
 import { 
     View, 

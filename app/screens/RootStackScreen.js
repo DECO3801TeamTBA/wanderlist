@@ -1,3 +1,6 @@
+/*
+This contains all screens before login
+*/ 
 import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
