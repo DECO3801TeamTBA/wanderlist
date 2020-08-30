@@ -1,5 +1,6 @@
 /*
 This contains all screens before login
+author: Thanh Tran Vo @thanhtrv
 */ 
 import React from 'react';
 
