@@ -47,9 +47,7 @@
 //   );
 // };
 
-
 // export default App;
-
 
 // /**
 //  * Sample React Native App
@@ -72,13 +70,12 @@
 //   }
 // }
 
-
 // In App.js in a new project
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {View, Text} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import RootStackScreen from './app/screens/RootStackScreen';
 
 // function HomeScreen() {
@@ -94,7 +91,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <RootStackScreen/>
+      <RootStackScreen />
     </NavigationContainer>
   );
 }
