@@ -78,6 +78,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RootStackScreen from './app/screens/RootStackScreen';
 import HomeScreen from './app/screens/HomeScreen';
+import ProfileScreen from './app/screens/ProfileScreen';
+import WanderListScreen from './app/screens/WanderListScreen';
+import RewardScreen from './app/screens/RewardScreen';
+
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -90,13 +94,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // }
 
 
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile</Text>
-    </View>
-  );
-}
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,8 +105,9 @@ function App() {
       {/* <RootStackScreen /> */}
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Profile" component={SettingsScreen} />
-        <Tab.Screen name="WanderList" component={RootStackScreen} />
+        <Tab.Screen name="Reward" component={RewardScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="WanderList" component={WanderListScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

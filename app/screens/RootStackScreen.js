@@ -15,7 +15,7 @@ const RootStack = createStackNavigator();
 const RootStackScreen = ({navigation}) => (
   <RootStack.Navigator headerMode="none">
     <RootStack.Screen name="Root" component={HomeScreen} />
-    <RootStack.Screen name="HomeScreen" component={HomeScreen} />
+    {/* <RootStack.Screen name="HomeScreen" component={HomeScreen} /> */}
     <RootStack.Screen name="SignInScreen" component={SignInScreen} />
     <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
   </RootStack.Navigator>

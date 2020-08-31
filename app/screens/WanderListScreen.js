@@ -5,11 +5,11 @@ Home Screen
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class WanderListScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Home page</Text>
+        <Text style={styles.logo}>WanderList Page</Text>
       </View>
     );
   }
