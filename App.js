@@ -105,9 +105,9 @@ function App() {
       {/* <RootStackScreen /> */}
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="WanderList" component={WanderListScreen} />
         <Tab.Screen name="Reward" component={RewardScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="WanderList" component={WanderListScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
