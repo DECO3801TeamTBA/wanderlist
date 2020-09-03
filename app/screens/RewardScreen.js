@@ -9,7 +9,7 @@ export default class RewardScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>RewardScreen</Text>
+        <Text style={styles.logo}>Reward Page</Text>
       </View>
     );
   }

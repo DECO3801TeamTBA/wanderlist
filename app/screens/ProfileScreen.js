@@ -9,7 +9,7 @@ export default class ProfileScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Login</Text>
+        <Text style={styles.logo}>Profile Page</Text>
       </View>
     );
   }

@@ -1,5 +1,5 @@
 /*
-WanderList Screen
+Add Screen
 */
 
 import React from 'react';
@@ -9,7 +9,7 @@ export default class WanderListScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>WanderList Page</Text>
+        <Text style={styles.logo}>Add Page</Text>
       </View>
     );
   }
