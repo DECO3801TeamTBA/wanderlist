@@ -77,7 +77,7 @@ import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RootStackScreen from './app/screens/RootStackScreen';
-import HomeScreen from './app/screens/HomeScreen';
+// import HomeScreen from './app/screens/HomeScreen';
 import ProfileScreen from './app/screens/ProfileScreen';
 import WanderListScreen from './app/screens/WanderListScreen';
 import AddScreen from './app/screens/AddScreen';
@@ -86,13 +86,13 @@ import RewardScreen from './app/screens/RewardScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// function HomeScreen() {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
+const HomeScreen = () => {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+};
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
