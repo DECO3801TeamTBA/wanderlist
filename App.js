@@ -95,30 +95,65 @@ const HomeScreen = ({navigation}) => {
         title="WanderList Screen"
         onPress={() => navigation.navigate('WanderList')}
       />
+      <Button
+        title="Reward Screen"
+        onPress={() => navigation.navigate('Reward')}
+      />
+      <Button
+        title="Profile Screen"
+        onPress={() => navigation.navigate('Profile')}
+      />
     </View>
   );
 };
 
-const WanderListScreen = () => {
+const WanderListScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>WanderList Screen</Text>
+      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+      <Button
+        title="Reward Screen"
+        onPress={() => navigation.navigate('Reward')}
+      />
+      <Button
+        title="Profile Screen"
+        onPress={() => navigation.navigate('Profile')}
+      />
     </View>
   );
 };
 
-const RewardScreen = () => {
+const RewardScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Reward Screen</Text>
+      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+      <Button
+        title="WanderList Screen"
+        onPress={() => navigation.navigate('WanderList')}
+      />
+      <Button
+        title="Profile Screen"
+        onPress={() => navigation.navigate('Profile')}
+      />
     </View>
   );
 };
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Profile Screen</Text>
+      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+      <Button
+        title="WanderList Screen"
+        onPress={() => navigation.navigate('WanderList')}
+      />
+      <Button
+        title="Reward Screen"
+        onPress={() => navigation.navigate('Reward')}
+      />
     </View>
   );
 };
