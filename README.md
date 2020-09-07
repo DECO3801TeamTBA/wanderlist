@@ -56,7 +56,7 @@ TBD
 👤 **TEAM TBA**
 
 * (UI/UX)Designers: 
-* Front-end (React Native)Developers: @thanhtrv, 
+* Front-end (React Native)Developers: 
 * Back-end (.Net and C#)Developers of https://github.com/johnpaulsmith87/TBABackend can be found here.
 <!--
 * Github: [@Unavailable](https://github.com/Unavailable)
