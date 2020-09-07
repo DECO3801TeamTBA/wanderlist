@@ -76,6 +76,7 @@ import * as React from 'react';
 import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 // import RootStackScreen from './app/screens/RootStackScreen';
 // import HomeScreen from './app/screens/HomeScreen';
 // import ProfileScreen from './app/screens/ProfileScreen';
@@ -85,7 +86,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import {Button} from 'react-native-paper';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -160,16 +160,23 @@ const ProfileScreen = ({navigation}) => {
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="WanderList" component={WanderListScreen} />
-        <Stack.Screen name="Reward" component={RewardScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      </Stack.Navigator>
+      {/*<Stack.Navigator>*/}
+      {/*  <Stack.Screen name="Home" component={HomeScreen} />*/}
+      {/*  <Stack.Screen name="WanderList" component={WanderListScreen} />*/}
+      {/*  <Stack.Screen name="Reward" component={RewardScreen} />*/}
+      {/*  <Stack.Screen name="Profile" component={ProfileScreen} />*/}
+      {/*</Stack.Navigator>*/}
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="WanderList" component={WanderListScreen} />
+        <Drawer.Screen name="Reward" component={RewardScreen} />
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+      </Drawer.Navigator>
       {/* <RootStackScreen /> */}
       {/*<Tab.Navigator>*/}
       {/*  <Tab.Screen*/}
@@ -225,5 +232,3 @@ function App() {
     </NavigationContainer>
   );
 }
-
-export default App;
