@@ -160,6 +160,8 @@ const ProfileScreen = ({navigation}) => {
 
 const HomeStack = createStackNavigator();
 const WanderListStack = createStackNavigator();
+const RewardStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -175,17 +177,41 @@ const HomeStackScreen = ({navigation}) => (
   </HomeStack.Navigator>
 );
 
-// const WanderListStackScreen = ({navigation}) => (
-//   <WanderListStack.Navigator>
-//     <HomeStack.Screen
-//       name="WanderList"
-//       component={WanderListScreen}
-//       options={{
-//         title: 'WanderList',
-//       }}
-//     />
-//   </WanderListStack.Navigator>
-// );
+const WanderListStackScreen = ({navigation}) => (
+  <WanderListStack.Navigator>
+    <WanderListStack.Screen
+      name="WanderList"
+      component={WanderListScreen}
+      options={{
+        title: 'WanderList',
+      }}
+    />
+  </WanderListStack.Navigator>
+);
+
+const RewardStackScreen = ({navigation}) => (
+  <RewardStack.Navigator>
+    <RewardStack.Screen
+      name="Reward"
+      component={RewardScreen}
+      options={{
+        title: 'Reward',
+      }}
+    />
+  </RewardStack.Navigator>
+);
+
+const ProfileStackScreen = ({navigation}) => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        title: 'Profile',
+      }}
+    />
+  </ProfileStack.Navigator>
+);
 
 export default function App() {
   return (
@@ -198,9 +224,9 @@ export default function App() {
       {/*</Stack.Navigator>*/}
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeStackScreen} />
-        {/*<Drawer.Screen name="WanderList" component={WanderListStackScreen} />*/}
-        <Drawer.Screen name="Reward" component={RewardScreen} />
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="WanderList" component={WanderListStackScreen} />
+        <Drawer.Screen name="Reward" component={RewardStackScreen} />
+        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
       </Drawer.Navigator>
       {/* <RootStackScreen /> */}
       {/*<Tab.Navigator>*/}
