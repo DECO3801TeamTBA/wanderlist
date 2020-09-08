@@ -7,12 +7,12 @@ export default function ProfileScreen({navigation}) {
       <Text>Profile Screen</Text>
       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
       <Button
-        title="WanderList Screen"
-        onPress={() => navigation.navigate('WanderList')}
+        title="Wander Screen"
+        onPress={() => navigation.navigate('Wander')}
       />
       <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
+        title="Rewards Screen"
+        onPress={() => navigation.navigate('Rewards')}
       />
       {/*<Button title="Login" onPress={() => navigation.navigate('Login')} />*/}
     </View>

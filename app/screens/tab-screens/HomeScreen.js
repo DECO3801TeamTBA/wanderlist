@@ -6,12 +6,12 @@ export default function HomeScreen({navigation}) {
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
       <Button
-        title="WanderList Screen"
-        onPress={() => navigation.navigate('WanderList')}
+        title="Wander Screen"
+        onPress={() => navigation.navigate('Wander')}
       />
       <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
+        title="Rewards Screen"
+        onPress={() => navigation.navigate('Rewards')}
       />
       <Button
         title="Profile Screen"

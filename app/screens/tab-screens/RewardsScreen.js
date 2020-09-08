@@ -1,14 +1,14 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 
-export default function WanderListScreen({navigation}) {
+export default function RewardsScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>WanderList Screen</Text>
+      <Text>Reward Screen</Text>
       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
       <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
+        title="Wander Screen"
+        onPress={() => navigation.navigate('Wander')}
       />
       <Button
         title="Profile Screen"
@@ -18,11 +18,11 @@ export default function WanderListScreen({navigation}) {
   );
 }
 
-// export default class WanderListScreen extends React.Component {
+// export default class RewardsScreen extends React.Component {
 //   render() {
 //     return (
 //       <View style={styles.container}>
-//         <Text style={styles.logo}>WanderList Page</Text>
+//         <Text style={styles.logo}>Reward Page</Text>
 //       </View>
 //     );
 //   }

@@ -4,8 +4,8 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeStackScreen from './stack-screens/HomeStackScreen';
-import WanderListStackScreen from './stack-screens/WanderListStackScreen';
-import RewardStackScreen from './stack-screens/RewardStackScreen';
+import WanderStackScreen from './stack-screens/WanderStackScreen';
+import RewardsStackScreen from './stack-screens/RewardsStackScreen';
 import ProfileStackScreen from './stack-screens/ProfileStackScreen';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -21,8 +21,8 @@ const MainTabScreen = () => (
     />
 
     <Tab.Screen
-      name="WanderList"
-      component={WanderListStackScreen}
+      name="Wander"
+      component={WanderStackScreen}
       options={{
         tabBarIcon: ({color}) => (
           <Icon name="list-circle" color={color} size={24} />
@@ -31,8 +31,8 @@ const MainTabScreen = () => (
     />
 
     <Tab.Screen
-      name="Reward"
-      component={RewardStackScreen}
+      name="Rewards"
+      component={RewardsStackScreen}
       options={{
         tabBarIcon: ({color}) => (
           <Icon name="scan-circle" color={color} size={24} />

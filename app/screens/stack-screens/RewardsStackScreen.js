@@ -2,18 +2,18 @@ import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import WanderListScreen from '../tab-screens/WanderListScreen';
+import RewardsScreen from '../tab-screens/RewardsScreen';
 
-const WanderListStack = createStackNavigator();
+const RewardsStack = createStackNavigator();
 
-export default function WanderListStackScreen({navigation}) {
+export default function RewardsStackScreen({navigation}) {
   return (
-    <WanderListStack.Navigator>
-      <WanderListStack.Screen
-        name="WanderList"
-        component={WanderListScreen}
+    <RewardsStack.Navigator>
+      <RewardsStack.Screen
+        name="Rewards"
+        component={RewardsScreen}
         options={{
-          title: 'WanderList',
+          title: 'Rewards',
           headerLeft: () => (
             <Icon.Button
               name="menu"
@@ -25,6 +25,6 @@ export default function WanderListStackScreen({navigation}) {
           ),
         }}
       />
-    </WanderListStack.Navigator>
+    </RewardsStack.Navigator>
   );
 }

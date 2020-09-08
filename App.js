@@ -12,8 +12,8 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={MainTabScreen} />
-        {/*<Drawer.Screen name="WanderList" component={WanderListStackScreen} />*/}
-        {/*<Drawer.Screen name="Reward" component={RewardStackScreen} />*/}
+        {/*<Drawer.Screen name="WanderList" component={WanderStackScreen} />*/}
+        {/*<Drawer.Screen name="Reward" component={RewardsStackScreen} />*/}
         {/*<Drawer.Screen name="Profile" component={ProfileStackScreen} />*/}
 
         {/*<Drawer.Screen name="Login" component={LoginScreen} />*/}
