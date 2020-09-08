@@ -193,6 +193,15 @@ const WanderListStackScreen = ({navigation}) => (
       component={WanderListScreen}
       options={{
         title: 'WanderList',
+        headerLeft: () => (
+          <Icon.Button
+            name="menu"
+            size={30}
+            backgroundColor="#ffffff"
+            color="#000000"
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
       }}
     />
   </WanderListStack.Navigator>
@@ -205,6 +214,15 @@ const RewardStackScreen = ({navigation}) => (
       component={RewardScreen}
       options={{
         title: 'Reward',
+        headerLeft: () => (
+          <Icon.Button
+            name="menu"
+            size={30}
+            backgroundColor="#ffffff"
+            color="#000000"
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
       }}
     />
   </RewardStack.Navigator>
@@ -217,6 +235,15 @@ const ProfileStackScreen = ({navigation}) => (
       component={ProfileScreen}
       options={{
         title: 'Profile',
+        headerLeft: () => (
+          <Icon.Button
+            name="menu"
+            size={30}
+            backgroundColor="#ffffff"
+            color="#000000"
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
       }}
     />
   </ProfileStack.Navigator>
