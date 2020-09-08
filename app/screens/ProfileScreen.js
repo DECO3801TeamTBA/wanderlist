@@ -1,31 +1,48 @@
 /*
-Home Screen
+Profile Screen
 */
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
-export default class ProfileScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>Profile Page</Text>
-      </View>
-    );
-  }
+export default function ProfileScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Profile Screen</Text>
+      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+      <Button
+        title="WanderList Screen"
+        onPress={() => navigation.navigate('WanderList')}
+      />
+      <Button
+        title="Reward Screen"
+        onPress={() => navigation.navigate('Reward')}
+      />
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40,
-  },
-});
+// export default class ProfileScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Text style={styles.logo}>Profile Page</Text>
+//       </View>
+//     );
+//   }
+// }
+//
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#003f5c',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   logo: {
+//     fontWeight: 'bold',
+//     fontSize: 50,
+//     color: '#fb5b5a',
+//     marginBottom: 40,
+//   },
+// });

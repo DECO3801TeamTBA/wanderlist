@@ -77,93 +77,25 @@ import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+// import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import HomeScreen from './app/screens/HomeScreen';
+import WanderListScreen from './app/screens/WanderListScreen';
+import RewardScreen from './app/screens/RewardScreen';
+import ProfileScreen from './app/screens/ProfileScreen';
+
 // import RootStackScreen from './app/screens/RootStackScreen';
-// import HomeScreen from './app/screens/HomeScreen';
-// import ProfileScreen from './app/screens/ProfileScreen';
-// import WanderListScreen from './app/screens/WanderListScreen';
 // import AddScreen from './app/screens/AddScreen';
-// import RewardScreen from './app/screens/RewardScreen';
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
-
-const HomeScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="WanderList Screen"
-        onPress={() => navigation.navigate('WanderList')}
-      />
-      <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
-      />
-      <Button
-        title="Profile Screen"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
-};
-
-const WanderListScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>WanderList Screen</Text>
-      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
-      <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
-      />
-      <Button
-        title="Profile Screen"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
-};
-
-const RewardScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Reward Screen</Text>
-      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
-      <Button
-        title="WanderList Screen"
-        onPress={() => navigation.navigate('WanderList')}
-      />
-      <Button
-        title="Profile Screen"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
-};
-
-const ProfileScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Profile Screen</Text>
-      <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
-      <Button
-        title="WanderList Screen"
-        onPress={() => navigation.navigate('WanderList')}
-      />
-      <Button
-        title="Reward Screen"
-        onPress={() => navigation.navigate('Reward')}
-      />
-    </View>
-  );
-};
-
+const Drawer = createDrawerNavigator();
 const HomeStack = createStackNavigator();
 const WanderListStack = createStackNavigator();
 const RewardStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
+// const Tab = createMaterialBottomTabNavigator();
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator>
@@ -252,19 +184,22 @@ const ProfileStackScreen = ({navigation}) => (
 export default function App() {
   return (
     <NavigationContainer>
-      {/*<Stack.Navigator>*/}
-      {/*  <Stack.Screen name="Home" component={HomeScreen} />*/}
-      {/*  <Stack.Screen name="WanderList" component={WanderListScreen} />*/}
-      {/*  <Stack.Screen name="Reward" component={RewardScreen} />*/}
-      {/*  <Stack.Screen name="Profile" component={ProfileScreen} />*/}
-      {/*</Stack.Navigator>*/}
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeStackScreen} />
         <Drawer.Screen name="WanderList" component={WanderListStackScreen} />
         <Drawer.Screen name="Reward" component={RewardStackScreen} />
         <Drawer.Screen name="Profile" component={ProfileStackScreen} />
       </Drawer.Navigator>
+
+      {/*<Stack.Navigator>*/}
+      {/*  <Stack.Screen name="Home" component={HomeScreen} />*/}
+      {/*  <Stack.Screen name="WanderList" component={WanderListScreen} />*/}
+      {/*  <Stack.Screen name="Reward" component={RewardScreen} />*/}
+      {/*  <Stack.Screen name="Profile" component={ProfileScreen} />*/}
+      {/*</Stack.Navigator>*/}
+
       {/* <RootStackScreen /> */}
+
       {/*<Tab.Navigator>*/}
       {/*  <Tab.Screen*/}
       {/*    name="Home"*/}
@@ -282,16 +217,6 @@ export default function App() {
       {/*    options={{*/}
       {/*      tabBarIcon: ({color}) => (*/}
       {/*        <Icon name="list-circle" color={color} size={30} />*/}
-      {/*      ),*/}
-      {/*    }}*/}
-      {/*  />*/}
-
-      {/*  <Tab.Screen*/}
-      {/*    name="Add"*/}
-      {/*    component={AddScreen}*/}
-      {/*    options={{*/}
-      {/*      tabBarIcon: ({color}) => (*/}
-      {/*        <Icon name="add-circle" color={color} size={30} />*/}
       {/*      ),*/}
       {/*    }}*/}
       {/*  />*/}
@@ -319,3 +244,74 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+// const HomeScreen = ({navigation}) => {
+//   return (
+//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//       <Text>Home Screen</Text>
+//       <Button
+//         title="WanderList Screen"
+//         onPress={() => navigation.navigate('WanderList')}
+//       />
+//       <Button
+//         title="Reward Screen"
+//         onPress={() => navigation.navigate('Reward')}
+//       />
+//       <Button
+//         title="Profile Screen"
+//         onPress={() => navigation.navigate('Profile')}
+//       />
+//     </View>
+//   );
+// };
+
+// const WanderListScreen = ({navigation}) => {
+//   return (
+//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//       <Text>WanderList Screen</Text>
+//       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+//       <Button
+//         title="Reward Screen"
+//         onPress={() => navigation.navigate('Reward')}
+//       />
+//       <Button
+//         title="Profile Screen"
+//         onPress={() => navigation.navigate('Profile')}
+//       />
+//     </View>
+//   );
+// };
+
+// const RewardScreen = ({navigation}) => {
+//   return (
+//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//       <Text>Reward Screen</Text>
+//       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+//       <Button
+//         title="WanderList Screen"
+//         onPress={() => navigation.navigate('WanderList')}
+//       />
+//       <Button
+//         title="Profile Screen"
+//         onPress={() => navigation.navigate('Profile')}
+//       />
+//     </View>
+//   );
+// };
+
+// const ProfileScreen = ({navigation}) => {
+//   return (
+//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//       <Text>Profile Screen</Text>
+//       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
+//       <Button
+//         title="WanderList Screen"
+//         onPress={() => navigation.navigate('WanderList')}
+//       />
+//       <Button
+//         title="Reward Screen"
+//         onPress={() => navigation.navigate('Reward')}
+//       />
+//     </View>
+//   );
+// };
