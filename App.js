@@ -158,9 +158,34 @@ const ProfileScreen = ({navigation}) => {
   );
 };
 
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const WanderListStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+const HomeStackScreen = ({navigation}) => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{
+        title: 'Home',
+      }}
+    />
+  </HomeStack.Navigator>
+);
+
+// const WanderListStackScreen = ({navigation}) => (
+//   <WanderListStack.Navigator>
+//     <HomeStack.Screen
+//       name="WanderList"
+//       component={WanderListScreen}
+//       options={{
+//         title: 'WanderList',
+//       }}
+//     />
+//   </WanderListStack.Navigator>
+// );
 
 export default function App() {
   return (
@@ -172,8 +197,8 @@ export default function App() {
       {/*  <Stack.Screen name="Profile" component={ProfileScreen} />*/}
       {/*</Stack.Navigator>*/}
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="WanderList" component={WanderListScreen} />
+        <Drawer.Screen name="Home" component={HomeStackScreen} />
+        {/*<Drawer.Screen name="WanderList" component={WanderListStackScreen} />*/}
         <Drawer.Screen name="Reward" component={RewardScreen} />
         <Drawer.Screen name="Profile" component={ProfileScreen} />
       </Drawer.Navigator>
