@@ -1,7 +1,3 @@
-/*
-Profile Screen
-*/
-
 import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 
@@ -18,6 +14,7 @@ export default function ProfileScreen({navigation}) {
         title="Reward Screen"
         onPress={() => navigation.navigate('Reward')}
       />
+      {/*<Button title="Login" onPress={() => navigation.navigate('Login')} />*/}
     </View>
   );
 }

@@ -77,23 +77,23 @@ import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-// import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './app/screens/HomeScreen';
 import WanderListScreen from './app/screens/WanderListScreen';
 import RewardScreen from './app/screens/RewardScreen';
 import ProfileScreen from './app/screens/ProfileScreen';
+import LoginScreen from './app/screens/LoginScreen';
 
 // import RootStackScreen from './app/screens/RootStackScreen';
-// import AddScreen from './app/screens/AddScreen';
 
 const Drawer = createDrawerNavigator();
 const HomeStack = createStackNavigator();
 const WanderListStack = createStackNavigator();
 const RewardStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-// const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -181,6 +181,48 @@ const ProfileStackScreen = ({navigation}) => (
   </ProfileStack.Navigator>
 );
 
+// const MainTabScreen = () => (
+//   <Tab.Navigator>
+//     <Tab.Screen
+//       name="Home"
+//       component={HomeScreen}
+//       options={{
+//         tabBarIcon: ({color}) => <Icon name="earth" color={color} size={24} />,
+//       }}
+//     />
+//
+//     <Tab.Screen
+//       name="WanderList"
+//       component={WanderListScreen}
+//       options={{
+//         tabBarIcon: ({color}) => (
+//           <Icon name="list-circle" color={color} size={26} />
+//         ),
+//       }}
+//     />
+//
+//     <Tab.Screen
+//       name="Reward"
+//       component={RewardScreen}
+//       options={{
+//         tabBarIcon: ({color}) => (
+//           <Icon name="scan-circle" color={color} size={26} />
+//         ),
+//       }}
+//     />
+//
+//     <Tab.Screen
+//       name="Profile"
+//       component={ProfileScreen}
+//       options={{
+//         tabBarIcon: ({color}) => (
+//           <Icon name="person-circle" color={color} size={26} />
+//         ),
+//       }}
+//     />
+//   </Tab.Navigator>
+// );
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -189,6 +231,8 @@ export default function App() {
         <Drawer.Screen name="WanderList" component={WanderListStackScreen} />
         <Drawer.Screen name="Reward" component={RewardStackScreen} />
         <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+
+        {/*<Drawer.Screen name="Login" component={LoginScreen} />*/}
       </Drawer.Navigator>
 
       {/*<Stack.Navigator>*/}
@@ -199,48 +243,6 @@ export default function App() {
       {/*</Stack.Navigator>*/}
 
       {/* <RootStackScreen /> */}
-
-      {/*<Tab.Navigator>*/}
-      {/*  <Tab.Screen*/}
-      {/*    name="Home"*/}
-      {/*    component={HomeScreen}*/}
-      {/*    options={{*/}
-      {/*      tabBarIcon: ({color}) => (*/}
-      {/*        <Icon name="earth" color={color} size={28} />*/}
-      {/*      ),*/}
-      {/*    }}*/}
-      {/*  />*/}
-
-      {/*  <Tab.Screen*/}
-      {/*    name="WanderList"*/}
-      {/*    component={WanderListScreen}*/}
-      {/*    options={{*/}
-      {/*      tabBarIcon: ({color}) => (*/}
-      {/*        <Icon name="list-circle" color={color} size={30} />*/}
-      {/*      ),*/}
-      {/*    }}*/}
-      {/*  />*/}
-
-      {/*  <Tab.Screen*/}
-      {/*    name="Reward"*/}
-      {/*    component={RewardScreen}*/}
-      {/*    options={{*/}
-      {/*      tabBarIcon: ({color}) => (*/}
-      {/*        <Icon name="scan-circle" color={color} size={30} />*/}
-      {/*      ),*/}
-      {/*    }}*/}
-      {/*  />*/}
-
-      {/*  <Tab.Screen*/}
-      {/*    name="Profile"*/}
-      {/*    component={ProfileScreen}*/}
-      {/*    options={{*/}
-      {/*      tabBarIcon: ({color}) => (*/}
-      {/*        <Icon name="person-circle" color={color} size={30} />*/}
-      {/*      ),*/}
-      {/*    }}*/}
-      {/*  />*/}
-      {/*</Tab.Navigator>*/}
     </NavigationContainer>
   );
 }
