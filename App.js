@@ -181,56 +181,56 @@ const ProfileStackScreen = ({navigation}) => (
   </ProfileStack.Navigator>
 );
 
-// const MainTabScreen = () => (
-//   <Tab.Navigator>
-//     <Tab.Screen
-//       name="Home"
-//       component={HomeScreen}
-//       options={{
-//         tabBarIcon: ({color}) => <Icon name="earth" color={color} size={24} />,
-//       }}
-//     />
-//
-//     <Tab.Screen
-//       name="WanderList"
-//       component={WanderListScreen}
-//       options={{
-//         tabBarIcon: ({color}) => (
-//           <Icon name="list-circle" color={color} size={26} />
-//         ),
-//       }}
-//     />
-//
-//     <Tab.Screen
-//       name="Reward"
-//       component={RewardScreen}
-//       options={{
-//         tabBarIcon: ({color}) => (
-//           <Icon name="scan-circle" color={color} size={26} />
-//         ),
-//       }}
-//     />
-//
-//     <Tab.Screen
-//       name="Profile"
-//       component={ProfileScreen}
-//       options={{
-//         tabBarIcon: ({color}) => (
-//           <Icon name="person-circle" color={color} size={26} />
-//         ),
-//       }}
-//     />
-//   </Tab.Navigator>
-// );
+const MainTabScreen = () => (
+  <Tab.Navigator>
+    <Tab.Screen
+      name="Home"
+      component={HomeStackScreen}
+      options={{
+        tabBarIcon: ({color}) => <Icon name="earth" color={color} size={22} />,
+      }}
+    />
+
+    <Tab.Screen
+      name="WanderList"
+      component={WanderListStackScreen}
+      options={{
+        tabBarIcon: ({color}) => (
+          <Icon name="list-circle" color={color} size={24} />
+        ),
+      }}
+    />
+
+    <Tab.Screen
+      name="Reward"
+      component={RewardStackScreen}
+      options={{
+        tabBarIcon: ({color}) => (
+          <Icon name="scan-circle" color={color} size={24} />
+        ),
+      }}
+    />
+
+    <Tab.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+      options={{
+        tabBarIcon: ({color}) => (
+          <Icon name="person-circle" color={color} size={24} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
 
 export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeStackScreen} />
-        <Drawer.Screen name="WanderList" component={WanderListStackScreen} />
-        <Drawer.Screen name="Reward" component={RewardStackScreen} />
-        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+        <Drawer.Screen name="Home" component={MainTabScreen} />
+        {/*<Drawer.Screen name="WanderList" component={WanderListStackScreen} />*/}
+        {/*<Drawer.Screen name="Reward" component={RewardStackScreen} />*/}
+        {/*<Drawer.Screen name="Profile" component={ProfileStackScreen} />*/}
 
         {/*<Drawer.Screen name="Login" component={LoginScreen} />*/}
       </Drawer.Navigator>
