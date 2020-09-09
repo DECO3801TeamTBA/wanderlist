@@ -1,6 +1,5 @@
 import {
-    SET_USER_AUTH_TOKEN, GET_USER_AUTH_TOKEN, SET_USER, GET_USER,
-    GET_TOKEN_EXPIRY, SET_TOKEN_EXPIRY
+    SET_USER_AUTH_TOKEN, SET_USER, SET_TOKEN_EXPIRY
 } from '../actions/types'
 
 
@@ -8,7 +7,6 @@ import {
 //maybe store a user object too? (with name, email, etc...?) -- We'll get to that later!
 const initialState = {
     token = "",
-    userId = "",
     expiry = "",
     user = null
 }
