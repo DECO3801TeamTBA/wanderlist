@@ -12,7 +12,7 @@ import {
   Pressable
 } from 'react-native';
 import { connect } from 'react-redux';
-import { setUser } from '../actions/user';
+import { setUser, setToken, setExpiry } from '../actions/user';
 import axios from 'axios';
 
 export default class LoginScreen extends React.Component {
