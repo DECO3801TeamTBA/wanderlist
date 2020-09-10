@@ -6,9 +6,9 @@ import {
 //just for now, later we can use on device storage to store the last running
 //maybe store a user object too? (with name, email, etc...?) -- We'll get to that later!
 const initialState = {
-    token = "",
-    expiry = "",
-    user = null
+    authToken: "",
+    expiry: "",
+    user: null
 }
 
 const userReducer = (state = initialState, action) => {
@@ -26,7 +26,7 @@ const userReducer = (state = initialState, action) => {
         case SET_USER_AUTH_TOKEN:
             return {
                 ...state,
-                token: state.token = action.data
+                authToken: state.authToken = action.data
             }
         default:
             return state;

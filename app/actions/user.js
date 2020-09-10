@@ -7,12 +7,12 @@ export const setUser = (user) => ({
     data: user
 });
 
-export const setToken = (token) => ({
+export const setToken = (authToken) => ({
     type: SET_USER_AUTH_TOKEN,
-    data: token
+    data: authToken
 });
 
-export const setTokenExpiry = (expiry) => ({
+export const setExpiry = (expiry) => ({
     type: SET_TOKEN_EXPIRY,
     data: expiry
 });
