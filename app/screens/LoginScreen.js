@@ -9,11 +9,15 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Pressable
 } from 'react-native';
+import { connect } from 'react-redux';
+import { setUser, setToken, setExpiry } from '../actions/user';
+import axios from 'axios';
 
-export default class LoginScreen extends React.Component {
+export class LoginScreenClass extends React.Component {
   state = {
-    email: '',
+    username: '',
     password: '',
   };
   render() {
@@ -25,7 +29,7 @@ export default class LoginScreen extends React.Component {
             style={styles.inputText}
             placeholder="Email..."
             placeholderTextColor="#003f5c"
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(text) => this.setState({ username: text })}
           />
         </View>
         <View style={styles.inputView}>
@@ -34,18 +38,41 @@ export default class LoginScreen extends React.Component {
             style={styles.inputText}
             placeholder="Password..."
             placeholderTextColor="#003f5c"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setState({ password: text })}
           />
         </View>
-        <TouchableOpacity>
+        <Pressable>
           <Text style={styles.forgot}>Forgot Password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
+        </Pressable>
+        <Pressable
+          style={styles.loginBtn}
+          onPress={() => {
+            //email and password are state local only to this screen
+            //no need to rope them into 
+            const { username, password } = this.state;
+            const payload = { username, password };
+            console.log(payload);
+            axios.post('https://deco3801-tba.uqcloud.net/api/Authenticate/login', payload)
+              .then(res => {
+                console.log(res);
+                const token = res.data.authToken;
+                const expiry = res.data.expiry;
+                const user = res.data.user;
+                this.props.attachUser(user);
+                this.props.attachExpiry(expiry);
+                this.props.attachToken(token);
+                console.log("Success???");
+                //Then navigate from here. Now in homescreen and beyond, we can check the global user state
+              }).catch(res => {
+                console.log(res);
+                console.log("Login failed!");
+              })
+          }}>
           <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
+        </Pressable>
+        <Pressable>
           <Text style={styles.loginText}>Signup</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }
@@ -95,3 +122,22 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.userReducer.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attachUser: (user) => dispatch(setUser(user)),
+    attachToken: (authToken) => dispatch(setToken(authToken)),
+    attachExpiry: (expiry) => dispatch(setExpiry(expiry))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreenClass);
