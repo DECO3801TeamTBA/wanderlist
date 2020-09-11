@@ -14,8 +14,8 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <SidebarScreen {...props} />}>
         <Drawer.Screen name="Home" component={MainTabScreen} />
-        {/*<Drawer.Screen name="Settings" component={SettingsScreen} />*/}
-        {/*<Drawer.Screen name="Support" component={SupportScreen} />*/}
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen name="Support" component={SupportScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

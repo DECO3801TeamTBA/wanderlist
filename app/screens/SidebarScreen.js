@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Title, Caption, Paragraph} from 'react-native-paper';
-import {DrawerContentScrollView} from '@react-navigation/drawer';
+import {Title, Caption, Paragraph, Drawer} from 'react-native-paper';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 
 export function SidebarScreen(props) {
   return (
@@ -28,6 +28,26 @@ export function SidebarScreen(props) {
             </View>
           </View>
         </View>
+        <Drawer.Section>
+          <DrawerItem
+            label="Home"
+            onPress={() => {
+              props.navigation.navigate('Home');
+            }}
+          />
+          <DrawerItem
+            label="Settings"
+            onPress={() => {
+              props.navigation.navigate('Settings');
+            }}
+          />
+          <DrawerItem
+            label="Support"
+            onPress={() => {
+              props.navigation.navigate('Support');
+            }}
+          />
+        </Drawer.Section>
       </DrawerContentScrollView>
     </View>
   );
