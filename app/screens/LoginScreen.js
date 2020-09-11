@@ -15,9 +15,9 @@ import { connect } from 'react-redux';
 import { setUser, setToken, setExpiry } from '../actions/user';
 import axios from 'axios';
 
-export default class LoginScreen extends React.Component {
+export class LoginScreenClass extends React.Component {
   state = {
-    email: '',
+    username: '',
     password: '',
   };
   render() {
@@ -29,7 +29,7 @@ export default class LoginScreen extends React.Component {
             style={styles.inputText}
             placeholder="Email..."
             placeholderTextColor="#003f5c"
-            onChangeText={(text) => this.setState({ email: text })}
+            onChangeText={(text) => this.setState({ username: text })}
           />
         </View>
         <View style={styles.inputView}>
@@ -51,19 +51,21 @@ export default class LoginScreen extends React.Component {
             //no need to rope them into 
             const { username, password } = this.state;
             const payload = { username, password };
+            console.log(payload);
             axios.post('https://deco3801-tba.uqcloud.net/api/Authenticate/login', payload)
               .then(res => {
-                const token = res.data.token;
-                const expiry = res.data.token;
+                console.log(res);
+                const token = res.data.authToken;
+                const expiry = res.data.expiry;
                 const user = res.data.user;
-                this.props.attachUser(user); //this isn't in the API yet, but I will add it later
+                this.props.attachUser(user);
                 this.props.attachExpiry(expiry);
                 this.props.attachToken(token);
                 console.log("Success???");
                 //Then navigate from here. Now in homescreen and beyond, we can check the global user state
               }).catch(res => {
-                console.log(`Error login with code ${res.data.status} and message: \n
-                  ${res.data.message}`);
+                console.log(res);
+                console.log("Login failed!");
               })
           }}>
           <Text style={styles.loginText}>LOGIN</Text>
@@ -206,20 +208,20 @@ const styles = StyleSheet.create({
 //   },
 // });
 
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
 
   return {
     user: state.userReducer.user
   }
 }
 
-const mapDispatchtoProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     attachUser: (user) => dispatch(setUser(user)),
-    attachToken: (token) => dispatch(setToken(token)),
+    attachToken: (authToken) => dispatch(setToken(authToken)),
     attachExpiry: (expiry) => dispatch(setExpiry(expiry))
   }
 }
 
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreenClass);
