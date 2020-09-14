@@ -36,6 +36,12 @@ export function SidebarScreen(props) {
             }}
           />
           <DrawerItem
+            label="Log In"
+            onPress={() => {
+              props.navigation.navigate('LogIn');
+            }}
+          />
+          <DrawerItem
             label="Settings"
             onPress={() => {
               props.navigation.navigate('Settings');
