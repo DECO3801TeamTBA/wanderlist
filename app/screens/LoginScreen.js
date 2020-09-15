@@ -3,10 +3,12 @@ This is login screen
 author: Thanh Tran Vo @thanhtrv
 */
 import React from 'react';
+
 import {
   StyleSheet,
   Text,
   View,
+  Button,
   TextInput,
   TouchableOpacity,
   Pressable
@@ -14,6 +16,10 @@ import {
 import { connect } from 'react-redux';
 import { setUser, setToken, setExpiry } from '../actions/user';
 import axios from 'axios';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+
 
 export class LoginScreenClass extends React.Component {
   state = {
@@ -71,7 +77,15 @@ export class LoginScreenClass extends React.Component {
           <Text style={styles.loginText}>LOGIN</Text>
         </Pressable>
         <Pressable>
-          <Text style={styles.loginText}>Signup</Text>
+          <Pressable 
+          style={styles.loginText}
+          onPress={() => { 
+            this.props.navigation.navigate('SignUp')
+          }}>
+          <Text style={styles.loginText}>Sign Up</Text>
+
+          </Pressable>
+         
         </Pressable>
       </View>
     );

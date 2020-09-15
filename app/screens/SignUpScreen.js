@@ -1,88 +1,98 @@
-/*
-This is signup screen
-author: Thanh Tran Vo @thanhtrv
-*/
+// SignUp.js
+import React from 'react'
+import axios from 'axios';
 
-import React from 'react';
 import {
   View,
-  Text,
   Button,
-  TouchableOpacity,
-  Dimensions,
+  Text,
   TextInput,
-  Platform,
-  StyleSheet,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+  StyleSheet
+} from 'react-native'
 
-const SignInScreen = ({navigation}) => {};
+export default class SignUp extends React.Component {
+  state = {
+    username: '', password: '', email: '', phone_number: ''
+  }
+  onChangeText = (key, val) => {
+    this.setState({ [key]: val })
+  }
+  signUp = async () => {
+    const { username, password, email, phone_number } = this.state
+    try {
+      // here place  signup logic
+      axios.post(`https://deco3801-tba.uqcloud.net/api/Authenticate/register`, { username, email, password })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })      
+      console.log('user successfully signed up!: ', success)
+    } catch (err) {
+      console.log('error signing up: ', err)
+    }
+  }
+ 
+  render() {
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder='Username'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('username', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Password'
+          secureTextEntry={true}
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('password', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Email'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('email', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Phone Number'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('phone_number', val)}
+        />
+        <Button
+          title='Sign Up'
+          onPress={
+            this.signUp
+           
 
-export default SignInScreen;
+
+          }
+        />
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
+  input: {
+    width: 350,
+    height: 55,
+    backgroundColor: '#42A5F5',
+    margin: 10,
+    padding: 8,
+    color: 'white',
+    borderRadius: 14,
+    fontSize: 18,
+    fontWeight: '500',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#009387',
-  },
-  header: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 50,
-  },
-  footer: {
-    flex: Platform.OS === 'ios' ? 3 : 5,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-  },
-  text_header: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  text_footer: {
-    color: '#05375a',
-    fontSize: 18,
-  },
-  action: {
-    flexDirection: 'row',
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
-  },
-  textInput: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
-    color: '#05375a',
-  },
-  button: {
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  signIn: {
-    width: '100%',
-    height: 50,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  textSign: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  textPrivate: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 20,
-  },
-  color_textPrivate: {
-    color: 'grey',
-  },
-});
+    alignItems: 'center'
+  }
+})
