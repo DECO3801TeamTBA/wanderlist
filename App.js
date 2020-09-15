@@ -21,7 +21,6 @@ export default function App() {
         <Drawer.Screen name="Settings" component={SettingsScreen} />
         <Drawer.Screen name="Support" component={SupportScreen} />
         <Drawer.Screen name="SignUp" component={SignupScreen} />
-
       </Drawer.Navigator>
     </NavigationContainer>
   );
