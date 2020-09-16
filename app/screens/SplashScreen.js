@@ -5,6 +5,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch } from 'react-redux';
 import { setUser, setToken, setExpiry } from '../actions/user'
+import { useNavigation } from '@react-navigation/native';
+
 const SplashScreen = ({ navigation }) => {
 
   const dispatch = useDispatch()
@@ -14,27 +16,31 @@ const SplashScreen = ({ navigation }) => {
   2. If there is none, go straight to Login
   3. if there they are stored, set global state of the value and go Home
   */
-  useEffect(async () => {
-    try {
-      const value = await AsyncStorage.getItem('persistentAuth')
-      if (value !== null) {
-        const auth = JSON.parse(value)
-        //check if expired
-        if (Date.parse(auth.expiry) < new Date()) {
-          navigation.navigate('Login')
+  const { navigate } = useNavigation();
+  useEffect(() => {
+    async function checkAsyncStorage() {
+      try {
+        const value = await AsyncStorage.getItem('persistentAuth')
+        if (value !== null) {
+          const auth = JSON.parse(value)
+          //check if expired
+          if (Date.parse(auth.expiry) < new Date()) {
+            navigate('Login')
+          }
+          //set global state
+          dispatch(setUser(auth.user))
+          dispatch(setToken(auth.authToken))
+          dispatch(setExpiry(auth.expiry))
+          navigate('Home')
+        } else {
+          navigate('Login')
         }
-        //set global state
-        dispatch(setUser(auth.user))
-        dispatch(setToken(auth.authToken))
-        dispatch(setExpiry(auth.expiry))
-        navigation.navigate('Home')
-      } else {
-        navigation.navigate('Login')
+      } catch (e) {
+        // error reading value
+        console.log("Why though? " + e)
       }
-    } catch (e) {
-      // error reading value
-      console.log("Why though? " + e)
     }
+    checkAsyncStorage()
   })
   return (
     <View style={styles.container}>

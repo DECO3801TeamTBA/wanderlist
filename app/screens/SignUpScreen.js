@@ -1,6 +1,7 @@
 // SignUp.js
 import React from 'react'
 import axios from 'axios';
+import CONFIG from '../config'
 
 import {
   View,
@@ -21,7 +22,7 @@ export default class SignUp extends React.Component {
     const { username, password, email, phone_number } = this.state
     try {
       // here place  signup logic
-      axios.post(`https://deco3801-tba.uqcloud.net/api/Authenticate/register`, { username, email, password })
+      axios.post(CONFIG.API_URL + `/Authenticate/register`, { username, email, password })
       .then(res => {
         console.log(res);
         console.log(res.data);
