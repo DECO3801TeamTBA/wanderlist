@@ -16,7 +16,7 @@ const MainTabScreen = () => (
       name="Home"
       component={HomeStackScreen}
       options={{
-        tabBarIcon: ({color}) => <Icon name="earth" color={color} size={22} />,
+        tabBarIcon: ({color}) => <Icon name="home" color={color} size={20} />,
       }}
     />
 

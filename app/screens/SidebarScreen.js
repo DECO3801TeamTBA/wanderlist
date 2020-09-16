@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import {Title, Caption, Paragraph, Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -10,21 +10,14 @@ export function SidebarScreen(props) {
       <DrawerContentScrollView {...props}>
         <View>
           <View style={styles.userContent}>
-            <View>
-              <View>
-                <Title style={styles.title}>Team TBA</Title>
-                <Caption style={styles.caption}>@TBA</Caption>
-              </View>
-            </View>
-
-            <View>
-              <View>
-                <Paragraph>123</Paragraph>
-                <Caption>Trips</Caption>
-              </View>
-              <View>
-                <Paragraph>456</Paragraph>
-                <Caption>Coupons</Caption>
+            <View style={styles.profile}>
+              <Image
+                source={require('../../assets/logo.png')}
+                style={styles.profileAvatar}
+              />
+              <View style={styles.profileContent}>
+                <Title style={styles.profileTitle}>Team TBA</Title>
+                <Caption style={styles.profileCaption}>@TBA</Caption>
               </View>
             </View>
           </View>
@@ -72,12 +65,24 @@ const styles = StyleSheet.create({
   userContent: {
     paddingLeft: 18,
   },
-  title: {
+  profile: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  profileAvatar: {
+    width: 100,
+    height: 100,
+  },
+  profileContent: {
+    marginLeft: 5,
+    flexDirection: 'column',
+  },
+  profileTitle: {
     fontSize: 20,
-    marginTop: 2,
+    marginTop: 15,
     fontWeight: 'bold',
   },
-  caption: {
+  profileCaption: {
     fontSize: 16,
     lineHeight: 16,
   },
