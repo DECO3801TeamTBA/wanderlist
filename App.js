@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import MainTabScreen from './app/screens/MainTabScreen';
 import SettingsScreen from './app/screens/side-screens/SettingsScreen';
@@ -9,19 +9,27 @@ import LoginScreen from './app/screens/LoginScreen';
 import SignupScreen from './app/screens/SignUpScreen';
 
 import {SidebarScreen} from './app/screens/SidebarScreen';
+import DrawerScreen from './app/screens/DrawerScreen';
+import SplashScreen from './app/screens/SplashScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator drawerContent={(props) => <SidebarScreen {...props} />}>
-        <Drawer.Screen name="Home" component={MainTabScreen} />
-        <Drawer.Screen name="LogIn" component={LoginScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-        <Drawer.Screen name="Support" component={SupportScreen} />
-        <Drawer.Screen name="SignUp" component={SignupScreen} />
-      </Drawer.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={DrawerScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

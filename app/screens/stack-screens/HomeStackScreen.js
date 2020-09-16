@@ -3,13 +3,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../tab-screens/HomeScreen';
-import SplashScreen from '../SplashScreen';
 
 const HomeStack = createStackNavigator();
 
 export default function HomeStackScreen({navigation}) {
   return (
-    <HomeStack.Navigator initialRouteName="Splash">
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
@@ -26,7 +25,6 @@ export default function HomeStackScreen({navigation}) {
           ),
         }}
       />
-      <HomeStack.Screen name="Splash" component={SplashScreen} />
     </HomeStack.Navigator>
   );
 }
