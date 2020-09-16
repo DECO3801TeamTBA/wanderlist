@@ -16,6 +16,8 @@ import {
 import { connect } from 'react-redux';
 import { setUser, setToken, setExpiry } from '../actions/user';
 import axios from 'axios';
+import CONFIG from '../config';
+import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -52,24 +54,28 @@ export class LoginScreenClass extends React.Component {
         </Pressable>
         <Pressable
           style={styles.loginBtn}
-          onPress={() => {
+          onPress={async () => {
             //email and password are state local only to this screen
             //no need to rope them into 
             const { username, password } = this.state;
             const payload = { username, password };
             console.log(payload);
-            axios.post('https://deco3801-tba.uqcloud.net/api/Authenticate/login', payload)
-              .then(res => {
-                console.log(res);
-                const token = res.data.authToken;
+            await axios.post(CONFIG.API_URL + "authenticate/login", payload)
+              .then(async res => {
+                //console.log(res);
+                const authToken = res.data.authToken;
                 const expiry = res.data.expiry;
                 const user = res.data.user;
                 this.props.attachUser(user);
                 this.props.attachExpiry(expiry);
-                this.props.attachToken(token);
-                console.log("Success???");
+                this.props.attachToken(authToken);
+                await AsyncStorage.setItem('persistentAuth', JSON.stringify({
+                  authToken: authToken, expiry: expiry, user: user
+                }))
+                this.props.navigation.navigate('Home')
                 //Then navigate from here. Now in homescreen and beyond, we can check the global user state
               }).catch(res => {
+                //Display login failed text and don't do anything?
                 console.log(res);
                 console.log("Login failed!");
               })
@@ -77,15 +83,15 @@ export class LoginScreenClass extends React.Component {
           <Text style={styles.loginText}>LOGIN</Text>
         </Pressable>
         <Pressable>
-          <Pressable 
-          style={styles.loginText}
-          onPress={() => { 
-            this.props.navigation.navigate('SignUp')
-          }}>
-          <Text style={styles.loginText}>Sign Up</Text>
+          <Pressable
+            style={styles.loginText}
+            onPress={() => {
+              this.props.navigation.navigate('SignUp')
+            }}>
+            <Text style={styles.loginText}>Sign Up</Text>
 
           </Pressable>
-         
+
         </Pressable>
       </View>
     );
