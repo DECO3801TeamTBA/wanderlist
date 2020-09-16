@@ -9,33 +9,40 @@ export function SidebarScreen(props) {
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View>
-          <View style={styles.userContent}>
-            <View style={styles.profile}>
-              <Image
-                source={require('../../assets/logo.png')}
-                style={styles.profileAvatar}
-              />
-              <View style={styles.profileContent}>
-                <Title style={styles.profileTitle}>Team TBA</Title>
-                <Caption style={styles.profileCaption}>@TBA</Caption>
-              </View>
+          <View style={styles.profile}>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.profileAvatar}
+            />
+            <View>
+              <Title style={styles.profileTitle}>Team TBA</Title>
+              <Caption style={styles.profileCaption}>@TBA</Caption>
             </View>
           </View>
         </View>
         <Drawer.Section>
           <DrawerItem
+            icon={({color, size}) => (
+              <Icon name="home" color={color} size={size} />
+            )}
             label="Home"
             onPress={() => {
               props.navigation.navigate('Home');
             }}
           />
           <DrawerItem
+            icon={({color, size}) => (
+              <Icon name="settings" color={color} size={size} />
+            )}
             label="Settings"
             onPress={() => {
               props.navigation.navigate('Settings');
             }}
           />
           <DrawerItem
+            icon={({color, size}) => (
+              <Icon name="build" color={color} size={size} />
+            )}
             label="Support"
             onPress={() => {
               props.navigation.navigate('Support');
@@ -62,9 +69,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  userContent: {
-    paddingLeft: 18,
-  },
   profile: {
     flexDirection: 'row',
     marginTop: 20,
@@ -72,10 +76,6 @@ const styles = StyleSheet.create({
   profileAvatar: {
     width: 100,
     height: 100,
-  },
-  profileContent: {
-    marginLeft: 5,
-    flexDirection: 'column',
   },
   profileTitle: {
     fontSize: 20,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   bottomSection: {
-    marginBottom: 15,
+    marginBottom: 20,
     borderTopColor: '#f4f4f4',
     borderTopWidth: 1,
   },
