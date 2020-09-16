@@ -15,7 +15,7 @@ export default function DrawerScreen() {
   return (
     <Drawer.Navigator drawerContent={(props) => <SidebarScreen {...props} />}>
       <Drawer.Screen name="Home" component={MainTabScreen} />
-      <Drawer.Screen name="LogIn" component={LoginScreen} />
+      <Drawer.Screen name="Login" component={LoginScreen} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Support" component={SupportScreen} />
       <Drawer.Screen name="SignUp" component={SignupScreen} />

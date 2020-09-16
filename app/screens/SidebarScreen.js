@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Title, Caption, Paragraph, Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export function SidebarScreen(props) {
   return (
@@ -36,12 +37,6 @@ export function SidebarScreen(props) {
             }}
           />
           <DrawerItem
-            label="Log In"
-            onPress={() => {
-              props.navigation.navigate('LogIn');
-            }}
-          />
-          <DrawerItem
             label="Settings"
             onPress={() => {
               props.navigation.navigate('Settings');
@@ -55,6 +50,17 @@ export function SidebarScreen(props) {
           />
         </Drawer.Section>
       </DrawerContentScrollView>
+      <Drawer.Section style={styles.bottomSection}>
+        <DrawerItem
+          icon={({color, size}) => (
+            <Icon name="log-in" color={color} size={size} />
+          )}
+          label="Log In"
+          onPress={() => {
+            props.navigation.navigate('Login');
+          }}
+        />
+      </Drawer.Section>
     </View>
   );
 }
@@ -74,5 +80,10 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 16,
     lineHeight: 16,
+  },
+  bottomSection: {
+    marginBottom: 15,
+    borderTopColor: '#f4f4f4',
+    borderTopWidth: 1,
   },
 });
