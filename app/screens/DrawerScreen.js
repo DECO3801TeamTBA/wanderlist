@@ -8,8 +8,6 @@ import LoginScreen from './LoginScreen';
 import SettingsScreen from './side-screens/SettingsScreen';
 import SupportScreen from './side-screens/SupportScreen';
 import SignupScreen from './SignUpScreen';
-import HomeScreen from './tab-screens/HomeScreen';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Drawer = createDrawerNavigator();
 

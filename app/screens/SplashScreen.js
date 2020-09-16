@@ -6,16 +6,21 @@ import {
   StyleSheet,
   StatusBar,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SplashScreen = ({navigation}) => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Welcome to WanderList!</Text>
       <View>
         <StatusBar backgroundColor="#009387" barStyle="light-content" />
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text>Get Started</Text>
-        </TouchableOpacity>
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <LinearGradient colors={['#08d4c4', '#01ab9d']}>
+              <Text>Get Started</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -23,4 +28,13 @@ const SplashScreen = ({navigation}) => {
 
 export default SplashScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1f65ff',
+  },
+  button: {
+    alignItems: 'center',
+    marginTop: 30,
+  },
+});
