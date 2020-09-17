@@ -1,7 +1,7 @@
 // SignUp.js
 import React from 'react'
 import axios from 'axios';
-import CONFIG from '../config'
+import CONFIG from '../config';
 
 import {
   View,
