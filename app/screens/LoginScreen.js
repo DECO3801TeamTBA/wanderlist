@@ -63,8 +63,8 @@ export class LoginScreenClass extends React.Component {
             await axios.post(CONFIG.API_URL + "authenticate/login", payload)
               .then(async res => {
                 //console.log(res);
-                const authToken = res.data.authToken;
-                const expiry = res.data.expiry;
+                const authToken = res.data.token;
+                const expiry = res.data.expiration;
                 const user = res.data.user;
                 this.props.attachUser(user);
                 this.props.attachExpiry(expiry);
