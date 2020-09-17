@@ -1,9 +1,47 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useDispatch } from 'react-redux';
+import { setUser, setToken, setExpiry } from '../actions/user'
+import { useNavigation } from '@react-navigation/native';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = ({ navigation }) => {
+
+  const dispatch = useDispatch()
+  /*
+  The behaviour for this screen is as follows:
+  1. Load persistently stored user, token and expiration from storage
+  2. If there is none, go straight to Login
+  3. if there they are stored, set global state of the value and go Home
+  */
+  const { navigate } = useNavigation();
+  useEffect(() => {
+    async function checkAsyncStorage() {
+      try {
+        const value = await AsyncStorage.getItem('persistentAuth')
+        if (value !== null) {
+          const auth = JSON.parse(value)
+          //check if expired
+          if (Date.parse(auth.expiry) < new Date()) {
+            navigate('Login')
+          }
+          //set global state
+          dispatch(setUser(auth.user))
+          dispatch(setToken(auth.authToken))
+          dispatch(setExpiry(auth.expiry))
+          navigate('Home')
+        } else {
+          navigate('Login')
+        }
+      } catch (e) {
+        // error reading value
+        console.log("Why though? " + e)
+      }
+    }
+    checkAsyncStorage()
+  })
   return (
     <View style={styles.container}>
       <View style={styles.header}>
