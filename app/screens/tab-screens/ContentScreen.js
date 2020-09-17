@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux'
 import CONFIG from '../../config'
@@ -13,8 +13,17 @@ import axios from 'axios'
     also it doesn't represent final screen logic, just some of the pieces
     needed for functionality
 */
+
+const styles = StyleSheet.create({
+    test: {
+        width: 100,
+        height: 100,
+    },
+});
+
 export default function ContentScreen({ route, navigation }) {
 
+    const [imgSrc, setImgSrc] = useState(0)
 
     //assume we're passing a contentID?
     //so nothing here is finalised
@@ -28,21 +37,14 @@ export default function ContentScreen({ route, navigation }) {
             //we then set urls for images??
             await axios.get(`${CONFIG.API_URL}content/${contentId}/resource`,
                 { headers: { "Authorization": `Bearer ${token}` } })
-                .then(async (res) => {
+                .then((res) => {
                     imageList = res.data
                 })
                 .catch((res) => {
                     console.log("why though? " + res)
                 });
             //we'll just take the first element for testing purposes
-            await axios.get(`${CONFIG.API_URL}resource/${imageList[0]}`,
-                { headers: { "Authorization": `Bearer ${token}` } })
-                .then(async (res) => {
-                    //now we have to set image url or what? not sure yet!
-                })
-                .catch(async (res) => {
-                    console.log("why though? " + res)
-                })
+            setImgSrc(imageList[0])
         }
         contentScreenOnLoad()
     })
@@ -51,7 +53,8 @@ export default function ContentScreen({ route, navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Content Screen</Text>
-            <Image></Image>
+            <Image source={{ uri: `${CONFIG.API_URL}resource/${imgSrc}` }}
+                style={styles.test}></Image>
         </View>
     );
 }
