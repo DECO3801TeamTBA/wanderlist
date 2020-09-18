@@ -53,7 +53,8 @@ export default function ContentScreen({ route, navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Content Screen</Text>
-            <Image source={{ uri: `${CONFIG.API_URL}resource/${imgSrc}` }}
+            <Image source={{ uri: `${CONFIG.API_URL}resource/${imgSrc}`,
+            headers: { "Authorization": `Bearer ${token}` }}}
                 style={styles.test}></Image>
         </View>
     );
