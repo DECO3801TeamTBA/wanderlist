@@ -32,7 +32,7 @@ export default function ContentScreen({ route, navigation }) {
         async function contentScreenOnLoad() {
             const { contentId } = route.params
             var imageList = null; //
-            const token = useSelector(state => state.userReducer.user.token)
+            const token = useSelector(state => state.userReducer.authToken)
             //assuming the following, the first axios call gets a list of ids
             //we then set urls for images??
             await axios.get(`${CONFIG.API_URL}content/${contentId}/resource`,
