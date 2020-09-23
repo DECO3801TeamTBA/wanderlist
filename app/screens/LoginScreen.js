@@ -19,11 +19,12 @@ import axios from 'axios';
 import CONFIG from '../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 
 
-export class LoginScreenClass extends React.Component {
+export class LoginScreen extends React.Component {
   state = {
     username: '',
     password: '',
@@ -160,4 +161,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreenClass);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
