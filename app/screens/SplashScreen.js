@@ -23,15 +23,18 @@ const SplashScreen = ({ navigation }) => {
         const value = await AsyncStorage.getItem('persistentAuth')
         if (value !== null) {
           const auth = JSON.parse(value)
+          //have to compare them as ISO strings
+          const result = auth.expiry.toString() < (new Date()).toISOString()
           //check if expired
-          if (Date.parse(auth.expiry) < new Date()) {
+          if (result) {
             navigation.navigate('Login')
+          } else {
+            //set global state
+            dispatch(setUser(auth.user))
+            dispatch(setToken(auth.authToken))
+            dispatch(setExpiry(auth.expiry))
+            navigation.navigate('Home')
           }
-          //set global state
-          dispatch(setUser(auth.user))
-          dispatch(setToken(auth.authToken))
-          dispatch(setExpiry(auth.expiry))
-          navigation.navigate('Home')
         } else {
           navigation.navigate('Login')
         }

@@ -60,7 +60,6 @@ export class LoginScreen extends React.Component {
             //no need to rope them into 
             const { username, password } = this.state;
             const payload = { username, password };
-            console.log(payload);
             await axios.post(CONFIG.API_URL + "authenticate/login", payload)
               .then(async res => {
                 //console.log(res);
@@ -77,8 +76,8 @@ export class LoginScreen extends React.Component {
                 //Then navigate from here. Now in homescreen and beyond, we can check the global user state
               }).catch(res => {
                 //Display login failed text and don't do anything?
-                console.log(res);
-                console.log("Login failed!");
+                //TODO: Inform user that login failed and prompt them again?
+                console.log('Login failed reason: ' + res)
               })
           }}>
           <Text style={styles.loginText}>LOGIN</Text>

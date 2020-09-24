@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux'
-import CONFIG from '../../config'
+import CONFIG from '../config'
 import axios from 'axios'
 
 
@@ -31,20 +31,19 @@ export default function ContentScreen({ route, navigation }) {
     useEffect(() => {
         async function contentScreenOnLoad() {
             const { contentId } = route.params
-            var imageList = null; //
             const token = useSelector(state => state.userReducer.authToken)
             //assuming the following, the first axios call gets a list of ids
             //we then set urls for images??
             await axios.get(`${CONFIG.API_URL}content/${contentId}/resource`,
                 { headers: { "Authorization": `Bearer ${token}` } })
                 .then((res) => {
-                    imageList = res.data
+                    setImgSrc(res.data[0]) //just temporarily
                 })
                 .catch((res) => {
                     console.log("why though? " + res)
                 });
             //we'll just take the first element for testing purposes
-            setImgSrc(imageList[0])
+            
         }
         contentScreenOnLoad()
     })
