@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import DrawerScreen from './app/screens/DrawerScreen';
 import SplashScreen from './app/screens/SplashScreen';
+import LoginScreen from './app/screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,11 @@ export default function App() {
           name="Home"
           component={DrawerScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

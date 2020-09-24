@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, FlatList, Pressable, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux'
-import CONFIG from '../../config'
+import CONFIG from '../config'
 import axios from 'axios'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,39 +14,43 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function HomeScreen({ navigation }) {
+export default function CityScreen({ route, navigation }) {
 
   const token = useSelector(state => state.userReducer.authToken)
-  const [cities, setCities] = useState([])
+  const [activities, setActivities] = useState([])
+  const [destinations, setDestinations] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const { cityId } = route.params
 
 
   useEffect(() => {
-    //gather cities
-    async function onHomeLoad() {
-      await axios.get(`${CONFIG.API_URL}city`,
+    //gather content list.
+    // TODO: have API return 2 lists, one for destinations
+    // and the other for activity?
+    async function onCityLoad() {
+      await axios.get(`${CONFIG.API_URL}city/${cityId}/content`,
         { headers: { "Authorization": `Bearer ${token}` } })
         .then(async (res) => {
           //expecting a list of cities
-          setCities(res.data)
+          setActivities(res.data)
         })
         .catch((res) => {
-          console.log('Home failed cause: ' + res)
+          console.log('City failed cause: ' + res)
         })
         .finally(() => {
           setLoading(false)
         })
     }
-    onHomeLoad()
+    onCityLoad()
   }, [])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : (
         <FlatList
-          data={cities}
-          keyExtractor={(item, index) => item.cityId}
-          extraData={{ cities }}
+          data={activities}
+          keyExtractor={(item, index) => item.contentId}
+          extraData={{ activities }}
           renderItem={({ item }) => {
             return (
               <ImageBackground
@@ -59,8 +63,8 @@ export default function HomeScreen({ navigation }) {
               >
                 <Pressable
                   onPress={() => {
-                    navigation.navigate('CityScreen', {
-                      cityId: item.cityId
+                    navigation.navigate('ContentScreen', {
+                      cityId: item.contentId
                     })
                   }}
                 >
