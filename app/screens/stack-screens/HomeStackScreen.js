@@ -23,6 +23,15 @@ export default function HomeStackScreen({navigation}) {
               onPress={() => navigation.openDrawer()}
             />
           ),
+          headerRight: () => (
+            <Icon.Button
+              name="search"
+              size={30}
+              backgroundColor="#ffffff"
+              color="#000000"
+              onPress={() => navigation.navigate('Search')}
+            />
+          ),
         }}
       />
     </HomeStack.Navigator>
