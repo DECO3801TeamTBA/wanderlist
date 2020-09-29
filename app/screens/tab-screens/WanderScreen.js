@@ -9,6 +9,7 @@ import {Text,
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import CONFIG from '../../config';
 
 
 // export default function WanderScreen({navigation}) {
@@ -29,82 +30,37 @@ import axios from 'axios';
 // }
 
 export class WanderScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    //setting default state
-    this.state = { isLoading: true, search: '' };
-    this.arrayholder = [];
+
+  state = {
+    shortlists: [],
+    isLoading: true
   }
+    
   componentDidMount() {
-    return fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: responseJson,
-          },
-          function() {
-            this.arrayholder = responseJson;
-          }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    axios.get(`${CONFIG.API_URL}ApplicationUser/${this.props.user.id}/Shortlist`,
+        { headers: { "Authorization": `Bearer ${this.props.token}` } })
+        .then((res) => {
+          //expecting a list of cities
+          // const shortlists = res.data;
+
+          this.setState({shortlists:res.data, isLoading: false})
+          console.log(res.data)
+        })
+        .catch((res) => {
+          console.log('Wander failed cause: ' + res)
+        })
+        // .finally(() => {
+        //   this.setLoading(false)
+        // })
   }
-
-  search = text => {
-    console.log(text);
-  };
-  clear = () => {
-    this.search.clear();
-  };
-
-  SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = this.arrayholder.filter(function(item) {
-      //applying filter for the inserted text in search bar
-      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-
-    this.setState({
-      //setting the filtered newData on datasource
-      //After setting the data it will automatically re-render the view
-      dataSource: newData,
-      search: text,
-    });
-  }
-
-  ListViewItemSeparator = () => {
-    //Item sparator view
-    return (
-      <View
-        style={{
-          height: 0.3,
-          width: '90%',
-          backgroundColor: '#080808',
-        }}
-      />
-    );
-  };
 
   render() {
-    if (this.state.isLoading) {
-      //Loading View while data is loading
-      return (
-        <View style={{ flex: 1, paddingTop: 20 }}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
+
     return (
       //ListView to show with textinput used as search bar
       
       <View style={styles.viewStyle}>
-              <View style={styles.searchStyle}>
+        <View style={styles.searchStyle}>
 
           
         </View>
@@ -112,14 +68,16 @@ export class WanderScreen extends React.Component {
           <SearchBar
             showLoading={false}
             platform={Platform.OS}
-            clearIcon={true}            round
+            clearIcon={true}            
+            round
             searchIcon={{ size: 20 }}
-            onChangeText={text => this.SearchFilterFunction(text)}
-            onClear={text => this.SearchFilterFunction('')}
+            // onChangeText={text => this.SearchFilterFunction(text)}
+            // onClear={text => this.SearchFilterFunction('')}
             placeholder="Search Your Lists"
-            value={this.state.search}
+            // value={this.state.search}
           />
         </View>
+
         <View style={{height: 50}} >
 
           <Text style={styles.bigBlack}>
@@ -130,21 +88,36 @@ export class WanderScreen extends React.Component {
         </View>
 
           <FlatList
-            data={this.state.dataSource}
-            ItemSeparatorComponent={this.ListViewItemSeparator}
-            //Item Separator View
+            // data={this.state.dataSource}
+            // // ItemSeparatorComponent={this.ListViewItemSeparator}
+            // //Item Separator View
+            // renderItem={({ item }) => (
+            //   // Single Comes here which will be repeatative for the FlatListItems
+            //   <View style={styles.card}>
+
+            //     <Text style={styles.textStyle}>{item.title}</Text>
+            //   </View>
+
+            // )}
+            // enableEmptySections={true}
+            // style={{ marginTop: 10 }}
+            // keyExtractor={(item, index) => index.toString()}
+            data={this.state.shortlists}
             renderItem={({ item }) => (
-              // Single Comes here which will be repeatative for the FlatListItems
-              <View style={styles.card}>
-
-                <Text style={styles.textStyle}>{item.title}</Text>
-              </View>
-
-            )}
-            enableEmptySections={true}
-            style={{ marginTop: 10 }}
+                // Single Comes here which will be repeatative for the FlatListItems
+                <View style={styles.card}>
+  
+                  <Text style={styles.textStyle}>{item.listName}</Text>
+                </View>
+  
+              )}
+            extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
+
           />
+          {/* <ul>
+            { this.state.shortlists.map(shortlist => <li>{shortlist.title}</li>)}
+          </ul> */}
 
       </View>
     );
@@ -209,7 +182,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
 
   return {
-    user: state.userReducer.user
+    user: state.userReducer.user,
+    token: state.userReducer.authToken
   }
 }
 
