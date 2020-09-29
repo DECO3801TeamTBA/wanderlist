@@ -60,10 +60,10 @@ export class WanderScreen extends React.Component {
       //ListView to show with textinput used as search bar
       
       <View style={styles.viewStyle}>
-        <View style={styles.searchStyle}>
+        {/* <View style={styles.searchStyle}>
 
-          
-        </View>
+        
+        </View> */}
         <View style={{height: 50}}>
           <SearchBar
             showLoading={false}
