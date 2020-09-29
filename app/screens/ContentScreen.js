@@ -23,15 +23,16 @@ const styles = StyleSheet.create({
 
 export default function ContentScreen({ route, navigation }) {
 
-    const [imgSrc, setImgSrc] = useState(0)
-
+    const [imgSrc, setImgSrc] = useState('')
+    const token = useSelector(state => state.userReducer.authToken)
+    const { contentId , type } = route.params
     //assume we're passing a contentID?
     //so nothing here is finalised
     //database/API isn't set up for this yet
     useEffect(() => {
         async function contentScreenOnLoad() {
-            const { contentId } = route.params
-            const token = useSelector(state => state.userReducer.authToken)
+            
+            
             //assuming the following, the first axios call gets a list of ids
             //we then set urls for images??
             await axios.get(`${CONFIG.API_URL}content/${contentId}/resource`,
@@ -46,7 +47,7 @@ export default function ContentScreen({ route, navigation }) {
             
         }
         contentScreenOnLoad()
-    })
+    }, [])
 
 
     return (

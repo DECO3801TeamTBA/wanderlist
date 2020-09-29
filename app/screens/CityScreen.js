@@ -31,8 +31,9 @@ export default function CityScreen({ route, navigation }) {
       await axios.get(`${CONFIG.API_URL}city/${cityId}/content`,
         { headers: { "Authorization": `Bearer ${token}` } })
         .then(async (res) => {
-          //expecting a list of cities
-          setActivities(res.data)
+          //expecting 2 lists
+          setActivities(res.data.activities)
+          setDestinations(res.data.destinations)
         })
         .catch((res) => {
           console.log('City failed cause: ' + res)
@@ -44,36 +45,69 @@ export default function CityScreen({ route, navigation }) {
     onCityLoad()
   }, [])
 
+
+  /* this styling is completely placeholder and only for testing page logic */
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : (
-        <FlatList
-          data={activities}
-          keyExtractor={(item, index) => item.contentId}
-          extraData={{ activities }}
-          renderItem={({ item }) => {
-            return (
-              <ImageBackground
-                source={{
-                  uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
-                  headers: { "Authorization": `Bearer ${token}` }
-                }}
-                style={styles.citybackground}
-                resizeMode='cover'
-              >
-                <Pressable
-                  onPress={() => {
-                    navigation.navigate('ContentScreen', {
-                      cityId: item.contentId
-                    })
+        <>
+          <FlatList
+            data={activities}
+            keyExtractor={(item, index) => item.contentId}
+            extraData={{ activities }}
+            renderItem={({ item }) => {
+              return (
+                <ImageBackground
+                  source={{
+                    uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
+                    headers: { "Authorization": `Bearer ${token}` }
                   }}
+                  style={styles.citybackground}
+                  resizeMode='cover'
                 >
-                  <Text>{item.item.name}</Text>
-                </Pressable>
-              </ImageBackground>
-            )
-          }}
-        />
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate('ContentScreen', {
+                        cityId: item.contentId,
+                        type: 'activity'
+                      })
+                    }}
+                  >
+                    <Text>{item.item.name}</Text>
+                  </Pressable>
+                </ImageBackground>
+              )
+            }}
+          />
+          <FlatList
+            data={destinations}
+            keyExtractor={(item, index) => item.contentId}
+            extraData={{ activities }}
+            renderItem={({ item }) => {
+              return (
+                <ImageBackground
+                  source={{
+                    uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
+                    headers: { "Authorization": `Bearer ${token}` }
+                  }}
+                  style={styles.citybackground}
+                  resizeMode='cover'
+                >
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate('ContentScreen', {
+                        cityId: item.contentId,
+                        type: 'destination'
+                      })
+                    }}
+                  >
+                    <Text>{item.item.name}</Text>
+                  </Pressable>
+                </ImageBackground>
+              )
+            }}
+          />
+        </>
       )}
     </View>
   );
