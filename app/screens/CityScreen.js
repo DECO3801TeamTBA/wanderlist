@@ -1,110 +1,112 @@
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, FlatList, Pressable, Image, ImageBackground, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux'
-import CONFIG from '../config'
-import axios from 'axios'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Pressable,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
+import {useSelector} from 'react-redux';
+import CONFIG from '../config';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
-  citybackground: {
+  cityBackground: {
     height: 150,
     width: 350,
-  }
+  },
 });
 
-export default function CityScreen({ route, navigation }) {
-
-  const token = useSelector(state => state.userReducer.authToken)
-  const [activities, setActivities] = useState([])
-  const [destinations, setDestinations] = useState([])
-  const [isLoading, setLoading] = useState(true)
-  const { cityId } = route.params
-
+export default function CityScreen({route, navigation}) {
+  const token = useSelector((state) => state.userReducer.authToken);
+  const [activities, setActivities] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const {cityId} = route.params;
 
   useEffect(() => {
     //gather content list.
     // TODO: have API return 2 lists, one for destinations
     // and the other for activity?
     async function onCityLoad() {
-      await axios.get(`${CONFIG.API_URL}city/${cityId}/content`,
-        { headers: { "Authorization": `Bearer ${token}` } })
+      await axios
+        .get(`${CONFIG.API_URL}city/${cityId}/content`, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
         .then(async (res) => {
           //expecting 2 lists
-          setActivities(res.data.activities)
-          setDestinations(res.data.destinations)
+          setActivities(res.data.activities);
+          setDestinations(res.data.destinations);
         })
         .catch((res) => {
-          console.log('City failed cause: ' + res)
+          console.log('City failed cause: ' + res);
         })
         .finally(() => {
-          setLoading(false)
-        })
+          setLoading(false);
+        });
     }
-    onCityLoad()
-  }, [])
-
+    onCityLoad();
+  }, []);
 
   /* this styling is completely placeholder and only for testing page logic */
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
         <>
           <FlatList
             data={activities}
             keyExtractor={(item, index) => item.contentId}
-            extraData={{ activities }}
-            renderItem={({ item }) => {
+            extraData={{activities}}
+            renderItem={({item}) => {
               return (
                 <ImageBackground
                   source={{
                     uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
-                    headers: { "Authorization": `Bearer ${token}` }
+                    headers: {Authorization: `Bearer ${token}`},
                   }}
-                  style={styles.citybackground}
-                  resizeMode='cover'
-                >
+                  style={styles.cityBackground}
+                  resizeMode="cover">
                   <Pressable
                     onPress={() => {
                       navigation.navigate('ContentScreen', {
                         cityId: item.contentId,
-                        type: 'activity'
-                      })
-                    }}
-                  >
+                        type: 'activity',
+                      });
+                    }}>
                     <Text>{item.item.name}</Text>
                   </Pressable>
                 </ImageBackground>
-              )
+              );
             }}
           />
           <FlatList
             data={destinations}
             keyExtractor={(item, index) => item.contentId}
-            extraData={{ activities }}
-            renderItem={({ item }) => {
+            extraData={{activities}}
+            renderItem={({item}) => {
               return (
                 <ImageBackground
                   source={{
                     uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
-                    headers: { "Authorization": `Bearer ${token}` }
+                    headers: {Authorization: `Bearer ${token}`},
                   }}
-                  style={styles.citybackground}
-                  resizeMode='cover'
-                >
+                  style={styles.cityBackground}
+                  resizeMode="cover">
                   <Pressable
                     onPress={() => {
                       navigation.navigate('ContentScreen', {
                         cityId: item.contentId,
-                        type: 'destination'
-                      })
-                    }}
-                  >
+                        type: 'destination',
+                      });
+                    }}>
                     <Text>{item.item.name}</Text>
                   </Pressable>
                 </ImageBackground>
-              )
+              );
             }}
           />
         </>
