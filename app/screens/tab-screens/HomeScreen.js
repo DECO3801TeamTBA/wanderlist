@@ -65,7 +65,7 @@ export default function HomeScreen({navigation}) {
                 resizeMode="cover">
                 <Pressable
                   onPress={() => {
-                    navigation.navigate('CityScreen', {
+                    navigation.navigate('City', {
                       cityId: item.cityId,
                     });
                   }}>
