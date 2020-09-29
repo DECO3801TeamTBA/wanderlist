@@ -4,20 +4,15 @@ import {
   Text,
   View,
   FlatList,
-  Pressable,
   ImageBackground,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../../config';
 import axios from 'axios';
 
-const styles = StyleSheet.create({
-  cityBackground: {
-    height: 150,
-    width: 350,
-  },
-});
+const window = Dimensions.get('window');
 
 export default function HomeScreen({navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -46,7 +41,7 @@ export default function HomeScreen({navigation}) {
   }, []);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.container}>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -61,16 +56,16 @@ export default function HomeScreen({navigation}) {
                   uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
                   headers: {Authorization: `Bearer ${token}`},
                 }}
-                style={styles.cityBackground}
-                resizeMode="cover">
-                <Pressable
+                style={styles.cityBackground}>
+                <Text
+                  style={styles.cityText}
                   onPress={() => {
                     navigation.navigate('City', {
                       cityId: item.cityId,
                     });
                   }}>
-                  <Text>{item.item.name}</Text>
-                </Pressable>
+                  {item.item.name}
+                </Text>
               </ImageBackground>
             );
           }}
@@ -79,3 +74,23 @@ export default function HomeScreen({navigation}) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  cityBackground: {
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+    resizeMode: 'stretch',
+    height: window.height / 3,
+    width: window.width,
+  },
+  cityText: {
+    fontSize: 21,
+    color: '#fff',
+  },
+});
