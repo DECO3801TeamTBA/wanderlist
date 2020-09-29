@@ -1,50 +1,49 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useDispatch } from 'react-redux';
-import { setUser, setToken, setExpiry } from '../actions/user'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {useDispatch} from 'react-redux';
+import {setUser, setToken, setExpiry} from '../actions/user';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-const SplashScreen = ({ navigation }) => {
-
-  const dispatch = useDispatch()
-  /*
-  The behaviour for this screen is as follows:
-  1. Load persistently stored user, token and expiration from storage
-  2. If there is none, go straight to Login
-  3. if there they are stored, set global state of the value and go Home
-  */
-  useEffect(() => {
-    async function checkAsyncStorage() {
-      try {
-        const value = await AsyncStorage.getItem('persistentAuth')
-        if (value !== null) {
-          const auth = JSON.parse(value)
-          //have to compare them as ISO strings
-          const result = auth.expiry.toString() < (new Date()).toISOString()
-          //check if expired
-          if (result) {
-            navigation.navigate('Login')
-          } else {
-            //set global state
-            dispatch(setUser(auth.user))
-            dispatch(setToken(auth.authToken))
-            dispatch(setExpiry(auth.expiry))
-            navigation.navigate('Home')
-          }
-        } else {
-          navigation.navigate('Login')
-        }
-      } catch (e) {
-        // error reading value
-        console.log("Why though? " + e)
-      }
-    }
-    checkAsyncStorage()
-  }, [])
+const SplashScreen = ({navigation}) => {
+  // const dispatch = useDispatch();
+  // /*
+  // The behaviour for this screen is as follows:
+  // 1. Load persistently stored user, token and expiration from storage
+  // 2. If there is none, go straight to Login
+  // 3. if there they are stored, set global state of the value and go Home
+  // */
+  // useEffect(() => {
+  //   async function checkAsyncStorage() {
+  //     try {
+  //       const value = await AsyncStorage.getItem('persistentAuth');
+  //       if (value !== null) {
+  //         const auth = JSON.parse(value);
+  //         //have to compare them as ISO strings
+  //         const result = auth.expiry.toString() < new Date().toISOString();
+  //         //check if expired
+  //         if (result) {
+  //           navigation.navigate('Login');
+  //         } else {
+  //           //set global state
+  //           dispatch(setUser(auth.user));
+  //           dispatch(setToken(auth.authToken));
+  //           dispatch(setExpiry(auth.expiry));
+  //           navigation.navigate('Home');
+  //         }
+  //       } else {
+  //         navigation.navigate('Login');
+  //       }
+  //     } catch (e) {
+  //       // error reading value
+  //       console.log('Why though? ' + e);
+  //     }
+  //   }
+  //   checkAsyncStorage();
+  // }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
