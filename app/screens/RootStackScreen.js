@@ -10,7 +10,7 @@ import CityScreen from './CityScreen';
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = ({navigation}) => (
+const RootStackScreen = () => (
   <RootStack.Navigator>
     <RootStack.Screen
       name="Splash"

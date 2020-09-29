@@ -10,7 +10,6 @@ import SupportScreen from './side-screens/SupportScreen';
 import SignupScreen from './SignUpScreen';
 import ListScreen from './ListScreen';
 
-
 const Drawer = createDrawerNavigator();
 
 export default function DrawerScreen() {
