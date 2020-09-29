@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, FlatList, Button, StyleSheet} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import {ListItem, SearchBar} from 'react-native-elements';
 
 export default class SearchScreen extends Component {
@@ -85,18 +86,20 @@ export default class SearchScreen extends Component {
         />
       </View>
     ) : (
-      <FlatList
-        ListHeaderComponent={this.renderHeader}
-        data={this.state.data}
-        keyExtractor={(item) => item.name}
-        renderItem={({item}) => (
-          <ListItem>
-            <ListItem.Content>
-              <ListItem.Title>{`${item.name}`}</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        )}
-      />
+      <Animatable.View animation={'fadeInDown'}>
+        <FlatList
+          ListHeaderComponent={this.renderHeader}
+          data={this.state.data}
+          keyExtractor={(item) => item.name}
+          renderItem={({item}) => (
+            <ListItem>
+              <ListItem.Content>
+                <ListItem.Title>{`${item.name}`}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+      </Animatable.View>
     );
   }
 }
