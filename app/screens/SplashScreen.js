@@ -4,12 +4,12 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class SplashScreen extends Component {
-  constructor(props) {
-    super(props);
-    setTimeout(() => {
-      this.props.navigation.navigate('Login');
-    }, 3000);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   setTimeout(() => {
+  //     this.props.navigation.navigate('Login');
+  //   }, 3000);
+  // }
 
   render() {
     return (
