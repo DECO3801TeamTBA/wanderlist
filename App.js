@@ -9,6 +9,7 @@ import RootStackScreen from './app/screens/RootStackScreen';
 import {useEffect} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {setExpiry, setToken, setUser} from './app/actions/user';
+import SplashScreen from './app/screens/SplashScreen';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,7 @@ export default function App() {
     <NavigationContainer>
       {isAuth === true ? (
         <Stack.Navigator>
+          <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen
             name="Home"
             component={DrawerScreen}
