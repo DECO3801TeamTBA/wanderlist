@@ -8,6 +8,8 @@ import LoginScreen from './LoginScreen';
 import SettingsScreen from './side-screens/SettingsScreen';
 import SupportScreen from './side-screens/SupportScreen';
 import SignupScreen from './SignUpScreen';
+import ListScreen from './ListScreen';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +21,7 @@ export default function DrawerScreen() {
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Support" component={SupportScreen} />
       <Drawer.Screen name="SignUp" component={SignupScreen} />
+      <Drawer.Screen name="List" component={ListScreen} />
     </Drawer.Navigator>
   );
 }

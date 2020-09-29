@@ -5,6 +5,7 @@ import {Text,
   FlatList,
   ActivityIndicator,
   Platform,
+  TouchableWithoutFeedback,
   Button} from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -105,10 +106,14 @@ export class WanderScreen extends React.Component {
             data={this.state.shortlists}
             renderItem={({ item }) => (
                 // Single Comes here which will be repeatative for the FlatListItems
-                <View style={styles.card}>
+                
+                <TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
+                  <View style={styles.card}>
   
                   <Text style={styles.textStyle}>{item.listName}</Text>
                 </View>
+                
+                </TouchableWithoutFeedback>
   
               )}
             extraData={this.state}
@@ -121,6 +126,14 @@ export class WanderScreen extends React.Component {
 
       </View>
     );
+  }
+
+  actionOnRow(item) {
+    console.log('Selected Item :',item);
+    this.props.navigation.navigate('List', {
+      shortlistId: item.shortlistId,
+      otherParam: 'anything you want here',
+    });
   }
 }
 
@@ -177,6 +190,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+
 
 
 const mapStateToProps = (state) => {
