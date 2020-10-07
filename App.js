@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {setExpiry, setToken, setUser} from './app/actions/user';
 import SearchScreen from './app/screens/SearchScreen';
 import CityScreen from './app/screens/CityScreen';
+import ContentScreen from './app/screens/ContentScreen';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,7 @@ export default function App() {
           />
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="City" component={CityScreen} />
+          <Stack.Screen name="Content" component={ContentScreen}/>
         </Stack.Navigator>
       ) : (
         <RootStackScreen />

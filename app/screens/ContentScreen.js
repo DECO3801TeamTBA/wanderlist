@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
+import { ActivityIndicator } from 'react-native-paper';
 
 /*
     Note from JP
@@ -20,10 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ContentScreen({route, navigation}) {
-  const [imgSrc, setImgSrc] = useState('');
+export default function ContentScreen({ route, navigation }) {
+  const [images, setImages] = useState([])
+  const [content, setContent] = useState(null)
+  const [isLoading, setLoading] = useState(true)
   const token = useSelector((state) => state.userReducer.authToken);
-  const {contentId, type} = route.params;
+  const { contentId, type } = route.params;
   //assume we're passing a contentID?
   //so nothing here is finalised
   //database/API isn't set up for this yet
@@ -31,31 +34,57 @@ export default function ContentScreen({route, navigation}) {
     async function contentScreenOnLoad() {
       //assuming the following, the first axios call gets a list of ids
       //we then set urls for images??
-      await axios
-        .get(`${CONFIG.API_URL}content/${contentId}/resource`, {
-          headers: {Authorization: `Bearer ${token}`},
+      await axios.all([
+        axios.get(`${CONFIG.API_URL}content/${contentId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
+          headers: { Authorization: `Bearer ${token}` },
         })
-        .then((res) => {
-          setImgSrc(res.data[0]); //just temporarily
-        })
+      ])
+        .then(axios.spread((resContent, resImages) => {
+          console.log(resImages)
+          console.log(resContent)
+          setImages(resImages.data)
+          setContent(resContent.data)
+        }))
         .catch((res) => {
           console.log('why though? ' + res);
-        });
+        })
+        .finally(() => {
+          setLoading(false)
+        })
       //we'll just take the first element for testing purposes
     }
     contentScreenOnLoad();
   }, []);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Content Screen</Text>
-      <Image
-        source={{
-          uri: `${CONFIG.API_URL}resource/${imgSrc}`,
-          headers: {Authorization: `Bearer ${token}`},
-        }}
-        style={styles.test}
-      />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      { isLoading ? <ActivityIndicator /> : (
+        <>
+          <Text>{type} name: {content.name}</Text>
+          <Text>{type} description: {content.description}</Text>
+          <Text>{type} ratings: {content.socialRating}, {content.economicRating}, {content.environmentalRating}</Text>
+          <Text>Image Gallery y'all</Text>
+          <FlatList
+            data={images}
+            keyExtractor={(item, index) => item.resourceId}
+            extraData={{ images }}
+            renderItem={({ item }) => {
+              return (
+                <Image
+                  source={{
+                    uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
+                    headers: { Authorization: `Bearer ${token}` }
+                  }}
+                  style={styles.test}
+                />
+              );
+            }}
+          />
+        </>
+      )}
     </View>
   );
 }

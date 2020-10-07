@@ -59,25 +59,25 @@ export default function CityScreen({route, navigation}) {
         <>
           <FlatList
             data={activities}
-            keyExtractor={(item, index) => item.contentId}
+            keyExtractor={(item, index) => item.id}
             extraData={{activities}}
             renderItem={({item}) => {
               return (
                 <ImageBackground
                   source={{
-                    uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
+                    uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
                     headers: {Authorization: `Bearer ${token}`},
                   }}
                   style={styles.cityBackground}
                   resizeMode="cover">
                   <Pressable
                     onPress={() => {
-                      navigation.navigate('ContentScreen', {
-                        cityId: item.contentId,
-                        type: 'activity',
+                      navigation.navigate('Content', {
+                        contentId: item.id,
+                        type: 'Activity',
                       });
                     }}>
-                    <Text>{item.item.name}</Text>
+                    <Text>{item.name}</Text>
                   </Pressable>
                 </ImageBackground>
               );
@@ -85,25 +85,25 @@ export default function CityScreen({route, navigation}) {
           />
           <FlatList
             data={destinations}
-            keyExtractor={(item, index) => item.contentId}
+            keyExtractor={(item, index) => item.id}
             extraData={{activities}}
             renderItem={({item}) => {
               return (
                 <ImageBackground
                   source={{
-                    uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
+                    uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
                     headers: {Authorization: `Bearer ${token}`},
                   }}
                   style={styles.cityBackground}
                   resizeMode="cover">
                   <Pressable
                     onPress={() => {
-                      navigation.navigate('ContentScreen', {
-                        cityId: item.contentId,
-                        type: 'destination',
+                      navigation.navigate('Content', {
+                        contentId: item.id,
+                        type: 'Destination',
                       });
                     }}>
-                    <Text>{item.item.name}</Text>
+                    <Text>{item.name}</Text>
                   </Pressable>
                 </ImageBackground>
               );

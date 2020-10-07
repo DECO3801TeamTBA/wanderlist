@@ -53,8 +53,8 @@ export default function HomeScreen({navigation}) {
             return (
               <ImageBackground
                 source={{
-                  uri: `${CONFIG.API_URL}resource/${item.item.coverImageId}`,
-                  headers: {Authorization: `Bearer ${token}`},
+                  uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                  headers: {Authorization: `Bearer ${token}`}
                 }}
                 style={styles.cityBackground}>
                 <Text
@@ -64,7 +64,7 @@ export default function HomeScreen({navigation}) {
                       cityId: item.cityId,
                     });
                   }}>
-                  {item.item.name}
+                  {item.name}
                 </Text>
               </ImageBackground>
             );

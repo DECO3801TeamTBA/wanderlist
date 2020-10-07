@@ -1,12 +1,14 @@
 import React from 'react';
-import {Text,
+import {
+  Text,
   View,
   StyleSheet,
   FlatList,
   ActivityIndicator,
   Platform,
   TouchableWithoutFeedback,
-  Button} from 'react-native';
+  Button
+} from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -36,91 +38,93 @@ export class WanderScreen extends React.Component {
     shortlists: [],
     isLoading: true
   }
-    
-  componentDidMount() {
-    axios.get(`${CONFIG.API_URL}ApplicationUser/${this.props.user.id}/Shortlist`,
-        { headers: { "Authorization": `Bearer ${this.props.token}` } })
-        .then((res) => {
-          //expecting a list of cities
-          // const shortlists = res.data;
 
-          this.setState({shortlists:res.data, isLoading: false})
-          console.log(res.data)
-        })
-        .catch((res) => {
-          console.log('Wander failed cause: ' + res)
-        })
-        // .finally(() => {
-        //   this.setLoading(false)
-        // })
+  componentDidMount() {
+    axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
+      { headers: { "Authorization": `Bearer ${this.props.token}` } })
+      .then((res) => {
+        //expecting a list of cities
+        // const shortlists = res.data;
+
+        this.setState({ shortlists: res.data })
+        console.log(res.data)
+      })
+      .catch((res) => {
+        console.log('Wander failed cause: ' + res)
+      })
+      .finally(() => {
+        this.setState({ isLoading: false })
+      })
   }
 
   render() {
 
     return (
       //ListView to show with textinput used as search bar
-      
+
       <View style={styles.viewStyle}>
         {/* <View style={styles.searchStyle}>
 
         
         </View> */}
-        <View style={{height: 50}}>
+        <View style={{ height: 50 }}>
           <SearchBar
             showLoading={false}
             platform={Platform.OS}
-            clearIcon={true}            
+            clearIcon={true}
             round
             searchIcon={{ size: 20 }}
             // onChangeText={text => this.SearchFilterFunction(text)}
             // onClear={text => this.SearchFilterFunction('')}
             placeholder="Search Your Lists"
-            // value={this.state.search}
+          // value={this.state.search}
           />
         </View>
 
-        <View style={{height: 50}} >
+        <View style={{ height: 50 }} >
 
           <Text style={styles.bigBlack}>
             Your Lists
           </Text>
-          
+
 
         </View>
 
-          <FlatList
-            // data={this.state.dataSource}
-            // // ItemSeparatorComponent={this.ListViewItemSeparator}
-            // //Item Separator View
-            // renderItem={({ item }) => (
-            //   // Single Comes here which will be repeatative for the FlatListItems
-            //   <View style={styles.card}>
+        <FlatList
+          // data={this.state.dataSource}
+          // // ItemSeparatorComponent={this.ListViewItemSeparator}
+          // //Item Separator View
+          // renderItem={({ item }) => (
+          //   // Single Comes here which will be repeatative for the FlatListItems
+          //   <View style={styles.card}>
 
-            //     <Text style={styles.textStyle}>{item.title}</Text>
-            //   </View>
+          //     <Text style={styles.textStyle}>{item.title}</Text>
+          //   </View>
 
-            // )}
-            // enableEmptySections={true}
-            // style={{ marginTop: 10 }}
-            // keyExtractor={(item, index) => index.toString()}
-            data={this.state.shortlists}
-            renderItem={({ item }) => (
-                // Single Comes here which will be repeatative for the FlatListItems
-                
-                <TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
-                  <View style={styles.card}>
-  
+          // )}
+          // enableEmptySections={true}
+          // style={{ marginTop: 10 }}
+          // keyExtractor={(item, index) => index.toString()}
+          data={this.state.shortlists}
+          renderItem={({ item }) => {
+            return (
+              // Single Comes here which will be repeatative for the FlatListItems
+
+              <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
+                <View style={styles.card}>
+
                   <Text style={styles.textStyle}>{item.listName}</Text>
                 </View>
-                
-                </TouchableWithoutFeedback>
-  
-              )}
-            extraData={this.state}
-            keyExtractor={(item, index) => index.toString()}
 
-          />
-          {/* <ul>
+              </TouchableWithoutFeedback>
+
+            )
+          }}
+          extraData={this.state}
+          keyExtractor={(item, index) => index.toString()}
+
+        />
+        {/* <ul>
             { this.state.shortlists.map(shortlist => <li>{shortlist.title}</li>)}
           </ul> */}
 
@@ -129,7 +133,7 @@ export class WanderScreen extends React.Component {
   }
 
   actionOnRow(item) {
-    console.log('Selected Item :',item);
+    console.log('Selected Item :', item);
     this.props.navigation.navigate('List', {
       shortlistId: item.shortlistId,
       otherParam: 'anything you want here',
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
   viewStyle: {
     justifyContent: 'center',
     flex: 1,
-    
+
     backgroundColor: 'white',
     // marginTop: Platform.OS == 'ios' ? 30 : 0,
   },
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     flexDirection: 'row',
     shadowColor: '#999',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
