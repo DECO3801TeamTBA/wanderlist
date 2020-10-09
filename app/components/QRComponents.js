@@ -9,82 +9,74 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
 
-/**
- * Not sure how useful this component will be, but the bottom should be more useful (or at least copyable)
- * @param {*} param0 
- */
-export function QRButton({ }) {
 
-
-    return (
-
-        <Pressable />
-    )
-}
 
 const styles = StyleSheet.create({
     centerText: {
-      flex: 1,
-      fontSize: 18,
-      padding: 32,
-      color: '#777'
+        flex: 1,
+        fontSize: 18,
+        padding: 32,
+        color: '#777'
     },
     textBold: {
-      fontWeight: '500',
-      color: '#000'
+        fontWeight: '500',
+        color: '#000'
     },
     buttonText: {
-      fontSize: 21,
-      color: 'rgb(0,122,255)'
+        fontSize: 21,
+        color: 'rgb(0,122,255)'
     },
     buttonTouchable: {
-      padding: 16
+        padding: 16
     }
-  });
-  
+});
 
-/**
- * Modal i.e foreground view on top of screen view that only appears when trying to scan qrs!
- * @param {*} param0 
- */
-export function QRScannerModal({ }) {
+export default function QRScannerModal() {
 
     const user = useSelector(state => state.userReducer.user)
     const token = useSelector(state => state.userReducer.token)
+    const [modalShow, setModalShow] = useState(false)
     onSuccess = e => {
         axios.post(`${CONFIG.API_URL}QR/${e}`,
             `${user.id}`,
             { headers: { "Authorization": `Bearer ${token}` } })
             .then((res) => {
-                //expecting a list of cities
-                // const shortlists = res.data;
-
-                this.setState({ shortlists: res.data })
-                console.log(res.data)
+                //scan succeeded, alert user?
+                // show a message then
             })
             .catch((res) => {
-                console.log('Wander failed cause: ' + res)
+                console.log('QR failed cause: ' + res)
+                //scan failed, alert user as to reason
             })
             .finally(() => {
-                this.setState({ isLoading: false })
+                //show message about whether or not QR was successful
+                //then close modal
+                setModalShow(false)
             })
     }
     return (
-        <Modal>
-        <QRCodeScanner
-            onRead={this.onSuccess}
-            flashMode={RNCamera.Constants.FlashMode.torch}
-            topContent={
-                <Text style={styles.centerText}>
-                    Uhh just testing folks
-          </Text>
-            }
-            bottomContent={
-                <Pressable style={styles.buttonTouchable}>
-                    <Text style={styles.buttonText}>Verify visit</Text>
-                </Pressable>
-            }
-        />
-        </Modal>
+        <View>
+            <Pressable
+                onPress={() => { setModalShow(true) }}
+                style={styles.buttonTouchable}>
+                <Text style={styles.buttonText}>Scan QR Code</Text></Pressable>
+            <Modal
+                visible={modalShow}>
+                <QRCodeScanner
+                    onRead={this.onSuccess}
+                    flashMode={RNCamera.Constants.FlashMode.torch}
+                    topContent={
+                        <Text style={styles.centerText}>
+                            Uhh just testing folks
+                        </Text>
+                    }
+                    bottomContent={
+                        <Pressable style={styles.buttonTouchable}>
+                            <Text style={styles.buttonText}>Verify visit</Text>
+                        </Pressable>
+                    }
+                />
+            </Modal>
+        </View>
     )
 }

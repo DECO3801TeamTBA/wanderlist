@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
 import { ActivityIndicator } from 'react-native-paper';
+import QRScanner from '../components/QRComponents'
 
 /*
     Note from JP
@@ -43,8 +44,6 @@ export default function ContentScreen({ route, navigation }) {
         })
       ])
         .then(axios.spread((resContent, resImages) => {
-          console.log(resImages)
-          console.log(resContent)
           setImages(resImages.data)
           setContent(resContent.data)
         }))
@@ -67,6 +66,7 @@ export default function ContentScreen({ route, navigation }) {
           <Text>{type} description: {content.description}</Text>
           <Text>{type} ratings: {content.socialRating}, {content.economicRating}, {content.environmentalRating}</Text>
           <Text>Image Gallery y'all</Text>
+          <QRScanner/>
           <FlatList
             data={images}
             keyExtractor={(item, index) => item.resourceId}
