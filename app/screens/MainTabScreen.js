@@ -13,10 +13,11 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => (
   <Tab.Navigator
     initialRouteName="Home"
-    activeColor="#f0edf6"
-    inactiveColor="#3e2465"
-    barStyle={{ backgroundColor: '#fff' }}
-  >
+    activeColor="#5F9E98"
+    inactiveColor="#000"
+    barStyle={{
+      backgroundColor: '#fff',
+    }}>
     <Tab.Screen
       name="Home"
       component={HomeStackScreen}
@@ -32,7 +33,6 @@ const MainTabScreen = () => (
         tabBarIcon: ({color}) => (
           <Icon name="list-circle" color={color} size={24} />
         ),
-        
       }}
     />
 
