@@ -11,6 +11,7 @@ import {
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
+import YouTube from 'react-native-youtube';
 
 const styles = StyleSheet.create({
   cityBackground: {
@@ -53,6 +54,12 @@ export default function CityScreen({route, navigation}) {
   /* this styling is completely placeholder and only for testing page logic */
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <YouTube
+        apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"
+        videoId="eW7Twd85m2g" // The YouTube video ID
+        play={false}
+        style={{alignSelf: 'stretch', height: 300}}
+      />
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
