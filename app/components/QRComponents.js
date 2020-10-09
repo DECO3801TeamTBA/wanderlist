@@ -36,7 +36,8 @@ export default function QRScannerModal() {
     const user = useSelector(state => state.userReducer.user)
     const token = useSelector(state => state.userReducer.token)
     const [modalShow, setModalShow] = useState(false)
-    onSuccess = e => {
+    const onSuccess = e => {
+        console.log("this worlking?")
         axios.post(`${CONFIG.API_URL}QR/${e}`,
             `${user.id}`,
             { headers: { "Authorization": `Bearer ${token}` } })
@@ -63,7 +64,7 @@ export default function QRScannerModal() {
             <Modal
                 visible={modalShow}>
                 <QRCodeScanner
-                    onRead={this.onSuccess}
+                    onRead={onSuccess}
                     flashMode={RNCamera.Constants.FlashMode.torch}
                     topContent={
                         <Text style={styles.centerText}>
