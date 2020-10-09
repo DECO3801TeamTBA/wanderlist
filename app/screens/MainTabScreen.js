@@ -22,7 +22,7 @@ const MainTabScreen = () => (
       name="Home"
       component={HomeStackScreen}
       options={{
-        tabBarIcon: ({color}) => <Icon name="home" color={color} size={20} />,
+        tabBarIcon: ({color}) => <Icon name="home" color={color} size={24} />,
       }}
     />
 
@@ -30,29 +30,25 @@ const MainTabScreen = () => (
       name="Wander"
       component={WanderStackScreen}
       options={{
-        tabBarIcon: ({color}) => (
-          <Icon name="list-circle" color={color} size={24} />
-        ),
+        tabBarIcon: ({color}) => <Icon name="reader" color={color} size={24} />,
       }}
     />
 
-    <Tab.Screen
-      name="Rewards"
-      component={RewardsStackScreen}
-      options={{
-        tabBarIcon: ({color}) => (
-          <Icon name="scan-circle" color={color} size={24} />
-        ),
-      }}
-    />
+    {/*<Tab.Screen*/}
+    {/*  name="Rewards"*/}
+    {/*  component={RewardsStackScreen}*/}
+    {/*  options={{*/}
+    {/*    tabBarIcon: ({color}) => (*/}
+    {/*      <Icon name="scan-circle" color={color} size={24} />*/}
+    {/*    ),*/}
+    {/*  }}*/}
+    {/*/>*/}
 
     <Tab.Screen
       name="Profile"
       component={ProfileStackScreen}
       options={{
-        tabBarIcon: ({color}) => (
-          <Icon name="person-circle" color={color} size={24} />
-        ),
+        tabBarIcon: ({color}) => <Icon name="person" color={color} size={24} />,
       }}
     />
   </Tab.Navigator>
