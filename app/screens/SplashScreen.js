@@ -27,7 +27,7 @@ export default function SplashScreen({navigation}) {
         <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <LinearGradient
-              colors={['#0384fc', '#0345fc']}
+              colors={['#81c784', '#388e3c']}
               style={styles.getStarted}>
               <Text style={styles.getStartedText}>Get Started</Text>
             </LinearGradient>
@@ -41,7 +41,6 @@ export default function SplashScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1f65ff',
   },
   header: {
     flex: 2,
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#5F9E98',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,
