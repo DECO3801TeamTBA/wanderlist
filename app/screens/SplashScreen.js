@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#5F9E98',
+    backgroundColor: '#c8e6c9',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,
