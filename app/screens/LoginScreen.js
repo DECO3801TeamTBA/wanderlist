@@ -15,7 +15,7 @@ export class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>WanderList</Text>
+        <Text style={styles.title}>WanderList</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -33,9 +33,6 @@ export class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({password: text})}
           />
         </View>
-        <Pressable>
-          <Text style={styles.forgot}>Forgot Password?</Text>
-        </Pressable>
         <Pressable
           style={styles.loginBtn}
           onPress={async () => {
@@ -93,10 +90,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
+  title: {
     fontWeight: 'bold',
     fontSize: 50,
-    color: '#fb5b5a',
     marginBottom: 40,
   },
   inputView: {
