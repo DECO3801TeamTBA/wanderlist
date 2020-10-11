@@ -20,70 +20,50 @@
 
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from "react-native";
-import { Ionicons, MaterialIcons } from "react-native-vector-icons";
 
 export default function ProfileScreen({navigation}) {
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.titleBar}>
-                    <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
-                    <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
-                </View>
-
-                <View style={{ alignSelf: "center" }}>
+                
+                <View style={{ paddingHorizontal: 15, paddingTop: 20}}>
                     <View style={styles.profileImage}>
-                        <Image source={require("../../../assets/profile-pic.jpg")} style={styles.image} resizeMode="center"></Image>
+                        <Image source={require("../../../assets/logo.png")} style={styles.image} resizeMode="center"></Image>
+                        
                     </View>
-                    {/* <View style={styles.dm}>
-                        <MaterialIcons name="chat" size={18} color="#DFD8C8"></MaterialIcons>
-                    </View> */}
-                    <View style={styles.active}></View>
-                    {/* <View style={styles.add}>
-                        <Ionicons name="ios-add" size={48} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
-                    </View> */}
+                    <View style={styles.infoContainer}>
+                            <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>Thanh</Text>
+                            <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip</Text>
+                    </View>     
                 </View>
 
-                <View style={styles.infoContainer}>
-                    <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>Thanh</Text>
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Slayer</Text>
-                </View>
+                
 
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>1200</Text>
-                        <Text style={[styles.text, styles.subText]}>Year of Birth</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>ICON</Text>
+                        <Text style={[styles.text, styles.subText]}>Ranking</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>Brisbane</Text>
-                        <Text style={[styles.text, styles.subText]}>Location</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>ICON</Text>
+                        <Text style={[styles.text, styles.subText]}>Rewards</Text>
                     </View>
+                    
+                </View>
+                <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>...</Text>
-                        <Text style={[styles.text, styles.subText]}>Email</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>275</Text>
+                        <Text style={[styles.text, styles.subText]}>Points</Text>
                     </View>
+                    <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                        <Text style={[styles.text, { fontSize: 24 }]}>6</Text>
+                        <Text style={[styles.text, styles.subText]}>Level</Text>
+                    </View>
+                    
                 </View>
 
-                <View style={{ marginTop: 32 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../../assets/media1.jpg")} style={styles.image} resizeMode="cover"></Image>
-                        </View>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../../assets/media2.jpg")} style={styles.image} resizeMode="cover"></Image>
-                        </View>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../../assets/media3.jpg")} style={styles.image} resizeMode="cover"></Image>
-                        </View>
-                    </ScrollView>
-                    <View style={styles.mediaCount}>
-                        <Text style={[styles.text, { fontSize: 24, color: "#DFD8C8", fontWeight: "300" }]}>Thanh</Text>
-                        <Text style={[styles.text, { fontSize: 12, color: "#DFD8C8", textTransform: "uppercase" }]}>Media</Text>
-                    </View>
-                </View>
-                <Text style={[styles.subText, styles.recent]}>Thanh's Recent Activity</Text>
                 
-            </ScrollView>
+                <Text style={{ paddingHorizontal: 20, paddingTop: 20, fontSize: 28, color: '#000000'}}>Contact Us</Text>
+                
         </SafeAreaView>
     );
 }
@@ -91,11 +71,11 @@ export default function ProfileScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFF"
+        backgroundColor: "#C0C0C0"
     },
     text: {
         fontFamily: "HelveticaNeue",
-        color: "#52575D"
+        color: "#000000"
     },
     image: {
         flex: 1,
@@ -115,8 +95,8 @@ const styles = StyleSheet.create({
         fontWeight: "500"
     },
     profileImage: {
-        width: 200,
-        height: 200,
+        width: 120,
+        height: 120,
         borderRadius: 100,
         overflow: "hidden"
     },
@@ -134,7 +114,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#34FFB9",
         position: "absolute",
         bottom: 28,
-        left: 10,
+        left: 100,
         padding: 4,
         height: 20,
         width: 20,
@@ -152,14 +132,24 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     infoContainer: {
-        alignSelf: "center",
-        alignItems: "center",
-        marginTop: 16
+        // alignSelf: "center",
+        // alignItems: "center",
+        top: -100,
+        left: 150,
+        right: 0,
+        bottom: 0,
     },
     statsContainer: {
         flexDirection: "row",
         alignSelf: "center",
-        marginTop: 32
+        marginTop: 32,
+        top: -80,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "#ffff",
+        borderRadius: 20,
+        width:window.width, height:100, marginHorizontal: 20,
     },
     statsBox: {
         alignItems: "center",
