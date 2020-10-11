@@ -37,9 +37,9 @@ export default function QRScannerModal() {
     const token = useSelector(state => state.userReducer.token)
     const [modalShow, setModalShow] = useState(false)
     const onSuccess = e => {
-        console.log("this worlking?")
-        axios.post(`${CONFIG.API_URL}QR/${e}`,
-            `${user.id}`,
+        console.log(e.data)
+        axios.post(`${CONFIG.API_URL}QR/`,
+            { qrCode: e.data, userId: user.id },
             { headers: { "Authorization": `Bearer ${token}` } })
             .then((res) => {
                 //scan succeeded, alert user?
@@ -62,18 +62,23 @@ export default function QRScannerModal() {
                 style={styles.buttonTouchable}>
                 <Text style={styles.buttonText}>Scan QR Code</Text></Pressable>
             <Modal
-                visible={modalShow}>
+                visible={modalShow}
+                >
                 <QRCodeScanner
                     onRead={onSuccess}
                     flashMode={RNCamera.Constants.FlashMode.torch}
                     topContent={
                         <Text style={styles.centerText}>
-                            Uhh just testing folks
+                            Scan QR
                         </Text>
                     }
                     bottomContent={
-                        <Pressable style={styles.buttonTouchable}>
-                            <Text style={styles.buttonText}>Verify visit</Text>
+                        <Pressable style={styles.buttonTouchable}
+                         onPress={ () => {
+                             setModalShow(false)
+                         }
+                        }>
+                            <Text style={styles.buttonText}>Cancel</Text>
                         </Pressable>
                     }
                 />
