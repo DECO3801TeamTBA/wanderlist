@@ -86,7 +86,7 @@ export default function CityScreen({route, navigation}) {
           <FlatList
             data={destinations}
             keyExtractor={(item, index) => item.id}
-            extraData={{activities}}
+            extraData={{destinations}}
             renderItem={({item}) => {
               return (
                 <ImageBackground
