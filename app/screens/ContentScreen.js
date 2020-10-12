@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
-import { ActivityIndicator } from 'react-native-paper';
-import QRScanner from '../components/QRComponents'
+import {ActivityIndicator} from 'react-native-paper';
+import QRScanner from '../components/QRComponents';
 
 /*
     Note from JP
@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ContentScreen({ route, navigation }) {
-  const [images, setImages] = useState([])
-  const [content, setContent] = useState(null)
-  const [isLoading, setLoading] = useState(true)
+export default function ContentScreen({route, navigation}) {
+  const [images, setImages] = useState([]);
+  const [content, setContent] = useState(null);
+  const [isLoading, setLoading] = useState(true);
   const token = useSelector((state) => state.userReducer.authToken);
-  const { contentId, type } = route.params;
+  const {contentId, type} = route.params;
   //assume we're passing a contentID?
   //so nothing here is finalised
   //database/API isn't set up for this yet
@@ -35,48 +35,60 @@ export default function ContentScreen({ route, navigation }) {
     async function contentScreenOnLoad() {
       //assuming the following, the first axios call gets a list of ids
       //we then set urls for images??
-      await axios.all([
-        axios.get(`${CONFIG.API_URL}content/${contentId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      ])
-        .then(axios.spread((resContent, resImages) => {
-          setImages(resImages.data)
-          setContent(resContent.data)
-        }))
+      await axios
+        .all([
+          axios.get(`${CONFIG.API_URL}content/${contentId}`, {
+            headers: {Authorization: `Bearer ${token}`},
+          }),
+          axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
+            headers: {Authorization: `Bearer ${token}`},
+          }),
+        ])
+        .then(
+          axios.spread((resContent, resImages) => {
+            setImages(resImages.data);
+            setContent(resContent.data);
+          }),
+        )
         .catch((res) => {
           console.log('why though? ' + res);
         })
         .finally(() => {
-          setLoading(false)
-        })
+          setLoading(false);
+        });
       //we'll just take the first element for testing purposes
     }
     contentScreenOnLoad();
   }, []);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      { isLoading ? <ActivityIndicator /> : (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
         <>
-          <Text>{type} name: {content.name}</Text>
-          <Text>{type} description: {content.description}</Text>
-          <Text>{type} ratings: {content.socialRating}, {content.economicRating}, {content.environmentalRating}</Text>
+          <Text>
+            {type} name: {content.name}
+          </Text>
+          <Text>
+            {type} description: {content.description}
+          </Text>
+          <Text>
+            {type} ratings: {content.socialRating}, {content.economicRating},{' '}
+            {content.environmentalRating}
+          </Text>
           <Text>Image Gallery y'all</Text>
-          <QRScanner/>
+          <QRScanner />
           <FlatList
             data={images}
             keyExtractor={(item, index) => item.resourceId}
-            extraData={{ images }}
-            renderItem={({ item }) => {
+            extraData={{images}}
+            renderItem={({item}) => {
               return (
                 <Image
                   source={{
                     uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: {Authorization: `Bearer ${token}`},
                   }}
                   style={styles.test}
                 />
