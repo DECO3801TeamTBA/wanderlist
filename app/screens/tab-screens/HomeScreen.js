@@ -13,14 +13,13 @@ import CONFIG from '../../config';
 import axios from 'axios';
 import DestinationCard from '../DestinationCard';
 
-
 const window = Dimensions.get('window');
 
 export default function HomeScreen({navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
   const [cities, setCities] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     //gather cities
     async function onHomeLoad() {
@@ -44,9 +43,7 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>
-        Discovery
-      </Text>
+      <Text style={styles.heading}>Discovery</Text>
 
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -57,16 +54,15 @@ export default function HomeScreen({navigation}) {
           extraData={{cities}}
           renderItem={({item}) => {
             return (
-          
-              <DestinationCard 
-                    detail={item} 
-                    location={item.name} 
-                    source={{
-                      uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                      headers: {Authorization: `Bearer ${token}`}
-                    }}
-                    navigation = {navigation}
-                  />
+              <DestinationCard
+                detail={item}
+                location={item.name}
+                source={{
+                  uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                  headers: {Authorization: `Bearer ${token}`},
+                }}
+                navigation={navigation}
+              />
             );
           }}
         />
@@ -85,5 +81,4 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 20,
   },
-  
 });

@@ -53,9 +53,9 @@ export function SidebarScreen(props) {
       <Drawer.Section style={styles.bottomSection}>
         <DrawerItem
           icon={({color, size}) => (
-            <Icon name="log-in" color={color} size={size} />
+            <Icon name="log-out" color={color} size={size} />
           )}
-          label="Log In"
+          label="Log Out"
           onPress={() => {
             props.navigation.navigate('Login');
           }}

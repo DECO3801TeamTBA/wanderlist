@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import RewardsScreen from '../tab-screens/RewardsScreen';
+import RewardsScreen from '../RewardsScreen';
 
 const RewardsStack = createStackNavigator();
 

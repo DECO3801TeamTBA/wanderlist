@@ -7,17 +7,16 @@ import {
   Pressable,
   ImageBackground,
   ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
+import YouTube from 'react-native-youtube';
 
-const styles = StyleSheet.create({
-  cityBackground: {
-    height: 150,
-    width: 350,
-  },
-});
+const window = Dimensions.get('window');
 
 export default function CityScreen({route, navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -52,65 +51,241 @@ export default function CityScreen({route, navigation}) {
 
   /* this styling is completely placeholder and only for testing page logic */
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View>
+      <YouTube
+        apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"
+        videoId="eW7Twd85m2g" // The YouTube video ID
+        play={false}
+        style={styles.videoPlayer}
+      />
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <>
+          <View>
+            <Text style={styles.heading}>Activities</Text>
+          </View>
           <FlatList
             data={activities}
             keyExtractor={(item, index) => item.id}
             extraData={{activities}}
             renderItem={({item}) => {
               return (
-                <ImageBackground
-                  source={{
-                    uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                    headers: {Authorization: `Bearer ${token}`},
-                  }}
-                  style={styles.cityBackground}
-                  resizeMode="cover">
-                  <Pressable
-                    onPress={() => {
-                      navigation.navigate('Content', {
-                        contentId: item.id,
-                        type: 'Activity',
-                      });
-                    }}>
-                    <Text>{item.name}</Text>
-                  </Pressable>
-                </ImageBackground>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.scrollView}>
+                  <View>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                </ScrollView>
+                // <ImageBackground
+                //   source={{
+                //     uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                //     headers: {Authorization: `Bearer ${token}`},
+                //   }}
+                //   style={styles.cityBackground}
+                //   resizeMode="cover">
+                //   <Pressable
+                //     onPress={() => {
+                //       navigation.navigate('Content', {
+                //         contentId: item.id,
+                //         type: 'Activity',
+                //       });
+                //     }}>
+                //     <Text>{item.name}</Text>
+                //   </Pressable>
+                // </ImageBackground>
               );
             }}
           />
-          <FlatList
-            data={destinations}
-            keyExtractor={(item, index) => item.id}
-            extraData={{destinations}}
-            renderItem={({item}) => {
-              return (
-                <ImageBackground
-                  source={{
-                    uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                    headers: {Authorization: `Bearer ${token}`},
-                  }}
-                  style={styles.cityBackground}
-                  resizeMode="cover">
-                  <Pressable
-                    onPress={() => {
-                      navigation.navigate('Content', {
-                        contentId: item.id,
-                        type: 'Destination',
-                      });
-                    }}>
-                    <Text>{item.name}</Text>
-                  </Pressable>
-                </ImageBackground>
-              );
-            }}
-          />
+          <View>
+            <Text style={styles.heading}>Destinations</Text>
+          </View>
+          {/*<FlatList*/}
+          {/*  data={destinations}*/}
+          {/*  keyExtractor={(item, index) => item.id}*/}
+          {/*  extraData={{destinations}}*/}
+          {/*  renderItem={({item}) => {*/}
+          {/*    return (*/}
+          {/*      <ScrollView*/}
+          {/*        horizontal={true}*/}
+          {/*        showsHorizontalScrollIndicator={false}*/}
+          {/*        style={styles.scrollView}>*/}
+          {/*        <View>*/}
+          {/*          <Image*/}
+          {/*            style={styles.swipeImage}*/}
+          {/*            source={{*/}
+          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*              headers: {Authorization: `Bearer ${token}`},*/}
+          {/*            }}*/}
+          {/*          />*/}
+          {/*        </View>*/}
+          {/*        <View style={styles.swipeItem}>*/}
+          {/*          <Image*/}
+          {/*            style={styles.swipeImage}*/}
+          {/*            source={{*/}
+          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*              headers: {Authorization: `Bearer ${token}`},*/}
+          {/*            }}*/}
+          {/*          />*/}
+          {/*        </View>*/}
+          {/*        <View style={styles.swipeItem}>*/}
+          {/*          <Image*/}
+          {/*            style={styles.swipeImage}*/}
+          {/*            source={{*/}
+          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*              headers: {Authorization: `Bearer ${token}`},*/}
+          {/*            }}*/}
+          {/*          />*/}
+          {/*        </View>*/}
+          {/*        <View style={styles.swipeItem}>*/}
+          {/*          <Image*/}
+          {/*            style={styles.swipeImage}*/}
+          {/*            source={{*/}
+          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*              headers: {Authorization: `Bearer ${token}`},*/}
+          {/*            }}*/}
+          {/*          />*/}
+          {/*        </View>*/}
+          {/*        <View style={styles.swipeItem}>*/}
+          {/*          <Image*/}
+          {/*            style={styles.swipeImage}*/}
+          {/*            source={{*/}
+          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*              headers: {Authorization: `Bearer ${token}`},*/}
+          {/*            }}*/}
+          {/*          />*/}
+          {/*        </View>*/}
+          {/*      </ScrollView>*/}
+          {/*    );*/}
+          {/*  }}*/}
+          {/*/>*/}
+          {/*<FlatList*/}
+          {/*  data={activities}*/}
+          {/*  keyExtractor={(item, index) => item.id}*/}
+          {/*  extraData={{activities}}*/}
+          {/*  renderItem={({item}) => {*/}
+          {/*    return (*/}
+          {/*      <ImageBackground*/}
+          {/*        source={{*/}
+          {/*          uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*          headers: {Authorization: `Bearer ${token}`},*/}
+          {/*        }}*/}
+          {/*        style={styles.cityBackground}*/}
+          {/*        resizeMode="cover">*/}
+          {/*        <Pressable*/}
+          {/*          onPress={() => {*/}
+          {/*            navigation.navigate('Content', {*/}
+          {/*              contentId: item.id,*/}
+          {/*              type: 'Activity',*/}
+          {/*            });*/}
+          {/*          }}>*/}
+          {/*          <Text>{item.name}</Text>*/}
+          {/*        </Pressable>*/}
+          {/*      </ImageBackground>*/}
+          {/*    );*/}
+          {/*  }}*/}
+          {/*/>*/}
+          {/*<FlatList*/}
+          {/*  data={destinations}*/}
+          {/*  keyExtractor={(item, index) => item.id}*/}
+          {/*  extraData={{activities}}*/}
+          {/*  renderItem={({item}) => {*/}
+          {/*    return (*/}
+          {/*      <ImageBackground*/}
+          {/*        source={{*/}
+          {/*          uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
+          {/*          headers: {Authorization: `Bearer ${token}`},*/}
+          {/*        }}*/}
+          {/*        style={styles.cityBackground}*/}
+          {/*        resizeMode="cover">*/}
+          {/*        <Pressable*/}
+          {/*          onPress={() => {*/}
+          {/*            navigation.navigate('Content', {*/}
+          {/*              contentId: item.id,*/}
+          {/*              type: 'Destination',*/}
+          {/*            });*/}
+          {/*          }}>*/}
+          {/*          <Text>{item.name}</Text>*/}
+          {/*        </Pressable>*/}
+          {/*      </ImageBackground>*/}
+          {/*    );*/}
+          {/*  }}*/}
+          {/*/>*/}
         </>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  videoPlayer: {
+    alignSelf: 'stretch',
+    height: 300,
+  },
+  cityBackground: {
+    height: 150,
+    width: window.width,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingLeft: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  scrollView: {
+    paddingLeft: 15,
+  },
+  swipeItem: {
+    marginLeft: 10,
+  },
+  swipeImage: {
+    height: 100,
+    width: 120,
+    borderRadius: 5,
+  },
+});
