@@ -1,9 +1,13 @@
-import React, {Component} from 'react';
-import {View, Text, FlatList, Button, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {ListItem, SearchBar} from 'react-native-elements';
+import { ListItem, SearchBar, Avatar } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { setUser, setToken, setExpiry } from '../actions/user';
+import axios from 'axios';
+import CONFIG from '../config';
 
-export default class SearchScreen extends Component {
+export class SearchScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -21,17 +25,41 @@ export default class SearchScreen extends Component {
   }
 
   getData = async () => {
-    const url = 'https://jsonplaceholder.typicode.com/users';
-    this.setState({loading: true});
-
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      this.setResult(json);
-    } catch (e) {
-      this.setState({error: 'Error Loading content', loading: false});
-    }
-  };
+    //gather all kinds of data from server: Cities, Activities and Destinations 
+    this.setState({ loading: true });
+    await axios.all([
+      axios.get(`${CONFIG.API_URL}activity/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      }),
+      axios.get(`${CONFIG.API_URL}city/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      }),
+      axios.get(`${CONFIG.API_URL}destination/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      })
+    ])
+      .then(axios.spread((resActivity, resCity, resDestination) => {
+        //gather results
+        const activities = resActivity.data
+        const destinations = resDestination.data
+        const cities = resCity.data
+        //transform and combine
+        const res = activities.map((a) => {
+          return { name: a.name, coverImage: a.coverImage.resourceId, dataType: "Activity", id: a.id }
+        })
+          .concat(destinations.map((d) => {
+            return { name: d.name, coverImage: d.coverImage.resourceId, dataType: "Destination", id: d.id }
+          }))
+          .concat(cities.map((c) => {
+            return { name: c.name, coverImage: c.coverImage.resourceId, dataType: "City", id: c.cityId }
+          }))
+        this.setResult(res);
+      }))
+      .catch((res) => {
+        console.log(res)
+        this.setState({ error: 'Error Loading content', loading: false });
+      })
+  }
 
   setResult = (res) => {
     this.setState({
@@ -56,7 +84,7 @@ export default class SearchScreen extends Component {
   };
 
   updateSearch = (search) => {
-    this.setState({search}, () => {
+    this.setState({ search }, () => {
       if (search === '') {
         this.setState({
           data: [...this.state.temp],
@@ -66,11 +94,11 @@ export default class SearchScreen extends Component {
 
       this.state.data = this.state.temp
         .filter(function (item) {
-          return item.name.includes(search);
+          return ((item.name).toUpperCase()).includes(search.toUpperCase());
         })
-        .map(function ({name}) {
-          return {name};
-        });
+      //.map(function ({ name }) {
+      //  return { name };
+      // });
     });
   };
 
@@ -86,21 +114,40 @@ export default class SearchScreen extends Component {
         />
       </View>
     ) : (
-      <Animatable.View animation={'fadeInDown'}>
-        <FlatList
-          ListHeaderComponent={this.renderHeader}
-          data={this.state.data}
-          keyExtractor={(item) => item.name}
-          renderItem={({item}) => (
-            <ListItem>
-              <ListItem.Content>
-                <ListItem.Title>{`${item.name}`}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          )}
-        />
-      </Animatable.View>
-    );
+        <Animatable.View animation={'fadeInDown'}>
+          <FlatList
+            ListHeaderComponent={this.renderHeader}
+            data={this.state.data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ListItem
+                onPress={() => {
+                  if (item.dataType == "City") {
+                    this.props.navigation.replace('City', {
+                      cityId: item.id
+                    })
+                  } else {
+                    this.props.navigation.replace('Content',
+                      {
+                        contentId: item.id,
+                        type: item.dataType
+                      })
+                  }
+                }}>
+                <Avatar title={item.name} source={{
+                  uri: `${CONFIG.API_URL}resource/${item.coverImage}`,
+                  headers: { Authorization: `Bearer ${this.props.token}` }
+                }}
+                />
+                <ListItem.Content>
+                  <ListItem.Title>{`${item.name}`}</ListItem.Title>
+                  <ListItem.Subtitle>{`${item.dataType}`}</ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            )}
+          />
+        </Animatable.View>
+      );
   }
 }
 
@@ -112,3 +159,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    token: state.userReducer.authToken
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attachUser: (user) => dispatch(setUser(user)),
+    attachToken: (authToken) => dispatch(setToken(authToken)),
+    attachExpiry: (expiry) => dispatch(setExpiry(expiry)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);
