@@ -58,7 +58,7 @@ export default function App() {
           />
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="City" component={CityScreen} />
-          <Stack.Screen name="Content" component={ContentScreen}/>
+          <Stack.Screen name="Content" component={ContentScreen} />
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
