@@ -1,81 +1,75 @@
 // SignUp.js
-import React from 'react'
+import React from 'react';
 import axios from 'axios';
 import CONFIG from '../config';
 
-import {
-  View,
-  Button,
-  Text,
-  TextInput,
-  StyleSheet
-} from 'react-native'
+import {View, Button, Text, TextInput, StyleSheet} from 'react-native';
 
 export default class SignUp extends React.Component {
   state = {
-    username: '', password: '', email: '', phone_number: ''
-  }
+    username: '',
+    password: '',
+    email: '',
+    phone_number: '',
+  };
   onChangeText = (key, val) => {
-    this.setState({ [key]: val })
-  }
+    this.setState({[key]: val});
+  };
   signUp = async () => {
-    const { username, password, email, phone_number } = this.state
+    const {username, password, email, phone_number} = this.state;
     try {
       // here place  signup logic
-      axios.post(CONFIG.API_URL + `/Authenticate/register`, { username, email, password })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })      
-      console.log('user successfully signed up!: ', success)
+      axios
+        .post(CONFIG.API_URL + '/Authenticate/register', {
+          username,
+          email,
+          password,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+        });
+      console.log('user successfully signed up!: ', success);
     } catch (err) {
-      console.log('error signing up: ', err)
+      console.log('error signing up: ', err);
     }
-  }
- 
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder='Username'
+          placeholder="Username"
           autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('username', val)}
+          placeholderTextColor="white"
+          onChangeText={(val) => this.onChangeText('username', val)}
         />
         <TextInput
           style={styles.input}
-          placeholder='Password'
+          placeholder="Password"
           secureTextEntry={true}
           autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          placeholderTextColor="white"
+          onChangeText={(val) => this.onChangeText('password', val)}
         />
         <TextInput
           style={styles.input}
-          placeholder='Email'
+          placeholder="Email"
           autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('email', val)}
+          placeholderTextColor="white"
+          onChangeText={(val) => this.onChangeText('email', val)}
         />
         <TextInput
           style={styles.input}
-          placeholder='Phone Number'
+          placeholder="Phone Number"
           autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('phone_number', val)}
+          placeholderTextColor="white"
+          onChangeText={(val) => this.onChangeText('phone_number', val)}
         />
-        <Button
-          title='Sign Up'
-          onPress={
-            this.signUp
-           
-
-
-          }
-        />
+        <Button title="Sign Up" onPress={this.signUp} />
       </View>
-    )
+    );
   }
 }
 
@@ -94,6 +88,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
