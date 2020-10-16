@@ -66,9 +66,9 @@ const StarReview = ({rate}) => {
   }
 
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={styles.starComponent}>
       {starComponents}
-      <Text style={{marginLeft: 5, color: '#666666'}}>{rate}</Text>
+      <Text style={styles.starRating}>{rate}</Text>
     </View>
   );
 };
@@ -150,7 +150,7 @@ export default function ContentScreen({route, navigation}) {
                     <TouchableOpacity
                       style={styles.collectButton}
                       onPress={() => {
-                        // TODO: Add to collection
+                        // TODO: Add to collections
                       }}>
                       <Icon name="heart" color="#fff" size={24} />
                     </TouchableOpacity>
@@ -159,21 +159,28 @@ export default function ContentScreen({route, navigation}) {
               }}
             />
           </View>
-          <View
-            style={[
-              {
-                borderRadius: 15,
-                padding: 100,
-                backgroundColor: '#fff',
-              },
-              styles.shadow,
-            ]}>
+          <View style={styles.ratings}>
             <Text>
               {/*{type} ratings: {content.socialRating}, {content.economicRating},{' '}*/}
               {/*{content.environmentalRating}*/}
-              <StarReview rate={content.socialRating} />
-              <StarReview rate={content.economicRating} />
-              <StarReview rate={content.environmentalRating} />
+              <View style={styles.ratingRow}>
+                <Text>Social Rating</Text>
+                <View style={{marginLeft: 80}}>
+                  <StarReview rate={content.socialRating} />
+                </View>
+              </View>
+              <View style={styles.ratingRow}>
+                <Text>Economic Rating</Text>
+                <View style={{marginLeft: 55}}>
+                  <StarReview rate={content.economicRating} />
+                </View>
+              </View>
+              <View style={styles.ratingRow}>
+                <Text>Environmental Rating</Text>
+                <View style={{marginLeft: 27}}>
+                  <StarReview rate={content.environmentalRating} />
+                </View>
+              </View>
             </Text>
           </View>
 
@@ -229,5 +236,24 @@ const styles = StyleSheet.create({
   star: {
     width: 20,
     height: 20,
+  },
+  starComponent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  starRating: {
+    marginLeft: 5,
+    color: '#666666',
+  },
+  ratings: {
+    borderRadius: 15,
+    margin: 20,
+    paddingTop: 20,
+    paddingBottom: 15,
+    paddingLeft: 30,
+    backgroundColor: '#fff',
+  },
+  ratingRow: {
+    flexDirection: 'row',
   },
 });
