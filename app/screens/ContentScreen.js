@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Pressable,
+  Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
@@ -23,6 +24,54 @@ import Icon from 'react-native-vector-icons/Ionicons';
     also it doesn't represent final screen logic, just some of the pieces
     needed for functionality
 */
+
+const StarReview = ({rate}) => {
+  let i;
+  const starComponents = [];
+  const fullStar = Math.floor(rate);
+  const noStar = Math.floor(5 - rate);
+  const halfStar = 5 - fullStar - noStar;
+
+  for (i = 0; i < fullStar; i++) {
+    starComponents.push(
+      <Image
+        key={`full-${i}`}
+        source={require('../../assets/star_full.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  for (i = 0; i < halfStar; i++) {
+    starComponents.push(
+      <Image
+        key={`half-${i}`}
+        source={require('../../assets/star_half.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  for (i = 0; i < noStar; i++) {
+    starComponents.push(
+      <Image
+        key={`empty-${i}`}
+        source={require('../../assets/star_empty.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  return (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      {starComponents}
+      <Text style={{marginLeft: 5, color: '#666666'}}>{rate}</Text>
+    </View>
+  );
+};
 
 export default function ContentScreen({route, navigation}) {
   const [images, setImages] = useState([]);
@@ -110,10 +159,24 @@ export default function ContentScreen({route, navigation}) {
               }}
             />
           </View>
-          <Text>
-            {type} ratings: {content.socialRating}, {content.economicRating},{' '}
-            {content.environmentalRating}
-          </Text>
+          <View
+            style={[
+              {
+                borderRadius: 15,
+                padding: 100,
+                backgroundColor: '#fff',
+              },
+              styles.shadow,
+            ]}>
+            <Text>
+              {/*{type} ratings: {content.socialRating}, {content.economicRating},{' '}*/}
+              {/*{content.environmentalRating}*/}
+              <StarReview rate={content.socialRating} />
+              <StarReview rate={content.economicRating} />
+              <StarReview rate={content.environmentalRating} />
+            </Text>
+          </View>
+
           <QRScanner />
         </>
       )}
@@ -162,5 +225,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 40,
     backgroundColor: '#f44336',
+  },
+  star: {
+    width: 20,
+    height: 20,
   },
 });
