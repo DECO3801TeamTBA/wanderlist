@@ -36,11 +36,8 @@ export default function ProfileScreen({navigation}) {
                     </View>     
                 </View>
 
-                
-
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>ICON</Text>
                         <Text style={[styles.text, styles.subText]}>Ranking</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>

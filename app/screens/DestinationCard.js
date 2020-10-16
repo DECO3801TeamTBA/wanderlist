@@ -6,8 +6,6 @@ import { Text, Card, Divider } from 'react-native-elements';
 export default class DestinationCard extends Component {
 
 	render() {
-		
-
 		return (
 			<View style={{ paddingHorizontal: 15, paddingTop: 20}}> 
                 <TouchableOpacity onPress={() => {

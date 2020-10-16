@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Platform,
   TouchableWithoutFeedback,
+  Image,
   Button
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -40,22 +41,70 @@ export class WanderScreen extends React.Component {
   }
 
   componentDidMount() {
+    
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
+        var lists = []
+
         //expecting a list of cities
         // const shortlists = res.data;
+        lists = res.data.map((r) => {
+          return {id:r.shortlistId, listName:r.listName, coverImage:"1"}
+        })
+        
+          
 
-        this.setState({ shortlists: res.data })
-        console.log(res.data)
+        for (let index = 0; index < lists.length; index++) {
+          axios.get(`${CONFIG.API_URL}Shortlist/${lists[index].id}/Content`,
+          { headers: { "Authorization": `Bearer ${this.props.token}` } })
+          .then((result) => {
+            lists[index].coverImage = result.data[0].coverImage.resourceId
+
+            this.setState({ shortlists: lists })
+
+
+          })
+          .catch((result) => {
+            console.log(test)
+          })
+          // console.log(lists)
+    
+        }
+        
+
+
+        // console.log(this.state)
+
+
+
+        
+        
+        // this.setState({ shortlists: lists })
+        console.log(this.state.shortlists)
+
+        // this.setState({ shortlists: res.data })
       })
       .catch((res) => {
         console.log('Wander failed cause: ' + res)
       })
       .finally(() => {
+        
+        // this.setState({ shortlists: lists })
         this.setState({ isLoading: false })
+        // this.setState({ isLoading: false })
       })
+
+
+    
+
+
+      
   }
+
+  
+
+  
 
   render() {
 
@@ -91,20 +140,6 @@ export class WanderScreen extends React.Component {
         </View>
 
         <FlatList
-          // data={this.state.dataSource}
-          // // ItemSeparatorComponent={this.ListViewItemSeparator}
-          // //Item Separator View
-          // renderItem={({ item }) => (
-          //   // Single Comes here which will be repeatative for the FlatListItems
-          //   <View style={styles.card}>
-
-          //     <Text style={styles.textStyle}>{item.title}</Text>
-          //   </View>
-
-          // )}
-          // enableEmptySections={true}
-          // style={{ marginTop: 10 }}
-          // keyExtractor={(item, index) => index.toString()}
           data={this.state.shortlists}
           renderItem={({ item }) => {
             return (
@@ -112,9 +147,14 @@ export class WanderScreen extends React.Component {
 
               <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                 <View style={styles.card}>
-
-                  <Text style={styles.textStyle}>{item.listName}</Text>
-                </View>
+                  <Image style={styles.cover} source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage}`,
+                        headers: {Authorization: `Bearer ${this.props.token}`},
+                      }} ></Image>
+                  <Text style={styles.titleStyle}>{item.listName}</Text>
+                  
+                    
+                  </View>
 
               </TouchableWithoutFeedback>
 
@@ -133,9 +173,9 @@ export class WanderScreen extends React.Component {
   }
 
   actionOnRow(item) {
-    console.log('Selected Item :', item);
+    console.log('Selected Item :', item.coverImage);
     this.props.navigation.navigate('List', {
-      shortlistId: item.shortlistId,
+      shortlistId: item.listName,
       otherParam: 'anything you want here',
     });
   }
@@ -155,14 +195,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     // marginTop: Platform.OS == 'ios' ? 30 : 0,
   },
-  textStyle: {
-    padding: 10,
+  titleStyle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 80,
+    left: 20,
+    right: 0,
+    bottom: 0,
   },
   card: {
+    borderRadius: 20,
+
     height: 200,
     marginVertical: 30,
     marginHorizontal: 20,
-    flexDirection: 'row',
     shadowColor: '#999',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
@@ -192,6 +239,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
     backgroundColor: '#fff',
+  },
+  cover: {
+    borderTopLeftRadius:20,
+    borderTopRightRadius: 20,
+    position: 'relative',
+    flex: 3,
+    marginHorizontal: 0,
+    marginBottom: 130,
   },
 });
 

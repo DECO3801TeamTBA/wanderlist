@@ -13,6 +13,9 @@ export default function ListScreen({ route, navigation}) {
     // </View>
 
     <View style={styles.viewStyle}>
+        <Text style={styles.bigBlack}>{shortlistId}</Text>
+
+        
         
         <View style={{height: 50}}>
         <SearchBar
@@ -25,6 +28,7 @@ export default function ListScreen({ route, navigation}) {
             // onClear={text => this.SearchFilterFunction('')}
             placeholder="Search Your Lists"
             // value={this.state.search}
+            
         />
         </View>
 
