@@ -25,59 +25,36 @@ export class SearchScreen extends Component {
   }
 
   getData = async () => {
-    //gather all kinds of data from server: Cities, Activities and Destinations
-    this.setState({loading: true});
-    await axios
-      .all([
-        axios.get(`${CONFIG.API_URL}activity/`, {
-          headers: {Authorization: `Bearer ${this.props.token}`},
-        }),
-        axios.get(`${CONFIG.API_URL}city/`, {
-          headers: {Authorization: `Bearer ${this.props.token}`},
-        }),
-        axios.get(`${CONFIG.API_URL}destination/`, {
-          headers: {Authorization: `Bearer ${this.props.token}`},
-        }),
-      ])
-      .then(
-        axios.spread((resActivity, resCity, resDestination) => {
-          //gather results
-          const activities = resActivity.data;
-          const destinations = resDestination.data;
-          const cities = resCity.data;
-          //transform and combine
-          const res = activities
-            .map((a) => {
-              return {
-                name: a.name,
-                coverImage: a.coverImage.resourceId,
-                dataType: 'Activity',
-                id: a.id,
-              };
-            })
-            .concat(
-              destinations.map((d) => {
-                return {
-                  name: d.name,
-                  coverImage: d.coverImage.resourceId,
-                  dataType: 'Destination',
-                  id: d.id,
-                };
-              }),
-            )
-            .concat(
-              cities.map((c) => {
-                return {
-                  name: c.name,
-                  coverImage: c.coverImage.resourceId,
-                  dataType: 'City',
-                  id: c.cityId,
-                };
-              }),
-            );
-          this.setResult(res);
-        }),
-      )
+    //gather all kinds of data from server: Cities, Activities and Destinations 
+    this.setState({ loading: true });
+    await axios.all([
+      axios.get(`${CONFIG.API_URL}activity/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      }),
+      axios.get(`${CONFIG.API_URL}city/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      }),
+      axios.get(`${CONFIG.API_URL}destination/`, {
+        headers: { Authorization: `Bearer ${this.props.token}` },
+      })
+    ])
+      .then(axios.spread((resActivity, resCity, resDestination) => {
+        //gather results
+        const activities = resActivity.data
+        const destinations = resDestination.data
+        const cities = resCity.data
+        //transform and combine
+        const res = activities.map((a) => {
+          return { name: a.name, coverImage: a.coverImage.resourceId, dataType: "Activity", id: a.activityId }
+        })
+          .concat(destinations.map((d) => {
+            return { name: d.name, coverImage: d.coverImage.resourceId, dataType: "Destination", id: d.destinationId }
+          }))
+          .concat(cities.map((c) => {
+            return { name: c.name, coverImage: c.coverImage.resourceId, dataType: "City", id: c.cityId }
+          }))
+        this.setResult(res);
+      }))
       .catch((res) => {
         console.log(res);
         this.setState({error: 'Error Loading content', loading: false});
