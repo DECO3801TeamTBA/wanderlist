@@ -8,6 +8,7 @@ import DrawerScreen from './DrawerScreen';
 import SearchScreen from './SearchScreen';
 import CityScreen from './CityScreen';
 import SignUpScreen from './SignUpScreen';
+import ContentScreen from './ContentScreen';
 
 const RootStack = createStackNavigator();
 
@@ -35,6 +36,11 @@ const RootStackScreen = () => (
     />
     <RootStack.Screen name="Search" component={SearchScreen} />
     <RootStack.Screen name="City" component={CityScreen} />
+    <RootStack.Screen
+      name="Content"
+      component={ContentScreen}
+      options={{headerShown: false}}
+    />
   </RootStack.Navigator>
 );
 
