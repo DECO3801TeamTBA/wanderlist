@@ -7,6 +7,8 @@ import LoginScreen from './LoginScreen';
 import DrawerScreen from './DrawerScreen';
 import SearchScreen from './SearchScreen';
 import CityScreen from './CityScreen';
+import SignUpScreen from './SignUpScreen';
+import ContentScreen from './ContentScreen';
 
 const RootStack = createStackNavigator();
 
@@ -23,12 +25,22 @@ const RootStackScreen = () => (
       options={{headerShown: false}}
     />
     <RootStack.Screen
+      name="SignUp"
+      component={SignUpScreen}
+      options={{headerShown: false}}
+    />
+    <RootStack.Screen
       name="Home"
       component={DrawerScreen}
       options={{headerShown: false}}
     />
     <RootStack.Screen name="Search" component={SearchScreen} />
     <RootStack.Screen name="City" component={CityScreen} />
+    <RootStack.Screen
+      name="Content"
+      component={ContentScreen}
+      options={{headerShown: false}}
+    />
   </RootStack.Navigator>
 );
 

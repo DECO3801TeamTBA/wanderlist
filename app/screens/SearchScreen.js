@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, FlatList, Button, StyleSheet} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { ListItem, SearchBar, Avatar } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { setUser, setToken, setExpiry } from '../actions/user';
+import {ListItem, SearchBar, Avatar} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {setUser, setToken, setExpiry} from '../actions/user';
 import axios from 'axios';
 import CONFIG from '../config';
 
@@ -56,10 +56,10 @@ export class SearchScreen extends Component {
         this.setResult(res);
       }))
       .catch((res) => {
-        console.log(res)
-        this.setState({ error: 'Error Loading content', loading: false });
-      })
-  }
+        console.log(res);
+        this.setState({error: 'Error Loading content', loading: false});
+      });
+  };
 
   setResult = (res) => {
     this.setState({
@@ -84,7 +84,7 @@ export class SearchScreen extends Component {
   };
 
   updateSearch = (search) => {
-    this.setState({ search }, () => {
+    this.setState({search}, () => {
       if (search === '') {
         this.setState({
           data: [...this.state.temp],
@@ -92,10 +92,9 @@ export class SearchScreen extends Component {
         return;
       }
 
-      this.state.data = this.state.temp
-        .filter(function (item) {
-          return ((item.name).toUpperCase()).includes(search.toUpperCase());
-        })
+      this.state.data = this.state.temp.filter(function (item) {
+        return item.name.toUpperCase().includes(search.toUpperCase());
+      });
       //.map(function ({ name }) {
       //  return { name };
       // });
@@ -114,40 +113,48 @@ export class SearchScreen extends Component {
         />
       </View>
     ) : (
-        <Animatable.View animation={'fadeInDown'}>
-          <FlatList
-            ListHeaderComponent={this.renderHeader}
-            data={this.state.data}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ListItem
-                onPress={() => {
-                  if (item.dataType == "City") {
-                    this.props.navigation.replace('City', {
-                      cityId: item.id
-                    })
-                  } else {
-                    this.props.navigation.replace('Content',
-                      {
-                        contentId: item.id,
-                        type: item.dataType
-                      })
-                  }
-                }}>
-                <Avatar title={item.name} source={{
+      <Animatable.View animation={'fadeInDown'}>
+        <FlatList
+          ListHeaderComponent={this.renderHeader}
+          data={this.state.data}
+          keyExtractor={(item) => item.id}
+          renderItem={({item}) => (
+            <ListItem
+              onPress={() => {
+                if (item.dataType == 'City') {
+                  // this.props.navigation.replace('City', {
+                  //   cityId: item.id,
+                  // });
+                  this.props.navigation.navigate('City', {
+                    cityId: item.id,
+                  });
+                } else {
+                  // this.props.navigation.replace('Content', {
+                  //   contentId: item.id,
+                  //   type: item.dataType,
+                  // });
+                  this.props.navigation.navigate('Content', {
+                    contentId: item.id,
+                    type: item.dataType,
+                  });
+                }
+              }}>
+              <Avatar
+                title={item.name}
+                source={{
                   uri: `${CONFIG.API_URL}resource/${item.coverImage}`,
-                  headers: { Authorization: `Bearer ${this.props.token}` }
+                  headers: {Authorization: `Bearer ${this.props.token}`},
                 }}
-                />
-                <ListItem.Content>
-                  <ListItem.Title>{`${item.name}`}</ListItem.Title>
-                  <ListItem.Subtitle>{`${item.dataType}`}</ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-            )}
-          />
-        </Animatable.View>
-      );
+              />
+              <ListItem.Content>
+                <ListItem.Title>{`${item.name}`}</ListItem.Title>
+                <ListItem.Subtitle>{`${item.dataType}`}</ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+      </Animatable.View>
+    );
   }
 }
 
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     user: state.userReducer.user,
-    token: state.userReducer.authToken
+    token: state.userReducer.authToken,
   };
 };
 

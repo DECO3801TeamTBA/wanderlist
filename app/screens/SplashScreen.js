@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 150,
   },
   footer: {
     flex: 1,
