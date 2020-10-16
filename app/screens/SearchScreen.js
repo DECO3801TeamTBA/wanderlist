@@ -45,10 +45,10 @@ export class SearchScreen extends Component {
         const cities = resCity.data
         //transform and combine
         const res = activities.map((a) => {
-          return { name: a.name, coverImage: a.coverImage.resourceId, dataType: "Activity", id: a.id }
+          return { name: a.name, coverImage: a.coverImage.resourceId, dataType: "Activity", id: a.activityId }
         })
           .concat(destinations.map((d) => {
-            return { name: d.name, coverImage: d.coverImage.resourceId, dataType: "Destination", id: d.id }
+            return { name: d.name, coverImage: d.coverImage.resourceId, dataType: "Destination", id: d.destinationId }
           }))
           .concat(cities.map((c) => {
             return { name: c.name, coverImage: c.coverImage.resourceId, dataType: "City", id: c.cityId }
