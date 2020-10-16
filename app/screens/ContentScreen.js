@@ -1,10 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ImageBackground,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
 import {ActivityIndicator} from 'react-native-paper';
 import QRScanner from '../components/QRComponents';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 /*
     Note from JP
@@ -14,13 +23,6 @@ import QRScanner from '../components/QRComponents';
     also it doesn't represent final screen logic, just some of the pieces
     needed for functionality
 */
-
-const styles = StyleSheet.create({
-  test: {
-    width: 100,
-    height: 100,
-  },
-});
 
 export default function ContentScreen({route, navigation}) {
   const [images, setImages] = useState([]);
@@ -62,41 +64,103 @@ export default function ContentScreen({route, navigation}) {
   }, []);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.container}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <>
-          <Text>
-            {type} name: {content.name}
-          </Text>
-          <Text>
-            {type} description: {content.description}
-          </Text>
+          <View style={styles.image}>
+            <FlatList
+              data={images}
+              keyExtractor={(item, index) => item.resourceId}
+              extraData={{images}}
+              renderItem={({item}) => {
+                return (
+                  <ImageBackground
+                    source={{
+                      uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
+                      headers: {Authorization: `Bearer ${token}`},
+                    }}
+                    style={styles.image}
+                    imageStyle={styles.imageStyle}>
+                    <Text style={styles.name}>
+                      {/*{type} name: {content.name}*/}
+                      {content.name}
+                    </Text>
+                    <Text style={styles.description}>
+                      {/*{type} description: {content.description}*/}
+                      {content.description}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.backButton}
+                      onPress={() => {
+                        navigation.navigate('Home');
+                      }}>
+                      <Icon name="chevron-back" color="#fff" size={24} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.collectButton}
+                      onPress={() => {
+                        // TODO: Add to collection
+                      }}>
+                      <Icon name="heart" color="#fff" size={24} />
+                    </TouchableOpacity>
+                  </ImageBackground>
+                );
+              }}
+            />
+          </View>
           <Text>
             {type} ratings: {content.socialRating}, {content.economicRating},{' '}
             {content.environmentalRating}
           </Text>
-          <Text>Image Gallery y'all</Text>
           <QRScanner />
-          <FlatList
-            data={images}
-            keyExtractor={(item, index) => item.resourceId}
-            extraData={{images}}
-            renderItem={({item}) => {
-              return (
-                <Image
-                  source={{
-                    uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
-                    headers: {Authorization: `Bearer ${token}`},
-                  }}
-                  style={styles.test}
-                />
-              );
-            }}
-          />
         </>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  image: {
+    height: 400,
+    justifyContent: 'flex-end',
+  },
+  imageStyle: {
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  name: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    paddingHorizontal: 20,
+    marginVertical: 5,
+  },
+  description: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    left: 20,
+    top: 50,
+    padding: 10,
+    borderRadius: 40,
+    backgroundColor: '#388e3c',
+  },
+  collectButton: {
+    position: 'absolute',
+    right: 20,
+    top: 50,
+    padding: 10,
+    borderRadius: 40,
+    backgroundColor: '#f44336',
+  },
+});
