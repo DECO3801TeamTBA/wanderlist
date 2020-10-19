@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
@@ -19,7 +19,7 @@ export default function HeatMap() {
       // places in brisbane and have the map situated so that we start
       // by viewing those places
       await axios
-        .get(`${CONFIG.API_URL}content`, {
+        .get(`${CONFIG.API_URL}mapview`, {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then((res) => {
@@ -28,10 +28,11 @@ export default function HeatMap() {
               return {
                 name: c.name,
                 description: c.description,
-                latlng: {latitude: c.lattitude, longitude: c.longitude},
+                latlng: {latitude: c.latitude, longitude: c.longitude},
+                capacity: c.capacity,
+                type: c.type
               };
-            })
-            .filter((m) => m.name == 'Uni tour' || m.name == 'Pub Crawl');
+            });
           setMarkers(tmpList);
         })
         .catch((res) => {
@@ -70,7 +71,9 @@ export default function HeatMap() {
             coordinate={marker.latlng}
             title={marker.name}
             description={marker.description}
-          />
+          >
+              <Text>{`type:${marker.type}, capacity: ${marker.capacity}`}</Text>
+          </Marker>
         ))}
       </MapView>
     </View>
