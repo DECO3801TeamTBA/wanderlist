@@ -144,65 +144,65 @@ export default function CityScreen({route, navigation}) {
           <View>
             <Text style={styles.heading}>Destinations</Text>
           </View>
-          {/*<FlatList*/}
-          {/*  data={destinations}*/}
-          {/*  keyExtractor={(item, index) => item.id}*/}
-          {/*  extraData={{destinations}}*/}
-          {/*  renderItem={({item}) => {*/}
-          {/*    return (*/}
-          {/*      <ScrollView*/}
-          {/*        horizontal={true}*/}
-          {/*        showsHorizontalScrollIndicator={false}*/}
-          {/*        style={styles.scrollView}>*/}
-          {/*        <View>*/}
-          {/*          <Image*/}
-          {/*            style={styles.swipeImage}*/}
-          {/*            source={{*/}
-          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
-          {/*              headers: {Authorization: `Bearer ${token}`},*/}
-          {/*            }}*/}
-          {/*          />*/}
-          {/*        </View>*/}
-          {/*        <View style={styles.swipeItem}>*/}
-          {/*          <Image*/}
-          {/*            style={styles.swipeImage}*/}
-          {/*            source={{*/}
-          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
-          {/*              headers: {Authorization: `Bearer ${token}`},*/}
-          {/*            }}*/}
-          {/*          />*/}
-          {/*        </View>*/}
-          {/*        <View style={styles.swipeItem}>*/}
-          {/*          <Image*/}
-          {/*            style={styles.swipeImage}*/}
-          {/*            source={{*/}
-          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
-          {/*              headers: {Authorization: `Bearer ${token}`},*/}
-          {/*            }}*/}
-          {/*          />*/}
-          {/*        </View>*/}
-          {/*        <View style={styles.swipeItem}>*/}
-          {/*          <Image*/}
-          {/*            style={styles.swipeImage}*/}
-          {/*            source={{*/}
-          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
-          {/*              headers: {Authorization: `Bearer ${token}`},*/}
-          {/*            }}*/}
-          {/*          />*/}
-          {/*        </View>*/}
-          {/*        <View style={styles.swipeItem}>*/}
-          {/*          <Image*/}
-          {/*            style={styles.swipeImage}*/}
-          {/*            source={{*/}
-          {/*              uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,*/}
-          {/*              headers: {Authorization: `Bearer ${token}`},*/}
-          {/*            }}*/}
-          {/*          />*/}
-          {/*        </View>*/}
-          {/*      </ScrollView>*/}
-          {/*    );*/}
-          {/*  }}*/}
-          {/*/>*/}
+          <FlatList
+            data={destinations}
+            keyExtractor={(item, index) => item.id}
+            extraData={{destinations}}
+            renderItem={({item}) => {
+              return (
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.scrollView}>
+                  <View>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                  <View style={styles.swipeItem}>
+                    <Image
+                      style={styles.swipeImage}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                    />
+                  </View>
+                </ScrollView>
+              );
+            }}
+          />
           {/*<FlatList*/}
           {/*  data={activities}*/}
           {/*  keyExtractor={(item, index) => item.id}*/}
