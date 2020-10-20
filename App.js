@@ -13,6 +13,10 @@ import SearchScreen from './app/screens/SearchScreen';
 import CityScreen from './app/screens/CityScreen';
 import ContentScreen from './app/screens/ContentScreen';
 
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['RCTBridge']);
+
 const Stack = createStackNavigator();
 
 export default function App() {
