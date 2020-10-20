@@ -60,7 +60,7 @@ export default function HomeScreen({navigation}) {
                 source={{
                   uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
                   headers: {Authorization: `Bearer ${token}`},
-                }} 
+                }}
                 navigation={navigation}
               />
             );

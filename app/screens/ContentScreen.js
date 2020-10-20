@@ -6,7 +6,6 @@ import {
   FlatList,
   ImageBackground,
   TouchableOpacity,
-  Pressable,
   Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';

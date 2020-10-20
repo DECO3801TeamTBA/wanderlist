@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
 import axios from 'axios';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
+
+const window = Dimensions.get('window');
 
 export default function HeatMap() {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -41,49 +43,6 @@ export default function HeatMap() {
     mapLoad();
   }, []);
 
-  const styles = StyleSheet.create({
-    container: {
-      ...StyleSheet.absoluteFillObject,
-      height: 400,
-      width: 400,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-    },
-    map: {
-      ...StyleSheet.absoluteFillObject,
-    },
-    name: {
-      fontSize: 16,
-      marginBottom: 5,
-    },
-    bubble: {
-      flexDirection: 'column',
-      alignSelf: 'flex-start',
-      backgroundColor: '#fff',
-      borderRadius: 10,
-      borderColor: '#ccc',
-      borderWidth: 0.5,
-      padding: 15,
-      width: 160,
-    },
-    arrowBorder: {
-      backgroundColor: 'transparent',
-      borderColor: 'transparent',
-      borderTopColor: '#fff',
-      borderWidth: 16,
-      alignSelf: 'center',
-      marginTop: -0.5,
-      marginBottom: -15,
-    },
-    arrow: {
-      backgroundColor: 'transparent',
-      borderColor: 'transparent',
-      borderTopColor: '#fff',
-      borderWidth: 16,
-      alignSelf: 'center',
-      marginTop: -32,
-    },
-  });
   return (
     <View style={styles.container}>
       <MapView
@@ -120,3 +79,47 @@ export default function HeatMap() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    height: window.height,
+    width: window.width,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  name: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  bubble: {
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    padding: 15,
+    width: 160,
+  },
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -0.5,
+    marginBottom: -15,
+  },
+  arrow: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -32,
+  },
+});
