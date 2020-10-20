@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
 import axios from 'axios';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 
 export default function HeatMap() {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -23,16 +23,15 @@ export default function HeatMap() {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then((res) => {
-          const tmpList = res.data
-            .map((c) => {
-              return {
-                name: c.name,
-                description: c.description,
-                latlng: {latitude: c.latitude, longitude: c.longitude},
-                capacity: c.capacity,
-                type: c.type
-              };
-            });
+          const tmpList = res.data.map((c) => {
+            return {
+              name: c.name,
+              description: c.description,
+              latlng: {latitude: c.latitude, longitude: c.longitude},
+              capacity: c.capacity,
+              type: c.type,
+            };
+          });
           setMarkers(tmpList);
         })
         .catch((res) => {
@@ -53,6 +52,37 @@ export default function HeatMap() {
     map: {
       ...StyleSheet.absoluteFillObject,
     },
+    name: {
+      fontSize: 16,
+      marginBottom: 5,
+    },
+    bubble: {
+      flexDirection: 'column',
+      alignSelf: 'flex-start',
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      borderColor: '#ccc',
+      borderWidth: 0.5,
+      padding: 15,
+      width: 160,
+    },
+    arrowBorder: {
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
+      borderTopColor: '#fff',
+      borderWidth: 16,
+      alignSelf: 'center',
+      marginTop: -0.5,
+      marginBottom: -15,
+    },
+    arrow: {
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
+      borderTopColor: '#fff',
+      borderWidth: 16,
+      alignSelf: 'center',
+      marginTop: -32,
+    },
   });
   return (
     <View style={styles.container}>
@@ -69,10 +99,21 @@ export default function HeatMap() {
           <Marker
             key={index}
             coordinate={marker.latlng}
+            image={require('../../assets/map_marker.png')}
             title={marker.name}
-            description={marker.description}
-          >
-              <Text>{`type:${marker.type}, capacity: ${marker.capacity}`}</Text>
+            description={marker.description}>
+            <Callout tooltip>
+              <View>
+                <View style={styles.bubble}>
+                  <Text
+                    style={
+                      styles.name
+                    }>{`type:${marker.type}, capacity: ${marker.capacity}`}</Text>
+                </View>
+                <View style={styles.arrowBorder} />
+                <View style={styles.arrow} />
+              </View>
+            </Callout>
           </Marker>
         ))}
       </MapView>
