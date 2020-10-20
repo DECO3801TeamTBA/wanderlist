@@ -32,11 +32,11 @@ export function SidebarScreen(props) {
           />
           <DrawerItem
             icon={({color, size}) => (
-              <Icon name="settings" color={color} size={size} />
+              <Icon name="map" color={color} size={size} />
             )}
-            label="Settings"
+            label="Map"
             onPress={() => {
-              props.navigation.navigate('Settings');
+              props.navigation.navigate('Map');
             }}
           />
           <DrawerItem

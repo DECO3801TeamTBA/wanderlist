@@ -5,10 +5,10 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {SidebarScreen} from './SidebarScreen';
 import MainTabScreen from './MainTabScreen';
 import LoginScreen from './LoginScreen';
-import SettingsScreen from './side-screens/SettingsScreen';
 import SupportScreen from './side-screens/SupportScreen';
 import SignupScreen from './SignUpScreen';
 import ListScreen from './ListScreen';
+import MapScreen from './side-screens/MapScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -17,7 +17,7 @@ export default function DrawerScreen() {
     <Drawer.Navigator drawerContent={(props) => <SidebarScreen {...props} />}>
       <Drawer.Screen name="Home" component={MainTabScreen} />
       <Drawer.Screen name="Login" component={LoginScreen} />
-      <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="Map" component={MapScreen} />
       <Drawer.Screen name="Support" component={SupportScreen} />
       <Drawer.Screen name="SignUp" component={SignupScreen} />
       <Drawer.Screen name="List" component={ListScreen} />
