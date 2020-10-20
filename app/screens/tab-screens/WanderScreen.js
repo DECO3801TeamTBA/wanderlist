@@ -4,118 +4,92 @@ import {
   View,
   StyleSheet,
   FlatList,
-  ActivityIndicator,
   Platform,
   TouchableWithoutFeedback,
   Image,
-  Button
+  TextInput,
+  Alert,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import CONFIG from '../../config';
-
-
-// export default function WanderScreen({navigation}) {
-//   return (
-//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-//       <Text>Wander Screen</Text>
-//       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
-//       <Button
-//         title="Rewards Screen"
-//         onPress={() => navigation.navigate('Rewards')}
-//       />
-//       <Button
-//         title="Profile Screen"
-//         onPress={() => navigation.navigate('Profile')}
-//       />
-//     </View>
-//   );
-// }
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Modal from 'react-native-modal';
 
 export class WanderScreen extends React.Component {
 
   state = {
     shortlists: [],
-    isLoading: true
+    isLoading: true,
+    isModalVisible: false,
+    userIcon: "",
+    newTextList: "123",
   }
-
+  
+// get data from server 
   componentDidMount() {
     
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
-        var lists = []
+       
+        this.setState({ shortlists: res.data })
 
-        //expecting a list of cities
-        // const shortlists = res.data;
-        lists = res.data.map((r) => {
-          return {id:r.shortlistId, listName:r.listName, coverImage:"1"}
-        })
-        
-          
-
-        for (let index = 0; index < lists.length; index++) {
-          axios.get(`${CONFIG.API_URL}Shortlist/${lists[index].id}/Content`,
-          { headers: { "Authorization": `Bearer ${this.props.token}` } })
-          .then((result) => {
-            lists[index].coverImage = result.data[0].coverImage.resourceId
-
-            this.setState({ shortlists: lists })
-
-
-          })
-          .catch((result) => {
-            console.log(test)
-          })
-          // console.log(lists)
-    
-        }
-        
-
-
-        // console.log(this.state)
-
-
-
-        
-        
-        // this.setState({ shortlists: lists })
-        console.log(this.state.shortlists)
-
-        // this.setState({ shortlists: res.data })
       })
       .catch((res) => {
         console.log('Wander failed cause: ' + res)
       })
       .finally(() => {
         
-        // this.setState({ shortlists: lists })
         this.setState({ isLoading: false })
-        // this.setState({ isLoading: false })
       })
 
-
-    
-
-
+      Icon.getImageSource('user', 20, 'red').then(source =>
+        this.setState({ userIcon: "../../../assets/logo.png" })
+      );
       
   }
 
-  
+  componentDidUpdate() {
+
+  }
+
+  addNewList = () => {
+
+
+    axios.post(`${CONFIG.API_URL}Shortlist/${this.props.user.id}`, { listName: this.state.newTextList },
+      { headers: { "Authorization": `Bearer ${this.props.token}` }})
+      .then((res) => {
+       
+        console.log(res.data);
+
+      })
+      .catch((res) => {
+        console.log('Wander failed cause: ' + res)
+      })
+      .finally(() => {
+        
+        this.setState({ isLoading: false })
+      })
+
+
+
+    alert("Your List is created");
+    this.setState({ isModalVisible: !this.state.isModalVisible })
+  }
+
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible })
+  };
 
   
 
   render() {
-
     return (
-      //ListView to show with textinput used as search bar
-
+      //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
-        {/* <View style={styles.searchStyle}>
-
-        
-        </View> */}
+       
         <View style={{ height: 50 }}>
           <SearchBar
             showLoading={false}
@@ -123,10 +97,7 @@ export class WanderScreen extends React.Component {
             clearIcon={true}
             round
             searchIcon={{ size: 20 }}
-            // onChangeText={text => this.SearchFilterFunction(text)}
-            // onClear={text => this.SearchFilterFunction('')}
             placeholder="Search Your Lists"
-          // value={this.state.search}
           />
         </View>
 
@@ -134,11 +105,51 @@ export class WanderScreen extends React.Component {
 
           <Text style={styles.bigBlack}>
             Your Lists
-          </Text>
+            
+            <View style={{alignSelf: "center"}}>
+               <Icon.Button
+                name="plus"
+                backgroundColor="#fff"
+                color="#000000"
+                onPress={this.toggleModal}
+              >
+              </Icon.Button>       
+            </View>
+            <Modal isVisible={this.state.isModalVisible}    >
 
+                <View style={{flex: 1, alignSelf: "center",}}>
+                  <View style={styles.card}>
+                    <Text style={styles.bigBlack}>New List</Text>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="Enter name of new list!"
+                      placeholderTextColor="#4d4d4d"
+                      onChangeText={(text) => this.setState({newTextList: text})}
+                    />
+                    <Icon.Button  
+                      onPress={this.addNewList}
+                      backgroundColor="#fff"
+                      color="#008000" 
+                    >Create</Icon.Button>
+                    <Icon.Button 
+                      style={{fontStyle: "bold", }} 
+                      onPress={this.toggleModal}
+                      backgroundColor="#fff"
+                      color="#008000"
+                      size={30}
+                    >Cancel</Icon.Button>
+
+                  </View>
+                  
+                </View>
+            </Modal>
+            
+          </Text>
+          
+          
 
         </View>
-
+        
         <FlatList
           data={this.state.shortlists}
           renderItem={({ item }) => {
@@ -148,11 +159,11 @@ export class WanderScreen extends React.Component {
               <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                 <View style={styles.card}>
                   <Image style={styles.cover} source={{
-                        uri: `${CONFIG.API_URL}resource/${item.coverImage}`,
+                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
                         headers: {Authorization: `Bearer ${this.props.token}`},
                       }} ></Image>
                   <Text style={styles.titleStyle}>{item.listName}</Text>
-                  
+                      
                     
                   </View>
 
@@ -164,9 +175,6 @@ export class WanderScreen extends React.Component {
           keyExtractor={(item, index) => index.toString()}
 
         />
-        {/* <ul>
-            { this.state.shortlists.map(shortlist => <li>{shortlist.title}</li>)}
-          </ul> */}
 
       </View>
     );
@@ -175,7 +183,9 @@ export class WanderScreen extends React.Component {
   actionOnRow(item) {
     console.log('Selected Item :', item.coverImage);
     this.props.navigation.navigate('List', {
-      shortlistId: item.listName,
+      listName: item.listName,
+      shortlistId: item.shortlistId,
+      token: this.props.token,
       otherParam: 'anything you want here',
     });
   }
@@ -185,15 +195,12 @@ const styles = StyleSheet.create({
   viewStyle: {
     justifyContent: 'center',
     flex: 1,
-
     backgroundColor: 'white',
-    // marginTop: Platform.OS == 'ios' ? 30 : 0,
   },
   searchStyle: {
     justifyContent: 'center',
     flex: 2,
     backgroundColor: 'white',
-    // marginTop: Platform.OS == 'ios' ? 30 : 0,
   },
   titleStyle: {
     fontSize: 22,
@@ -208,7 +215,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 
     height: 200,
-    marginVertical: 30,
+    marginVertical: 15,
     marginHorizontal: 20,
     shadowColor: '#999',
     shadowOffset: { width: 0, height: 1 },
@@ -248,11 +255,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     marginBottom: 130,
   },
+  inputText: {
+    marginTop: Platform.OS === 'ios' ? 0 : -10,
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    marginLeft: 20,
+    marginRight: 20,
+
+  },
 });
 
 
 
-
+// get user auth
 const mapStateToProps = (state) => {
 
   return {
