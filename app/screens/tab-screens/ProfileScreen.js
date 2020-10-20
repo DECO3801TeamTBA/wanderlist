@@ -1,27 +1,14 @@
-// import React from 'react';
-// import {Button, StyleSheet, Text, View} from 'react-native';
 
-// export default function ProfileScreen({navigation}) {
-//   return (
-//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-//       <Text>Profile Screen</Text>
-//       <Button title="Home Screen" onPress={() => navigation.navigate('Home')} />
-//       <Button
-//         title="Wander Screen"
-//         onPress={() => navigation.navigate('Wander')}
-//       />
-//       <Button
-//         title="Rewards Screen"
-//         onPress={() => navigation.navigate('Rewards')}
-//       />
-//     </View>
-//   );
-// }
-
+import {useSelector} from 'react-redux';
+import {userReducer} from '../../reducers/userReducer';
+import CONFIG from '../../config';
+import axios from 'axios';
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Pressable } from "react-native";
+
 
 export default function ProfileScreen({navigation}) {
+    const user = useSelector((state) => state.userReducer.user);
     return (
         <SafeAreaView style={styles.container}>
                 
@@ -31,7 +18,7 @@ export default function ProfileScreen({navigation}) {
                         
                     </View>
                     <View style={styles.infoContainer}>
-                            <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>Thanh</Text>
+    <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>{user.firstName}</Text>
                             <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip</Text>
                     </View>     
                 </View>
@@ -41,14 +28,17 @@ export default function ProfileScreen({navigation}) {
                         <Text style={[styles.text, styles.subText]}>Ranking</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>ICON</Text>
+                        <Pressable
+                        onPress={() => {
+                            navigation.navigate('Rewards')
+                        }}><Text style={[styles.text, { fontSize: 24 }]}>ICON</Text></Pressable>
                         <Text style={[styles.text, styles.subText]}>Rewards</Text>
                     </View>
                     
                 </View>
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>275</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{user.points}</Text>
                         <Text style={[styles.text, styles.subText]}>Points</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>

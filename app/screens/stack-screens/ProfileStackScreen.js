@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from '../tab-screens/ProfileScreen';
+import RewardsScreen from '../RewardsScreen'
 
 const ProfileStack = createStackNavigator();
 
@@ -25,6 +26,9 @@ export default function ProfileStackScreen({navigation}) {
           ),
         }}
       />
+      <ProfileStack.Screen
+      name="Rewards"
+      component={RewardsScreen}/>
     </ProfileStack.Navigator>
   );
 }
