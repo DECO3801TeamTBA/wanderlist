@@ -25,6 +25,7 @@ export class WanderScreen extends React.Component {
     isModalVisible: false,
     userIcon: "",
     newTextList: "123",
+    cover: require("../../../assets/logo.png"),
   }
   
 // get data from server 
@@ -33,7 +34,7 @@ export class WanderScreen extends React.Component {
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
-       
+        
         this.setState({ shortlists: res.data })
 
       })
@@ -86,6 +87,9 @@ export class WanderScreen extends React.Component {
   
 
   render() {
+
+
+
     return (
       //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
@@ -158,10 +162,15 @@ export class WanderScreen extends React.Component {
 
               <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                 <View style={styles.card}>
-                  <Image style={styles.cover} source={{
+                  <Image 
+                    style={styles.cover} 
+                  
+                    source={{
                         uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                        headers: {Authorization: `Bearer ${this.props.token}`},
-                      }} ></Image>
+                        headers: {Authorization: `Bearer ${this.props.token}`} 
+                      }
+                    }
+                  ></Image>
                   <Text style={styles.titleStyle}>{item.listName}</Text>
                       
                     
