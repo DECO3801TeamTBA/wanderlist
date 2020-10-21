@@ -24,8 +24,7 @@ export class WanderScreen extends React.Component {
     isLoading: true,
     isModalVisible: false,
     userIcon: "",
-    newTextList: "123",
-    cover: require("../../../assets/logo.png"),
+    newTextList: "NaN",
   }
   
 // get data from server 
@@ -46,10 +45,7 @@ export class WanderScreen extends React.Component {
         this.setState({ isLoading: false })
       })
 
-      Icon.getImageSource('user', 20, 'red').then(source =>
-        this.setState({ userIcon: "../../../assets/logo.png" })
-      );
-      
+   
   }
 
   componentDidUpdate() {
@@ -57,25 +53,49 @@ export class WanderScreen extends React.Component {
   }
 
   addNewList = () => {
+    const newList = {
+      listName: this.state.newTextList
+    }
 
+    // invalid input
+    if (this.state.newTextList == "NaN" || this.state.newTextList.length == 0) {
+      alert("Invalid input");
+      return;
+    }
 
-    axios.post(`${CONFIG.API_URL}Shortlist/${this.props.user.id}`, { listName: this.state.newTextList },
+    //post list to server
+    axios.post(`${CONFIG.API_URL}Shortlist/${this.props.user.id}`, newList,
       { headers: { "Authorization": `Bearer ${this.props.token}` }})
       .then((res) => {
-       
-        //console.log(res.data);
+        console.log(res.data);
+      })
+      .catch((res) => {
+        console.log('Wander failed cause: ' + res)
+      })
+      .finally(() => {
+        this.setState({ isLoading: false })
+      })
+
+    //call and update list
+    axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
+      { headers: { "Authorization": `Bearer ${this.props.token}` } })
+      .then((res) => {
+        // set the loading to true again
+        this.setState({ isLoading: true  })
+
+        this.setState({ shortlists: res.data })
 
       })
       .catch((res) => {
         console.log('Wander failed cause: ' + res)
       })
       .finally(() => {
-        
+        // set the loading to false again
         this.setState({ isLoading: false })
       })
+    
 
-
-
+    // created list pop up
     alert("Your List is created");
     this.setState({ isModalVisible: !this.state.isModalVisible })
   }
@@ -179,7 +199,7 @@ export class WanderScreen extends React.Component {
                     <>
                     <Image 
                     style={styles.cover}          
-                    source={require('../../../assets/profile-pic.jpg')}
+                    source={require('../../../assets/icon.png')}
                     />
                   <Text style={styles.titleStyle}>{item.listName}</Text>
                   </>
