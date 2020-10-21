@@ -63,7 +63,7 @@ export class WanderScreen extends React.Component {
       { headers: { "Authorization": `Bearer ${this.props.token}` }})
       .then((res) => {
        
-        console.log(res.data);
+        //console.log(res.data);
 
       })
       .catch((res) => {
@@ -162,7 +162,9 @@ export class WanderScreen extends React.Component {
 
               <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                 <View style={styles.card}>
-                  <Image 
+                  {item.coverImage ? (
+                    <>
+                    <Image 
                     style={styles.cover} 
                   
                     source={{
@@ -172,6 +174,17 @@ export class WanderScreen extends React.Component {
                     }
                   ></Image>
                   <Text style={styles.titleStyle}>{item.listName}</Text>
+                  </>
+                  ) : (
+                    <>
+                    <Image 
+                    style={styles.cover}          
+                    source={require('../../../assets/profile-pic.jpg')}
+                    />
+                  <Text style={styles.titleStyle}>{item.listName}</Text>
+                  </>
+                  )}
+                  
                       
                     
                   </View>
