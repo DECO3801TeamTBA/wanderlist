@@ -5,7 +5,7 @@ import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationActions, StackActions  } from 'react-navigation';
 import { useDispatch } from 'react-redux'
-import { setUser, setToken, setExpiry } from '../actions/user';
+import { setUser, setToken, setExpiry, setIsAuth } from '../actions/user';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const resetAction = StackActions.reset({
@@ -72,6 +72,7 @@ export function SidebarScreen(props) {
             dispatch(setUser(null))
             dispatch(setExpiry(''))
             dispatch(setToken(''))
+            dispatch(setIsAuth(false))
             await AsyncStorage.setItem(
               'persistentAuth',
               JSON.stringify({
@@ -80,7 +81,7 @@ export function SidebarScreen(props) {
                 user: null,
               }),
             )
-            props.navigation.dispatch(resetAction)
+            //props.navigation.dispatch(resetAction)
             //props.navigation.navigate('Login');
           }}
         />

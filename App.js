@@ -1,19 +1,22 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import DrawerScreen from './app/screens/DrawerScreen';
-import {useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import RootStackScreen from './app/screens/RootStackScreen';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {setExpiry, setToken, setUser} from './app/actions/user';
+import { setExpiry, setToken, setUser, setIsAuth } from './app/actions/user';
 import SearchScreen from './app/screens/SearchScreen';
 import CityScreen from './app/screens/CityScreen';
 import ContentScreen from './app/screens/ContentScreen';
+import SplashScreen from './app/screens/SplashScreen'
+import LoginScreen from './app/screens/LoginScreen'
+import SignUpScreen from './app/screens/SignUpScreen'
 
-import {LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['RCTBridge']);
 
@@ -21,7 +24,9 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const dispatch = useDispatch();
-  const [isAuth, setIsAuth] = React.useState(false);
+  //const [isAuth, setIsAuth] = React.useState(false);
+  const isAuth = useSelector(state => state.userReducer.isAuth)
+
   useEffect(() => {
     async function checkAsyncStorage() {
       try {
@@ -32,16 +37,19 @@ export default function App() {
           const result = auth.expiry.toString() < new Date().toISOString();
           //check if expired
           if (result) {
-            setIsAuth(false);
+            //setIsAuth(false);
+            dispatch(setIsAuth(false))
           } else {
             //set global state
             dispatch(setUser(auth.user));
             dispatch(setToken(auth.authToken));
             dispatch(setExpiry(auth.expiry));
-            setIsAuth(true);
+            //setIsAuth(true);
+            dispatch(setIsAuth(true))
           }
         } else {
-          setIsAuth(false);
+          //setIsAuth(false);
+          dispatch(setIsAuth(false))
         }
       } catch (e) {
         // error reading value
@@ -53,24 +61,42 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {isAuth === true ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={DrawerScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="Search" component={SearchScreen} />
-          <Stack.Screen name="City" component={CityScreen} />
-          <Stack.Screen
-            name="Content"
-            component={ContentScreen}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      ) : (
-        <RootStackScreen />
-      )}
+      <Stack.Navigator>
+        {isAuth === true ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={DrawerScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Search" component={SearchScreen} />
+            <Stack.Screen name="City" component={CityScreen} />
+            <Stack.Screen
+              name="Content"
+              component={ContentScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        ) : (
+            <>
+              <Stack.Screen
+                name="Splash"
+                component={SplashScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SignUp"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

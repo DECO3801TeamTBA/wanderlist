@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {setUser, setToken, setExpiry} from '../actions/user';
+import {setUser, setToken, setExpiry, setIsAuth} from '../actions/user';
 import axios from 'axios';
 import CONFIG from '../config';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -63,6 +63,7 @@ export class LoginScreen extends React.Component {
                   this.props.attachUser(user);
                   this.props.attachExpiry(expiry);
                   this.props.attachToken(authToken);
+                  this.props.attachIsAuth(true)
                   await AsyncStorage.setItem(
                     'persistentAuth',
                     JSON.stringify({
@@ -71,7 +72,7 @@ export class LoginScreen extends React.Component {
                       user: user,
                     }),
                   );
-                  this.props.navigation.navigate('Home');
+                  //this.props.navigation.popToTop()
                   //Then navigate from here. Now in homescreen and beyond, we can check the global user state
                 })
                 .catch((res) => {
@@ -168,6 +169,7 @@ const mapDispatchToProps = (dispatch) => {
     attachUser: (user) => dispatch(setUser(user)),
     attachToken: (authToken) => dispatch(setToken(authToken)),
     attachExpiry: (expiry) => dispatch(setExpiry(expiry)),
+    attachIsAuth: (isAuth) => dispatch(setIsAuth(isAuth))
   };
 };
 
