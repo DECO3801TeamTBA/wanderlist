@@ -1,5 +1,5 @@
 import {
-    SET_USER_AUTH_TOKEN, SET_USER, SET_TOKEN_EXPIRY
+    SET_USER_AUTH_TOKEN, SET_USER, SET_TOKEN_EXPIRY, SET_USER_IS_AUTH
 } from '../actions/types'
 
 
@@ -8,7 +8,8 @@ import {
 const initialState = {
     authToken: "",
     expiry: "",
-    user: null
+    user: null,
+    isAuth: false
 }
 
 const userReducer = (state = initialState, action) => {
@@ -27,6 +28,11 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 authToken: state.authToken = action.data
+            }
+        case SET_USER_IS_AUTH:
+            return {
+                ...state,
+                isAuth: state.isAuth = action.data
             }
         default:
             return state;

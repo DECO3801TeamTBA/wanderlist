@@ -21,29 +21,44 @@ export default class SignUp extends React.Component {
   state = {
     username: '',
     password: '',
+    confirmPassword: '',
     email: '',
     phone_number: '',
+    hasError: false,
+    errorMessage: ''
   };
   onChangeText = (key, val) => {
-    this.setState({[key]: val});
+    this.setState({ [key]: val });
   };
   signUp = async () => {
-    const {username, password, email, phone_number} = this.state;
-    try {
-      // here place  signup logic
-      axios
-        .post(CONFIG.API_URL + '/Authenticate/register', {
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const emailRegex = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+    const { username, password, email, phone_number, confirmPassword } = this.state;
+    if (confirmPassword == password && strongRegex.test(password) && emailRegex.test(email)) {
+      await axios
+        .post(CONFIG.API_URL + 'Authenticate/register', {
           username,
           email,
           password,
         })
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
-        });
-      console.log('user successfully signed up!: ', success);
-    } catch (err) {
-      console.log('error signing up: ', err);
+          this.props.navigation.pop() //??
+        })
+        .catch(res => {
+          console.log(res)
+          this.setState({ hasError: true, errorMessage: res.data.message })
+        })
+    } else {
+      if (password != confirmPassword) {
+      this.setState({ errorMessage: "Passwords must match", hasError: true })
+      } else if (!strongRegex.test(password)) {
+        this.setState({ errorMessage: "Password is too weak. Must contain at least 1 lower case, 1 upper case, 1 special character, 1 number and least 8 characters long.", hasError: true })
+      } else if (!emailRegex.test(email)) {
+        this.setState({ errorMessage: "Invalid email.", hasError: true })
+      } else {
+        this.setState({ errorMessage: "Create user failed. Check details and try again.", hasError: true })
+      }
+      console.log("passwords must match")
     }
   };
 
@@ -57,7 +72,16 @@ export default class SignUp extends React.Component {
             style={styles.inputText}
             placeholder="Username"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({username: text})}
+            onChangeText={(text) => this.setState({ username: text })}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <Icon name="mail-outline" size={24} color="#5F9E98" />
+          <TextInput
+            style={styles.inputText}
+            placeholder="Email"
+            placeholderTextColor="#4d4d4d"
+            onChangeText={(text) => this.setState({ email: text })}
           />
         </View>
         <View style={styles.inputView}>
@@ -67,7 +91,7 @@ export default class SignUp extends React.Component {
             secureTextEntry
             placeholder="Password"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setState({ password: text })}
           />
         </View>
         <View style={styles.inputView}>
@@ -77,11 +101,16 @@ export default class SignUp extends React.Component {
             secureTextEntry
             placeholder="Confirm Password"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setState({ confirmPassword: text })}
           />
         </View>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signUp}>
+          {this.state.hasError ? (<View>
+            <Text>{this.state.errorMessage}</Text>
+          </View>) : (<></>)}
+
+          <TouchableOpacity style={styles.signUp}
+          onPress={this.signUp}>
             <LinearGradient
               colors={['#81c784', '#4caf50']}
               style={styles.signIn}>
