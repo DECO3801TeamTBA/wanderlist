@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import { Title, Caption, Paragraph, Drawer } from 'react-native-paper';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import {View, Image, StyleSheet} from 'react-native';
+import {Title, Caption, Drawer} from 'react-native-paper';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationActions, StackActions  } from 'react-navigation';
 import { useDispatch } from 'react-redux'
@@ -51,12 +51,12 @@ export function SidebarScreen(props) {
             }}
           />
           <DrawerItem
-            icon={({ color, size }) => (
-              <Icon name="build" color={color} size={size} />
+            icon={({color, size}) => (
+              <Icon name="ribbon" color={color} size={size} />
             )}
-            label="Support"
+            label="Rewards"
             onPress={() => {
-              props.navigation.navigate('Support');
+              props.navigation.navigate('Rewards');
             }}
           />
         </Drawer.Section>

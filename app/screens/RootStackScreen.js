@@ -9,7 +9,6 @@ import SearchScreen from './SearchScreen';
 import CityScreen from './CityScreen';
 import SignUpScreen from './SignUpScreen';
 import ContentScreen from './ContentScreen';
-import RewardScreen from './RewardsScreen';
 
 const RootStack = createStackNavigator();
 
@@ -42,7 +41,6 @@ const RootStackScreen = () => (
       component={ContentScreen}
       options={{headerShown: false}}
     />
-    <RootStack.Screen name="Rewards" component={RewardScreen}/>
   </RootStack.Navigator>
 );
 
