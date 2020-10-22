@@ -21,6 +21,8 @@ export class LoginScreen extends React.Component {
   state = {
     username: '',
     password: '',
+    hasError: false,
+    errorMessage: ''
   };
   render() {
     return (
@@ -45,6 +47,9 @@ export class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({password: text})}
           />
         </View>
+        {this.state.hasError ? (<View>
+            <Text>{this.state.errorMessage}</Text>
+          </View>) : (<></>)}
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}
@@ -63,7 +68,7 @@ export class LoginScreen extends React.Component {
                   this.props.attachUser(user);
                   this.props.attachExpiry(expiry);
                   this.props.attachToken(authToken);
-                  this.props.attachIsAuth(true)
+                  
                   await AsyncStorage.setItem(
                     'persistentAuth',
                     JSON.stringify({
@@ -72,6 +77,7 @@ export class LoginScreen extends React.Component {
                       user: user,
                     }),
                   );
+                  this.props.attachIsAuth(true)
                   //this.props.navigation.popToTop()
                   //Then navigate from here. Now in homescreen and beyond, we can check the global user state
                 })
@@ -79,6 +85,7 @@ export class LoginScreen extends React.Component {
                   //Display login failed text and don't do anything?
                   //TODO: Inform user that login failed and prompt them again?
                   console.log('Login failed reason: ' + res);
+                  this.setState({hasError:true, errorMessage:"Sign in failed. Please try again."})
                 });
             }}>
             <LinearGradient

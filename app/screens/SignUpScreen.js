@@ -31,9 +31,10 @@ export default class SignUp extends React.Component {
     this.setState({ [key]: val });
   };
   signUp = async () => {
-    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const emailRegex = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
     const { username, password, email, phone_number, confirmPassword } = this.state;
-    if (confirmPassword == password && strongRegex.test(password)) {
+    if (confirmPassword == password && strongRegex.test(password) && emailRegex.test(email)) {
       await axios
         .post(CONFIG.API_URL + 'Authenticate/register', {
           username,
@@ -52,6 +53,10 @@ export default class SignUp extends React.Component {
       this.setState({ errorMessage: "Passwords must match", hasError: true })
       } else if (!strongRegex.test(password)) {
         this.setState({ errorMessage: "Password is too weak. Must contain at least 1 lower case, 1 upper case, 1 special character, 1 number and least 8 characters long.", hasError: true })
+      } else if (!emailRegex.test(email)) {
+        this.setState({ errorMessage: "Invalid email.", hasError: true })
+      } else {
+        this.setState({ errorMessage: "Create user failed. Check details and try again.", hasError: true })
       }
       console.log("passwords must match")
     }
