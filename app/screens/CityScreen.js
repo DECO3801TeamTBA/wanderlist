@@ -91,7 +91,12 @@ export default function CityScreen({route, navigation}) {
                         }}
                       />
                     </TouchableOpacity>
-                    <Text style={styles.caption}>{item.name}</Text>
+                    <Text
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      style={styles.caption}>
+                      {item.name}
+                    </Text>
                   </View>
                 );
               }}
