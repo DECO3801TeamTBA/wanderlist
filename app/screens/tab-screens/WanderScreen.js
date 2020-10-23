@@ -149,15 +149,16 @@ export class WanderScreen extends React.Component {
 
           <Text style={styles.bigBlack}>
             Your Lists
-            
-            <View style={styles.plus}>
-               <Icon.Button
+            <Icon.Button
                 name="plus"
                 backgroundColor="#fff"
                 color="#000000"
                 onPress={this.toggleModal}
+                style={styles.plus}
               >
-              </Icon.Button>       
+            </Icon.Button>   
+            <View style={styles.plus}>
+                   
             </View>
             <Modal isVisible={this.state.isModalVisible}    >
 
@@ -374,11 +375,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   plus: {
-    position: 'absolute',
-    top: 80,
-    left: 200,
-    right: 0,
-    bottom: 0,
+    paddingHorizontal:240,
+    paddingVertical: -20,
   },
 });
 
