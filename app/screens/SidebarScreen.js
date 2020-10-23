@@ -1,10 +1,21 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
-import {Title, Caption, Paragraph, Drawer} from 'react-native-paper';
+import {Title, Caption, Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationActions, StackActions  } from 'react-navigation';
+import { useDispatch } from 'react-redux'
+import { setUser, setToken, setExpiry, setIsAuth } from '../actions/user';
+import AsyncStorage from '@react-native-community/async-storage';
+
+const resetAction = StackActions.reset({
+  index: 0,
+  key: null,
+  actions: [NavigationActions.navigate({ routeName: 'Login' })],
+});
 
 export function SidebarScreen(props) {
+  const dispatch = useDispatch()
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -22,7 +33,7 @@ export function SidebarScreen(props) {
         </View>
         <Drawer.Section>
           <DrawerItem
-            icon={({color, size}) => (
+            icon={({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             )}
             label="Home"
@@ -31,33 +42,47 @@ export function SidebarScreen(props) {
             }}
           />
           <DrawerItem
-            icon={({color, size}) => (
-              <Icon name="settings" color={color} size={size} />
+            icon={({ color, size }) => (
+              <Icon name="map" color={color} size={size} />
             )}
-            label="Settings"
+            label="Map"
             onPress={() => {
-              props.navigation.navigate('Settings');
+              props.navigation.navigate('Map');
             }}
           />
           <DrawerItem
             icon={({color, size}) => (
-              <Icon name="build" color={color} size={size} />
+              <Icon name="ribbon" color={color} size={size} />
             )}
-            label="Support"
+            label="Rewards"
             onPress={() => {
-              props.navigation.navigate('Support');
+              props.navigation.navigate('Rewards');
             }}
           />
         </Drawer.Section>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomSection}>
         <DrawerItem
-          icon={({color, size}) => (
+          icon={({ color, size }) => (
             <Icon name="log-out" color={color} size={size} />
           )}
           label="Log Out"
-          onPress={() => {
-            props.navigation.navigate('Login');
+          onPress={ async () => {
+            //clear Async storage
+            dispatch(setUser(null))
+            dispatch(setExpiry(''))
+            dispatch(setToken(''))
+            dispatch(setIsAuth(false))
+            await AsyncStorage.setItem(
+              'persistentAuth',
+              JSON.stringify({
+                authToken: '',
+                expiry: '',
+                user: null,
+              }),
+            )
+            //props.navigation.dispatch(resetAction)
+            //props.navigation.navigate('Login');
           }}
         />
       </Drawer.Section>

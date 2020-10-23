@@ -6,7 +6,6 @@ import {
   FlatList,
   ImageBackground,
   TouchableOpacity,
-  Pressable,
   Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';
@@ -160,28 +159,18 @@ export default function ContentScreen({route, navigation}) {
             />
           </View>
           <View style={styles.ratings}>
-            <Text>
-              {/*{type} ratings: {content.socialRating}, {content.economicRating},{' '}*/}
-              {/*{content.environmentalRating}*/}
-              <View style={styles.ratingRow}>
+            <View style={styles.ratingRow}>
+              <View>
                 <Text>Social Rating</Text>
-                <View style={{marginLeft: 80}}>
-                  <StarReview rate={content.socialRating} />
-                </View>
+                <Text style={styles.ratingText}>Economic Rating</Text>
+                <Text style={styles.ratingText}>Environmental Rating</Text>
               </View>
-              <View style={styles.ratingRow}>
-                <Text>Economic Rating</Text>
-                <View style={{marginLeft: 55}}>
-                  <StarReview rate={content.economicRating} />
-                </View>
+              <View style={styles.starRatingContent}>
+                <StarReview rate={content.socialRating} />
+                <StarReview rate={content.economicRating} />
+                <StarReview rate={content.environmentalRating} />
               </View>
-              <View style={styles.ratingRow}>
-                <Text>Environmental Rating</Text>
-                <View style={{marginLeft: 27}}>
-                  <StarReview rate={content.environmentalRating} />
-                </View>
-              </View>
-            </Text>
+            </View>
           </View>
 
           <QRScanner />
@@ -255,5 +244,11 @@ const styles = StyleSheet.create({
   },
   ratingRow: {
     flexDirection: 'row',
+  },
+  ratingText: {
+    marginTop: 4,
+  },
+  starRatingContent: {
+    marginLeft: 30,
   },
 });

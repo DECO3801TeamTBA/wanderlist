@@ -6,6 +6,10 @@
 
 #import <GoogleMaps/GoogleMaps.h>
 
+// #if RCT_DEV
+//   #import <React/RCTDevLoadingView.h>
+// #endif
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -29,12 +33,17 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-[GMSServices provideAPIKey:@"AIzaSyCr6IvCPL5xtmJTEqLJNFEfo4cGHVZwd0c"];
-#ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
-#endif
+  [GMSServices provideAPIKey:@"AIzaSyCr6IvCPL5xtmJTEqLJNFEfo4cGHVZwd0c"];
+  #ifdef FB_SONARKIT_ENABLED
+    InitializeFlipper(application);
+  #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+
+//   #if RCT_DEV
+//     [bridge moduleForClass:[RCTDevLoadingView class]];
+//   #endif
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"wanderlist"
                                             initialProperties:nil];

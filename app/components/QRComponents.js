@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
@@ -7,26 +13,7 @@ import axios from 'axios';
 import {Modal} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
-
-const styles = StyleSheet.create({
-  centerText: {
-    flex: 1,
-    fontSize: 18,
-    padding: 32,
-    color: '#777',
-  },
-  textBold: {
-    fontWeight: '500',
-    color: '#000',
-  },
-  buttonText: {
-    fontSize: 21,
-    color: 'rgb(0,122,255)',
-  },
-  buttonTouchable: {
-    padding: 16,
-  },
-});
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function QRScannerModal() {
   const user = useSelector((state) => state.userReducer.user);
@@ -61,7 +48,11 @@ export default function QRScannerModal() {
           setModalShow(true);
         }}
         style={styles.buttonTouchable}>
-        <Text style={styles.buttonText}>Scan QR Code</Text>
+        {/*<TouchableOpacity style={styles.qr}>*/}
+        <LinearGradient colors={['#81c784', '#4caf50']} style={styles.qr}>
+          <Text style={styles.textQR}>Scan QR Code</Text>
+        </LinearGradient>
+        {/*</TouchableOpacity>*/}
       </Pressable>
       <Modal visible={modalShow}>
         <QRCodeScanner
@@ -82,3 +73,35 @@ export default function QRScannerModal() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777',
+  },
+  textBold: {
+    fontWeight: '500',
+    color: '#000',
+  },
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)',
+  },
+  buttonTouchable: {
+    padding: 16,
+  },
+  qr: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  textQR: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+});

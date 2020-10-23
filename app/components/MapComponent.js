@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
 import axios from 'axios';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
+
+const window = Dimensions.get('window');
 
 export default function HeatMap() {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -19,19 +21,19 @@ export default function HeatMap() {
       // places in brisbane and have the map situated so that we start
       // by viewing those places
       await axios
-        .get(`${CONFIG.API_URL}content`, {
+        .get(`${CONFIG.API_URL}mapview`, {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then((res) => {
-          const tmpList = res.data
-            .map((c) => {
-              return {
-                name: c.name,
-                description: c.description,
-                latlng: {latitude: c.lattitude, longitude: c.longitude},
-              };
-            })
-            .filter((m) => m.name == 'Uni tour' || m.name == 'Pub Crawl');
+          const tmpList = res.data.map((c) => {
+            return {
+              name: c.name,
+              description: c.description,
+              latlng: {latitude: c.latitude, longitude: c.longitude},
+              capacity: c.capacity,
+              type: c.type,
+            };
+          });
           setMarkers(tmpList);
         })
         .catch((res) => {
@@ -41,18 +43,6 @@ export default function HeatMap() {
     mapLoad();
   }, []);
 
-  const styles = StyleSheet.create({
-    container: {
-      ...StyleSheet.absoluteFillObject,
-      height: 400,
-      width: 400,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-    },
-    map: {
-      ...StyleSheet.absoluteFillObject,
-    },
-  });
   return (
     <View style={styles.container}>
       <MapView
@@ -68,11 +58,68 @@ export default function HeatMap() {
           <Marker
             key={index}
             coordinate={marker.latlng}
+            image={require('../../assets/map_marker.png')}
             title={marker.name}
-            description={marker.description}
-          />
+            description={marker.description}>
+            <Callout tooltip>
+              <View>
+                <View style={styles.bubble}>
+                  <Text
+                    style={
+                      styles.name
+                    }>{`type:${marker.type}, capacity: ${marker.capacity}`}</Text>
+                </View>
+                <View style={styles.arrowBorder} />
+                <View style={styles.arrow} />
+              </View>
+            </Callout>
+          </Marker>
         ))}
       </MapView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    height: window.height,
+    width: window.width,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  name: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  bubble: {
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    padding: 15,
+    width: 160,
+  },
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -0.5,
+    marginBottom: -15,
+  },
+  arrow: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -32,
+  },
+});
