@@ -21,7 +21,7 @@ export default function CityScreen({route, navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
   const [activities, setActivities] = useState([]);
   const [destinations, setDestinations] = useState([]);
-  const [videos, setVideos] = useState('');
+  const [video, setVideo] = useState('');
   const [isLoading, setLoading] = useState(true);
   const {cityId} = route.params;
 
@@ -30,12 +30,11 @@ export default function CityScreen({route, navigation}) {
     // TODO: have API return 2 lists, one for destinations
     // and the other for activity?
     async function onCityLoad() {
-      await axios.all
-        .get([
-          axios.get(`${CONFIG.API_URL}content/${cityId}`, {
+      await axios.all([
+          axios.get(`${CONFIG.API_URL}city/${cityId}`, {
             headers: {Authorization: `Bearer ${token}`},
           }),
-          axios.get(`${CONFIG.API_URL}content/${cityId}/resource`, {
+          axios.get(`${CONFIG.API_URL}city/${cityId}/content`, {
             headers: {Authorization: `Bearer ${token}`},
           }),
         ])
@@ -46,8 +45,8 @@ export default function CityScreen({route, navigation}) {
           axios.spread((resCity, resContent) => {
             setActivities(resContent.data.activities);
             setDestinations(resContent.data.destinations);
-            setVideos(resCity.data.video);
-          }),
+            setVideo(resCity.data.video);
+          })
         )
         .catch((res) => {
           console.log('City failed cause: ' + res);
@@ -78,7 +77,7 @@ export default function CityScreen({route, navigation}) {
       {/*/>*/}
       <YouTube
         apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"
-        videoId="Rzn5WGnS350" // The YouTube video ID
+        videoId={video} // The YouTube video ID
         play={false}
         style={styles.videoPlayer}
       />
