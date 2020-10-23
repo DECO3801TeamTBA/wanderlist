@@ -9,6 +9,7 @@ import {
   Image,
   TextInput,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -16,6 +17,8 @@ import axios from 'axios';
 import CONFIG from '../../config';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
+import { SwipeListView } from 'react-native-swipe-list-view';
+
 
 export class WanderScreen extends React.Component {
 
@@ -25,10 +28,12 @@ export class WanderScreen extends React.Component {
     isModalVisible: false,
     userIcon: "",
     newTextList: "NaN",
+    collection: [],
   }
   
 // get data from server 
   componentDidMount() {
+    
     
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
@@ -48,8 +53,23 @@ export class WanderScreen extends React.Component {
    
   }
 
-  componentDidUpdate() {
+  updateList = () => {
+    //enable loading again
+    this.setState({ isLoading: true })
+    axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
+      { headers: { "Authorization": `Bearer ${this.props.token}` } })
+      .then((res) => {
+        
+        this.setState({ shortlists: res.data })
 
+      })
+      .catch((res) => {
+        console.log('Wander failed cause: ' + res)
+      })
+      .finally(() => {
+        //finish loading
+        this.setState({ isLoading: false })
+      })
   }
 
   addNewList = () => {
@@ -73,29 +93,9 @@ export class WanderScreen extends React.Component {
         console.log('Wander failed cause: ' + res)
       })
       .finally(() => {
-        this.setState({ isLoading: false })
-      })
-
-    //call and update list
-    axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
-      { headers: { "Authorization": `Bearer ${this.props.token}` } })
-      .then((res) => {
-        // set the loading to true again
-        this.setState({ isLoading: true  })
-
-        this.setState({ shortlists: res.data })
-
-      })
-      .catch((res) => {
-        console.log('Wander failed cause: ' + res)
-      })
-      .finally(() => {
-        // set the loading to false again
-        this.setState({ isLoading: false })
-      })
-    
-
-    // created list pop up
+        this.updateList()
+      })  
+      // created list pop up
     alert("Your List is created");
     this.setState({ isModalVisible: !this.state.isModalVisible })
   }
@@ -104,12 +104,32 @@ export class WanderScreen extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible })
   };
 
+  removeList = (data) => {
+    //post list to server
+    //post list to server
+    console.log(data.item.listName);
+  
+    
+    
+
+    axios.delete(`${CONFIG.API_URL}Shortlist/${data.item.shortlistId}`, {
+      headers: {
+        "Authorization": `Bearer ${this.props.token}`
+      }
+    }).then((res) => {
+      console.log(res.data);
+    })
+    .catch((res) => {
+      console.log('Wander failed cause: ' + res)
+    })
+    .finally(() => {
+      this.updateList()
+    })
+  }
+  
   
 
   render() {
-
-
-
     return (
       //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
@@ -130,7 +150,7 @@ export class WanderScreen extends React.Component {
           <Text style={styles.bigBlack}>
             Your Lists
             
-            <View style={{alignSelf: "center"}}>
+            <View style={styles.plus}>
                <Icon.Button
                 name="plus"
                 backgroundColor="#fff"
@@ -174,48 +194,63 @@ export class WanderScreen extends React.Component {
 
         </View>
         
-        <FlatList
+        <SwipeListView
+
           data={this.state.shortlists}
           renderItem={({ item }) => {
             return (
               // Single Comes here which will be repeatative for the FlatListItems
+              // <Swipeout right={swipeBtns}
+              //   autoClose='true'
+              //   backgroundColor= 'transparent'>
 
-              <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
-                <View style={styles.card}>
-                  {item.coverImage ? (
-                    <>
-                    <Image 
-                    style={styles.cover} 
-                  
-                    source={{
-                        uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                        headers: {Authorization: `Bearer ${this.props.token}`} 
-                      }
-                    }
-                  ></Image>
-                  <Text style={styles.titleStyle}>{item.listName}</Text>
-                  </>
-                  ) : (
-                    <>
-                    <Image 
-                    style={styles.cover}          
-                    source={require('../../../assets/icon.png')}
-                    />
-                  <Text style={styles.titleStyle}>{item.listName}</Text>
-                  </>
-                  )}
-                  
-                      
+                <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
+                  <View style={styles.card}>
+                    {item.coverImage ? (
+                      <>
+                      <Image 
+                      style={styles.cover} 
                     
+                      source={{
+                          uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                          headers: {Authorization: `Bearer ${this.props.token}`} 
+                        }
+                      }
+                    ></Image>
+                    <Text style={styles.titleStyle}>{item.listName}</Text>
+                    </>
+                    ) : (
+                      <>
+                      <Image 
+                      style={styles.cover}          
+                      source={require('../../../assets/default_cover.png')}
+                      />
+                    <Text style={styles.titleStyle}>{item.listName}</Text>
+                    </>
+                    )}
+                    
+                        
                   </View>
 
-              </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+            
 
             )
           }}
           extraData={this.state}
           keyExtractor={(item, index) => index.toString()}
-
+          renderHiddenItem={ (data, rowMap) => (
+                <TouchableOpacity
+                  style={styles.rowBack}
+                  onPress={() => this.removeList(data)}
+                >
+                  <Text style={styles.styleRemove}>Delete</Text>
+                </TouchableOpacity>
+            
+            
+          )}
+          leftOpenValue={75}
+          // rightOpenValue={-75}
         />
 
       </View>
@@ -223,13 +258,26 @@ export class WanderScreen extends React.Component {
   }
 
   actionOnRow(item) {
-    console.log('Selected Item :', item.coverImage);
-    this.props.navigation.navigate('List', {
-      listName: item.listName,
-      shortlistId: item.shortlistId,
-      token: this.props.token,
-      otherParam: 'anything you want here',
-    });
+    console.log('Selected Item :', item.listName);
+    axios.get(`${CONFIG.API_URL}ShortlistContent/${item.shortlistId}`, {
+      headers: {Authorization: `Bearer ${this.props.token}`},
+    })
+    .then((res) => {
+      // this.setState({collection: res.data});
+      this.props.navigation.navigate('List', {
+        listName: item.listName,
+        shortlistId: item.shortlistId,
+        token: this.props.token,
+        collection: res.data,
+      });
+    })
+    .catch((res) => {
+      console.log('Collection failed cause: ' + res);
+    })
+    .finally(() => {
+      // setLoading(false);
+    });  
+    
   }
 }
 
@@ -306,6 +354,31 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
 
+  },
+  rowBack: {
+    borderRadius: 20,
+    height: 200,
+    width: 150,
+    marginVertical: 15,
+    marginHorizontal: 20,
+    elevation: 5,
+    backgroundColor: '#FF0000',
+  },
+  styleRemove: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 80,
+    left: 20,
+    right: 0,
+    bottom: 0,
+  },
+  plus: {
+    position: 'absolute',
+    top: 80,
+    left: 200,
+    right: 0,
+    bottom: 0,
   },
 });
 
