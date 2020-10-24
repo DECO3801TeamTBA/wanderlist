@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   View,
   ActivityIndicator,
   FlatList,
+  Image,
 } from 'react-native';
 import CONFIG from '../../config';
 import axios from 'axios';
@@ -77,7 +77,7 @@ export default function RewardsScreen({navigation}) {
   }, []);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
@@ -88,12 +88,24 @@ export default function RewardsScreen({navigation}) {
             extraData={{rewards}}
             renderItem={({item}) => {
               return (
-                <View style={{borderStyle: 'solid'}}>
-                  {item.redeemed ? (
-                    <Text>{`${item.name} and ${item.value} YO BEEN HERE`}</Text>
-                  ) : (
-                    <Text>{`${item.name} and ${item.value} YO AINT BEEN HERE`}</Text>
-                  )}
+                <View style={styles.container}>
+                  <View style={styles.cardsWrapper}>
+                    <View style={styles.card}>
+                      <View style={styles.cardImgWrapper}>
+                        <Image
+                          source={require('../../../assets/media1.jpg')}
+                          resizeMode="cover"
+                          style={styles.cardImg}
+                        />
+                      </View>
+                      <View style={styles.cardInfo}>
+                        <Text style={styles.cardTitle}>
+                          {item.name} {item.value}
+                        </Text>
+                        <Text style={styles.cardDetails}>YO BEEN HERE</Text>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               );
             }}
@@ -103,3 +115,60 @@ export default function RewardsScreen({navigation}) {
     </View>
   );
 }
+
+// <View style={{borderStyle: 'solid'}}>
+//   {item.redeemed ? (
+//     <Text>{`${item.name} and ${item.value} YO BEEN HERE`}</Text>
+//   ) : (
+//     <Text>{`${item.name} and ${item.value} YO AINT BEEN HERE`}</Text>
+//   )}
+// </View>
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  cardsWrapper: {
+    marginTop: 20,
+    width: '90%',
+    alignSelf: 'center',
+  },
+  card: {
+    height: 150,
+    marginVertical: 10,
+    flexDirection: 'row',
+    shadowColor: '#999',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  cardImgWrapper: {
+    flex: 1,
+  },
+  cardImg: {
+    height: '100%',
+    width: '100%',
+    alignSelf: 'center',
+    borderRadius: 8,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
+  },
+  cardInfo: {
+    flex: 2,
+    padding: 10,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: '#fff',
+  },
+  cardTitle: {
+    fontWeight: 'bold',
+  },
+  cardDetails: {
+    fontSize: 12,
+    color: '#444',
+  },
+});
