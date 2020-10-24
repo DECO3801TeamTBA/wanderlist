@@ -35,7 +35,6 @@ export default function ProfileScreen({ navigation }) {
         axios.post(`${CONFIG.API_URL}user/${user.id}/resource`, formData, {
             headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }})
             .then(res => {
-                console.log(res)
                 setIsLoading(true)
                 loadProfile()
             })
@@ -43,7 +42,6 @@ export default function ProfileScreen({ navigation }) {
                 console.log("image upload failed: " + res)
             })
             .finally(() => {
-                console.log("not even here?")
                 setIsLoading(false)
             })
     }
@@ -57,28 +55,6 @@ export default function ProfileScreen({ navigation }) {
 
                 console.log("Image picked, awaiting server upload")
                 uploadImage(response)
-                //setIsLoading(true)
-                /*
-                console.log(response)
-                axios({
-                    method: 'POST',
-                    url: `${CONFIG.API_URL}user/${user.id}/resource`,
-                    data: formData,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data;'
-                    },
-                    timeout: 6000
-                })
-                .then(function (res) { console.log(res) })   
-                .catch(function (error) {
-                        console.log(error)
-                    });
-                console.log("what is happening??????????")
-                */
-
-
-
             }
         })
     }
