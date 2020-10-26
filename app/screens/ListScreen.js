@@ -84,7 +84,12 @@ export default function ListScreen({ route, navigation}) {
               return (
                 // Single Comes here which will be repeatative for the FlatListItems
   
-                <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
+                <TouchableWithoutFeedback onPress={() => {
+                  navigation.navigate('Content', {
+                    contentId: item.id,
+                    type: 'Activity',
+                  });
+                }}>
                   <View style={styles.card}>
                     <Image style={styles.cover} source={{
                           uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
