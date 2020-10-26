@@ -69,10 +69,6 @@ export function SidebarScreen(props) {
           label="Log Out"
           onPress={ async () => {
             //clear Async storage
-            dispatch(setUser(null))
-            dispatch(setExpiry(''))
-            dispatch(setToken(''))
-            dispatch(setIsAuth(false))
             await AsyncStorage.setItem(
               'persistentAuth',
               JSON.stringify({
@@ -81,6 +77,12 @@ export function SidebarScreen(props) {
                 user: null,
               }),
             )
+
+            dispatch(setUser(null))
+            dispatch(setExpiry(''))
+            dispatch(setToken(''))
+            dispatch(setIsAuth(false))
+            
             //props.navigation.dispatch(resetAction)
             //props.navigation.navigate('Login');
           }}

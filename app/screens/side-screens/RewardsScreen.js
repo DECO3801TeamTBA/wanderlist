@@ -102,7 +102,7 @@ export default function RewardsScreen({navigation}) {
                         <Text style={styles.cardTitle}>
                           {item.name} {item.value}
                         </Text>
-                        <Text style={styles.cardDetails}>YO BEEN HERE</Text>
+                        <Text style={styles.cardDetails}>{item.description}</Text>
                       </View>
                     </View>
                   </View>
