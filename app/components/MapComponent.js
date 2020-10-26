@@ -113,10 +113,11 @@ export default function HeatMap() {
             <Callout tooltip>
               <View>
                 <View style={styles.bubble}>
-                  <Text
-                    style={
-                      styles.name
-                    }>{`Type: ${marker.type}, Capacity:`}</Text>
+                  {/*<Text*/}
+                  {/*  style={*/}
+                  {/*    styles.name*/}
+                  {/*  }>{`Type: ${marker.type}, Capacity:`}</Text>*/}
+                  <Text style={styles.name}>Capacity:</Text>
                   <StarReview rate={marker.capacity} />
                 </View>
                 <View style={styles.arrowBorder} />

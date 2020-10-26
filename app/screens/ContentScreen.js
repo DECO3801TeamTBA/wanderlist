@@ -80,7 +80,6 @@ export default function ContentScreen({route, navigation}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [shortLists, setShortLists] = useState([]);
 
-
   const [isLoading, setLoading] = useState(true);
   const token = useSelector((state) => state.userReducer.authToken);
   const user = useSelector((state) => state.userReducer.user);
@@ -101,18 +100,19 @@ export default function ContentScreen({route, navigation}) {
           axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
             headers: {Authorization: `Bearer ${token}`},
           }),
-          axios.get(`${CONFIG.API_URL}User/${user.id}/Shortlist`,
-          { headers: { "Authorization": `Bearer ${token}` } }),
+          axios.get(`${CONFIG.API_URL}User/${user.id}/Shortlist`, {
+            headers: {Authorization: `Bearer ${token}`},
+          }),
         ])
         .then(
           axios.spread((resContent, resImages, resShortList) => {
             setImages(resImages.data);
             setContent(resContent.data);
-            setShortLists(resShortList.data)
-
+            setShortLists(resShortList.data);
           }),
         )
-        .catch((res) => {s
+        .catch((res) => {
+          s;
           console.log('why though? ' + res);
         })
         .finally(() => {
@@ -133,33 +133,32 @@ export default function ContentScreen({route, navigation}) {
     //   shortlistId: item.shortlistId,
     //   contentId: contentId,
     // }
-    var newList = [{shortlistId: item.shortlistId, contentId: contentId}]
-        //  post list to server
-     axios.post(`${CONFIG.API_URL}ShortlistContent`, newList,
-     { headers: { "Authorization": `Bearer ${token}` }})
-     .then((res) => {
-      //  console.log(res.data);s
-     })
-     .catch((res) => {
-        console.log('Wander failed cause: ' + res)
-        alert("Failed because" + res);
-
-     })
-     .finally(() => {
-        alert("Added to our list!");
-
-     })  
-     setModalVisible(!isModalVisible);
-    
+    var newList = [{shortlistId: item.shortlistId, contentId: contentId}];
+    //  post list to server
+    axios
+      .post(`${CONFIG.API_URL}ShortlistContent`, newList, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then((res) => {
+        //  console.log(res.data);s
+      })
+      .catch((res) => {
+        console.log('Wander failed cause: ' + res);
+        alert('Failed because' + res);
+      })
+      .finally(() => {
+        alert('Added to our list!');
+      });
+    setModalVisible(!isModalVisible);
   };
 
-  const Item = ({ title }) => (
+  const Item = ({title}) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
     </View>
   );
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity onPress={() => addToList(item)}>
       <Item title={item.listName} />
     </TouchableOpacity>
@@ -194,7 +193,7 @@ export default function ContentScreen({route, navigation}) {
                       {content.description}
                     </Text>
                     <TouchableOpacity
-                      style={styles.backButtson}
+                      style={styles.backButton}
                       onPress={() => {
                         navigation.navigate('Home');
                       }}>
@@ -205,7 +204,6 @@ export default function ContentScreen({route, navigation}) {
                       onPress={() => {
                         // TODO: Add to collections
                         setModalVisible(!isModalVisible);
-
                       }}>
                       <Icon name="heart" color="#fff" size={24} />
                     </TouchableOpacity>
@@ -338,7 +336,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 20,
     shadowColor: '#999',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
@@ -351,7 +349,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 20,
     shadowColor: '#999',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
@@ -365,6 +363,5 @@ const styles = StyleSheet.create({
     left: 10,
     right: 0,
     bottom: 0,
-
   },
 });
