@@ -21,6 +21,7 @@ export default function CityScreen({route, navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
   const [activities, setActivities] = useState([]);
   const [destinations, setDestinations] = useState([]);
+  const [video, setVideo] = useState('');
   const [isLoading, setLoading] = useState(true);
   const {cityId} = route.params;
 
@@ -29,15 +30,24 @@ export default function CityScreen({route, navigation}) {
     // TODO: have API return 2 lists, one for destinations
     // and the other for activity?
     async function onCityLoad() {
-      await axios
-        .get(`${CONFIG.API_URL}city/${cityId}/content`, {
-          headers: {Authorization: `Bearer ${token}`},
-        })
-        .then(async (res) => {
+      await axios.all([
+          axios.get(`${CONFIG.API_URL}city/${cityId}`, {
+            headers: {Authorization: `Bearer ${token}`},
+          }),
+          axios.get(`${CONFIG.API_URL}city/${cityId}/content`, {
+            headers: {Authorization: `Bearer ${token}`},
+          }),
+        ])
+        .then(
           //expecting 2 lists
-          setActivities(res.data.activities);
-          setDestinations(res.data.destinations);
-        })
+          // setActivities(res.data.activities);
+          // setDestinations(res.data.destinations);
+          axios.spread((resCity, resContent) => {
+            setActivities(resContent.data.activities);
+            setDestinations(resContent.data.destinations);
+            setVideo(resCity.data.video);
+          })
+        )
         .catch((res) => {
           console.log('City failed cause: ' + res);
         })
@@ -48,12 +58,26 @@ export default function CityScreen({route, navigation}) {
     onCityLoad();
   }, []);
 
-  /* this styling is completely placeholder and only for testing page logic */
   return (
     <View>
+      {/*<FlatList*/}
+      {/*  style={styles.videoPlayer}*/}
+      {/*  data={videos}*/}
+      {/*  keyExtractor={(item, index) => item.id}*/}
+      {/*  extraData={{videos}}*/}
+      {/*  renderItem={({item}) => {*/}
+      {/*    return (*/}
+      {/*      <YouTube*/}
+      {/*        apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"*/}
+      {/*        videoId="eW7Twd85m2g" // The YouTube video ID*/}
+      {/*        play={false}*/}
+      {/*      />*/}
+      {/*    );*/}
+      {/*  }}*/}
+      {/*/>*/}
       <YouTube
         apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"
-        videoId="eW7Twd85m2g" // The YouTube video ID
+        videoId={video} // The YouTube video ID
         play={false}
         style={styles.videoPlayer}
       />
@@ -91,7 +115,12 @@ export default function CityScreen({route, navigation}) {
                         }}
                       />
                     </TouchableOpacity>
-                    <Text style={styles.caption}>{item.name}</Text>
+                    <Text
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      style={styles.caption}>
+                      {item.name}
+                    </Text>
                   </View>
                 );
               }}

@@ -1,56 +1,143 @@
 
-import {useSelector} from 'react-redux';
-import {userReducer} from '../../reducers/userReducer';
+import { useSelector } from 'react-redux';
+import { userReducer } from '../../reducers/userReducer';
 import CONFIG from '../../config';
 import axios from 'axios';
-import React from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Pressable, ActivityIndicator, ImageBackground } from "react-native";
+import ImagePicker from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/Ionicons';
 
+const options = {
+    title: 'Select Avatar',
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+    },
+};
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({ navigation }) {
     const user = useSelector((state) => state.userReducer.user);
+    const token = useSelector(state => state.userReducer.authToken)
+    const [userState, setUserState] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+    //const [avatarSource, setAvatarSource] = useState(null)
+
+    function uploadImage(image) {
+        const imageData = {
+        type: image.type,
+        name: image.fileName,
+        uri: image.uri,
+      }
+        const formData = new FormData();
+        console.log(imageData)
+        formData.append('photo', imageData)
+        axios.post(`${CONFIG.API_URL}user/${user.id}/resource`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }})
+            .then(res => {
+                setIsLoading(true)
+                loadProfile()
+            })
+            .catch(res => {
+                console.log("image upload failed: " + res)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }
+
+    function changeProfilePicture() {
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.error) {
+                //Alert error?
+                console.log('ImagePicker Error: ', response.error);
+            } else {
+
+                console.log("Image picked, awaiting server upload")
+                uploadImage(response)
+            }
+        })
+    }
+    async function loadProfile() {
+        await axios.get(`${CONFIG.API_URL}User/${user.id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(res => {
+                setUserState(res.data)
+            })
+            .catch(res => {
+                console.log("profile failed cause:" + res)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        loadProfile()
+    }, [])
+
     return (
         <SafeAreaView style={styles.container}>
-                
-                <View style={{ paddingHorizontal: 15, paddingTop: 20}}>
-                    <View style={styles.profileImage}>
-                        <Image source={require("../../../assets/logo.png")} style={styles.image} resizeMode="center"></Image>
-                        
-                    </View>
-                    <View style={styles.infoContainer}>
-    <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>{user.firstName}</Text>
+            {isLoading ? (<ActivityIndicator />) : (
+                <>
+                    <View style={{ paddingHorizontal: 15, paddingTop: 20 }}>
+                        <View style={styles.profileImage}>
+
+                            <ImageBackground source={{
+                                uri: `${CONFIG.API_URL}resource/${userState.profilePic.resourceId}`,
+                                headers: { Authorization: `Bearer ${token}` },
+                            }} style={styles.image} resizeMode="center">
+
+                                <Icon name="create-sharp" size={24} color="#FFFFFF" style={{
+                                    textShadowOffset: { width: 5, height: 2 },
+                                    shadowColor: '#000000',
+                                    shadowOpacity: 0.7,
+                                    top: 75,
+                                    left: 75
+                                }} onPress={changeProfilePicture}>
+                                </Icon>
+
+                            </ImageBackground>
+
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>{user.firstName}</Text>
                             <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip</Text>
-                    </View>     
-                </View>
+                        </View>
+                    </View>
 
-                <View style={styles.statsContainer}>
-                    <View style={styles.statsBox}>
-                        <Text style={[styles.text, styles.subText]}>Ranking</Text>
-                    </View>
-                    <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Pressable
-                        onPress={() => {
-                            navigation.navigate('Rewards')
-                        }}><Text style={[styles.text, { fontSize: 24 }]}>ICON</Text></Pressable>
-                        <Text style={[styles.text, styles.subText]}>Rewards</Text>
-                    </View>
-                    
-                </View>
-                <View style={styles.statsContainer}>
-                    <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>{user.points}</Text>
-                        <Text style={[styles.text, styles.subText]}>Points</Text>
-                    </View>
-                    <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>6</Text>
-                        <Text style={[styles.text, styles.subText]}>Level</Text>
-                    </View>
-                    
-                </View>
+                    <View style={styles.statsContainer}>
+                        <View style={styles.statsBox}>
+                            <Text style={[styles.text, styles.subText]}>Ranking</Text>
+                        </View>
+                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                            <Pressable
+                                onPress={() => {
+                                    navigation.navigate('Rewards')
+                                }}><Text style={[styles.text, { fontSize: 24 }]}>ICON</Text></Pressable>
+                            <Text style={[styles.text, styles.subText]}>Rewards</Text>
+                        </View>
 
-                
-                <Text style={{ paddingHorizontal: 20, paddingTop: 20, fontSize: 28, color: '#000000'}}>Contact Us</Text>
-                
+                    </View>
+                    <View style={styles.statsContainer}>
+                        <View style={styles.statsBox}>
+                            <Text style={[styles.text, { fontSize: 24 }]}>{userState.points}</Text>
+                            <Text style={[styles.text, styles.subText]}>Points</Text>
+                        </View>
+                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                            <Text style={[styles.text, { fontSize: 24 }]}>6</Text>
+                            <Text style={[styles.text, styles.subText]}>Level</Text>
+                        </View>
+
+                    </View>
+
+
+                    <Text style={{ paddingHorizontal: 20, paddingTop: 20, fontSize: 28, color: '#000000' }}>Contact Us</Text>
+                </>
+            )}
+
+
         </SafeAreaView>
     );
 }
@@ -136,7 +223,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: "#ffff",
         borderRadius: 20,
-        width:window.width, height:100, marginHorizontal: 20,
+        width: window.width, height: 100, marginHorizontal: 20,
     },
     statsBox: {
         alignItems: "center",
