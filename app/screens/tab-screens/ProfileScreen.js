@@ -102,20 +102,21 @@ export default function ProfileScreen({ navigation }) {
 
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={[styles.text, { fontWeight: "200", fontSize: 30 }]}>{user.firstName}</Text>
-                            <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip</Text>
+                            <Text style={[styles.text, { fontWeight: "300", fontSize: 30 }]}>{user.firstName}</Text>
+                            <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip.</Text>
                         </View>
                     </View>
 
                     <View style={styles.statsContainer}>
                         <View style={styles.statsBox}>
+                            <Icon name="bar-chart" color="#4ba199" size={30}></Icon>
                             <Text style={[styles.text, styles.subText]}>Ranking</Text>
                         </View>
-                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1}]}>
                             <Pressable
                                 onPress={() => {
                                     navigation.navigate('Rewards')
-                                }}><Text style={[styles.text, { fontSize: 24 }]}>ICON</Text></Pressable>
+                                }}><Icon name="pricetags" color="#ffd244" size={30}></Icon></Pressable>
                             <Text style={[styles.text, styles.subText]}>Rewards</Text>
                         </View>
 
@@ -125,7 +126,7 @@ export default function ProfileScreen({ navigation }) {
                             <Text style={[styles.text, { fontSize: 24 }]}>{userState.points}</Text>
                             <Text style={[styles.text, styles.subText]}>Points</Text>
                         </View>
-                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1}]}>
                             <Text style={[styles.text, { fontSize: 24 }]}>6</Text>
                             <Text style={[styles.text, styles.subText]}>Level</Text>
                         </View>
@@ -145,7 +146,7 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#C0C0C0"
+        backgroundColor: "#f4f4f4"
     },
     text: {
         fontFamily: "HelveticaNeue",
@@ -227,7 +228,8 @@ const styles = StyleSheet.create({
     },
     statsBox: {
         alignItems: "center",
-        flex: 1
+        flex: 1,
+        justifyContent:'center'
     },
     mediaImageContainer: {
         width: 180,
