@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
+  Button,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
@@ -14,6 +15,7 @@ import axios from 'axios';
 import {ActivityIndicator} from 'react-native-paper';
 import QRScanner from '../components/QRComponents';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from 'react-native-modal';
 
 /*
     Note from JP
@@ -75,8 +77,14 @@ const StarReview = ({rate}) => {
 export default function ContentScreen({route, navigation}) {
   const [images, setImages] = useState([]);
   const [content, setContent] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [shortLists, setShortLists] = useState([]);
+
+
   const [isLoading, setLoading] = useState(true);
   const token = useSelector((state) => state.userReducer.authToken);
+  const user = useSelector((state) => state.userReducer.user);
+
   const {contentId, type} = route.params;
   //assume we're passing a contentID?
   //so nothing here is finalised
@@ -93,14 +101,18 @@ export default function ContentScreen({route, navigation}) {
           axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
             headers: {Authorization: `Bearer ${token}`},
           }),
+          axios.get(`${CONFIG.API_URL}User/${user.id}/Shortlist`,
+          { headers: { "Authorization": `Bearer ${token}` } }),
         ])
         .then(
-          axios.spread((resContent, resImages) => {
+          axios.spread((resContent, resImages, resShortList) => {
             setImages(resImages.data);
             setContent(resContent.data);
+            setShortLists(resShortList.data)
+
           }),
         )
-        .catch((res) => {
+        .catch((res) => {s
           console.log('why though? ' + res);
         })
         .finally(() => {
@@ -110,6 +122,48 @@ export default function ContentScreen({route, navigation}) {
     }
     contentScreenOnLoad();
   }, []);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+    // console.log(shortLists);
+  };
+
+  const addToList = (item) => {
+    // const newList = {
+    //   shortlistId: item.shortlistId,
+    //   contentId: contentId,
+    // }
+    var newList = [{shortlistId: item.shortlistId, contentId: contentId}]
+        //  post list to server
+     axios.post(`${CONFIG.API_URL}ShortlistContent`, newList,
+     { headers: { "Authorization": `Bearer ${token}` }})
+     .then((res) => {
+      //  console.log(res.data);s
+     })
+     .catch((res) => {
+        console.log('Wander failed cause: ' + res)
+        alert("Failed because" + res);
+
+     })
+     .finally(() => {
+        alert("Added to our list!");
+
+     })  
+     setModalVisible(!isModalVisible);
+    
+  };
+
+  const Item = ({ title }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => addToList(item)}>
+      <Item title={item.listName} />
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -140,7 +194,7 @@ export default function ContentScreen({route, navigation}) {
                       {content.description}
                     </Text>
                     <TouchableOpacity
-                      style={styles.backButton}
+                      style={styles.backButtson}
                       onPress={() => {
                         navigation.navigate('Home');
                       }}>
@@ -150,9 +204,25 @@ export default function ContentScreen({route, navigation}) {
                       style={styles.collectButton}
                       onPress={() => {
                         // TODO: Add to collections
+                        setModalVisible(!isModalVisible);
+
                       }}>
                       <Icon name="heart" color="#fff" size={24} />
                     </TouchableOpacity>
+                    <Modal isVisible={isModalVisible}>
+                      <View style={styles.card}>
+                        <FlatList
+                          data={shortLists}
+                          renderItem={renderItem}
+                          keyExtractor={(item, index) => index.toString()}
+                        />
+                        <TouchableOpacity
+                          style={styles.closeButton}
+                          onPress={toggleModal}>
+                          <Icon name="close-circle-outline" color="#fff" size={24} />
+                        </TouchableOpacity>
+                      </View>
+                    </Modal>
                   </ImageBackground>
                 );
               }}
@@ -222,6 +292,16 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: '#f44336',
   },
+  closeButton: {
+    position: 'absolute',
+
+    right: 20,
+    top: 140,
+    padding: 10,
+    borderRadius: 40,
+    backgroundColor: '#f44336',
+  },
+
   star: {
     width: 20,
     height: 20,
@@ -250,5 +330,41 @@ const styles = StyleSheet.create({
   },
   starRatingContent: {
     marginLeft: 30,
+  },
+  card: {
+    borderRadius: 20,
+
+    height: 200,
+    marginVertical: 15,
+    marginHorizontal: 20,
+    shadowColor: '#999',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    backgroundColor: '#fff',
+  },
+  item: {
+    borderRadius: 20,
+
+    height: 50,
+    marginVertical: 15,
+    marginHorizontal: 20,
+    shadowColor: '#999',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    right: 0,
+    bottom: 0,
+
   },
 });

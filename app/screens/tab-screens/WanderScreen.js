@@ -106,12 +106,7 @@ export class WanderScreen extends React.Component {
 
   removeList = (data) => {
     //post list to server
-    //post list to server
     console.log(data.item.listName);
-  
-    
-    
-
     axios.delete(`${CONFIG.API_URL}Shortlist/${data.item.shortlistId}`, {
       headers: {
         "Authorization": `Bearer ${this.props.token}`
@@ -200,10 +195,7 @@ export class WanderScreen extends React.Component {
           data={this.state.shortlists}
           renderItem={({ item }) => {
             return (
-              // Single Comes here which will be repeatative for the FlatListItems
-              // <Swipeout right={swipeBtns}
-              //   autoClose='true'
-              //   backgroundColor= 'transparent'>
+              
 
                 <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                   <View style={styles.card}>
@@ -247,8 +239,6 @@ export class WanderScreen extends React.Component {
                 >
                   <Text style={styles.styleRemove}>Delete</Text>
                 </TouchableOpacity>
-            
-            
           )}
           leftOpenValue={75}
           // rightOpenValue={-75}
