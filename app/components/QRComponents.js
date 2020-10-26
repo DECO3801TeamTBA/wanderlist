@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Pressable,
-  TouchableOpacity,
+  TouchableOpacity, Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
@@ -14,6 +14,8 @@ import {Modal} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import LinearGradient from 'react-native-linear-gradient';
+
+const window = Dimensions.get('window');
 
 export default function QRScannerModal() {
   const user = useSelector((state) => state.userReducer.user);
@@ -47,29 +49,35 @@ export default function QRScannerModal() {
         onPress={() => {
           setModalShow(true);
         }}
-        style={styles.buttonTouchable}>
+        style={styles.buttonScan}>
         {/*<TouchableOpacity style={styles.qr}>*/}
         <LinearGradient colors={['#81c784', '#4caf50']} style={styles.qr}>
           <Text style={styles.textQR}>Scan QR Code</Text>
         </LinearGradient>
         {/*</TouchableOpacity>*/}
       </Pressable>
-      <Modal visible={modalShow}>
-        <QRCodeScanner
-          onRead={onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
-          topContent={<Text style={styles.centerText}>Scan QR</Text>}
-          bottomContent={
-            <Pressable
-              style={styles.buttonTouchable}
-              onPress={() => {
-                setModalShow(false);
-              }}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </Pressable>
-          }
-        />
-      </Modal>
+      <View style={styles.modal}>
+        <Modal visible={modalShow}>
+          <QRCodeScanner
+            onRead={onSuccess}
+            flashMode={RNCamera.Constants.FlashMode.torch}
+            topContent={<Text style={styles.centerText}>Scan QR</Text>}
+            bottomContent={
+              <Pressable
+                style={styles.buttonCancel}
+                onPress={() => {
+                  setModalShow(false);
+                }}>
+                <LinearGradient
+                  colors={['#81c784', '#4caf50']}
+                  style={styles.qr}>
+                  <Text style={styles.textQR}>Cancel</Text>
+                </LinearGradient>
+              </Pressable>
+            }
+          />
+        </Modal>
+      </View>
     </View>
   );
 }
@@ -89,7 +97,11 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: 'rgb(0,122,255)',
   },
-  buttonTouchable: {
+  buttonScan: {
+    padding: 16,
+  },
+  buttonCancel: {
+    marginTop: -100,
     padding: 16,
   },
   qr: {
@@ -100,8 +112,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textQR: {
+    padding: 16,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  modal: {
+    flex: 2,
+    marginTop: -450,
   },
 });

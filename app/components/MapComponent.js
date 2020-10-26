@@ -8,6 +8,55 @@ import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 
 const window = Dimensions.get('window');
 
+const StarReview = ({rate}) => {
+  let i;
+  const starComponents = [];
+  const fullStar = Math.floor(rate);
+  const noStar = Math.floor(5 - rate);
+  const halfStar = 5 - fullStar - noStar;
+  const percentage = ((rate / 5) * 100).toFixed(0) + '%';
+
+  for (i = 0; i < fullStar; i++) {
+    starComponents.push(
+      <Image
+        key={`full-${i}`}
+        source={require('../../assets/fire_full.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  for (i = 0; i < halfStar; i++) {
+    starComponents.push(
+      <Image
+        key={`half-${i}`}
+        source={require('../../assets/fire_half.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  for (i = 0; i < noStar; i++) {
+    starComponents.push(
+      <Image
+        key={`empty-${i}`}
+        source={require('../../assets/fire_empty.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
+    );
+  }
+
+  return (
+    <View style={styles.starComponent}>
+      {starComponents}
+      <Text style={styles.starRating}>{percentage}</Text>
+    </View>
+  );
+};
+
 export default function HeatMap() {
   const token = useSelector((state) => state.userReducer.authToken);
   const user = useSelector((state) => state.userReducer.user);
@@ -67,7 +116,8 @@ export default function HeatMap() {
                   <Text
                     style={
                       styles.name
-                    }>{`type:${marker.type}, capacity: ${marker.capacity}`}</Text>
+                    }>{`Type: ${marker.type}, Capacity:`}</Text>
+                  <StarReview rate={marker.capacity} />
                 </View>
                 <View style={styles.arrowBorder} />
                 <View style={styles.arrow} />
@@ -121,5 +171,34 @@ const styles = StyleSheet.create({
     borderWidth: 16,
     alignSelf: 'center',
     marginTop: -32,
+  },
+  star: {
+    width: 20,
+    height: 20,
+  },
+  starComponent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  starRating: {
+    marginLeft: 5,
+    color: '#666666',
+  },
+  ratings: {
+    borderRadius: 15,
+    margin: 20,
+    paddingTop: 20,
+    paddingBottom: 15,
+    paddingLeft: 30,
+    backgroundColor: '#fff',
+  },
+  ratingRow: {
+    flexDirection: 'row',
+  },
+  ratingText: {
+    marginTop: 4,
+  },
+  starRatingContent: {
+    marginLeft: 30,
   },
 });
