@@ -10,6 +10,7 @@ import {
 import CONFIG from '../../config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function RewardsScreen({navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
@@ -44,6 +45,7 @@ export default function RewardsScreen({navigation}) {
                   redeemed: true,
                   expiryDate: r.expiryDate,
                   id: r.rewardId,
+                  coverId: r.coverImageId
                 };
               });
             let unredeemed = resReward.data
@@ -59,6 +61,7 @@ export default function RewardsScreen({navigation}) {
                   redeemed: false,
                   expiryDate: r.expiryDate,
                   id: r.rewardId,
+                  coverId: r.coverImageId
                 };
               });
             console.log(redeemed);
@@ -93,16 +96,25 @@ export default function RewardsScreen({navigation}) {
                     <View style={styles.card}>
                       <View style={styles.cardImgWrapper}>
                         <Image
-                          source={require('../../../assets/media1.jpg')}
+                          source={{
+                            uri: `${CONFIG.API_URL}resource/${item.coverId}`,
+                            headers: { Authorization: `Bearer ${token}` },
+                        }}
                           resizeMode="cover"
                           style={styles.cardImg}
                         />
                       </View>
                       <View style={styles.cardInfo}>
                         <Text style={styles.cardTitle}>
-                          {item.name} {item.value}
+                          {item.name}{"\n"}{"\n"}{item.value}
                         </Text>
                         <Text style={styles.cardDetails}>{item.description}</Text>
+                        <View style={styles.lockIcon}>
+                        {item.redeemed ? 
+                          <Icon size={24} name="lock-open-outline" color="#22d634" style={styles.lockIcons} ></Icon> 
+                          : <Icon size={24} name="lock-closed-outline" color="#e01212" style={styles.lockIcons}></Icon>
+                        }
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -171,4 +183,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#444',
   },
+  lockIcons: {
+    alignSelf:'flex-end'
+  },
+  lockIcon:{
+    flex:1,
+    justifyContent:'flex-end',
+    alignItems:'flex-end'
+  }
 });

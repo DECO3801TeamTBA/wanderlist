@@ -18,6 +18,7 @@ const options = {
 
 export default function ProfileScreen({ navigation }) {
     const user = useSelector((state) => state.userReducer.user);
+    const userCopy = {...user}
     const token = useSelector(state => state.userReducer.authToken)
     const [userState, setUserState] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -32,7 +33,7 @@ export default function ProfileScreen({ navigation }) {
         const formData = new FormData();
         console.log(imageData)
         formData.append('photo', imageData)
-        axios.post(`${CONFIG.API_URL}user/${user.id}/resource`, formData, {
+        axios.post(`${CONFIG.API_URL}user/${userCopy.id}/resource`, formData, {
             headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }})
             .then(res => {
                 setIsLoading(true)
@@ -59,7 +60,7 @@ export default function ProfileScreen({ navigation }) {
         })
     }
     async function loadProfile() {
-        await axios.get(`${CONFIG.API_URL}User/${user.id}`, {
+        await axios.get(`${CONFIG.API_URL}User/${userCopy.id}`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(res => {
@@ -102,7 +103,7 @@ export default function ProfileScreen({ navigation }) {
 
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={[styles.text, { fontWeight: "300", fontSize: 30 }]}>{user.firstName}</Text>
+                            <Text style={[styles.text, { fontWeight: "300", fontSize: 30 }]}>{userCopy.firstName}</Text>
                             <Text style={[styles.text, { color: "#000000", fontSize: 15 }]}>Enjoy you trip.</Text>
                         </View>
                     </View>
@@ -123,7 +124,7 @@ export default function ProfileScreen({ navigation }) {
                     </View>
                     <View style={styles.statsContainer}>
                         <View style={styles.statsBox}>
-                            <Text style={[styles.text, { fontSize: 24 }]}>{userState.points}</Text>
+                            <Text style={[styles.text, { fontSize: 24 }]}>{userCopy.points}</Text>
                             <Text style={[styles.text, styles.subText]}>Points</Text>
                         </View>
                         <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1}]}>
