@@ -228,7 +228,7 @@ export default function ContentScreen({ route, navigation }) {
               <FlatList
                 style={styles.scrollView}
                 data={images}
-                keyExtractor={(item, index) => item.id}
+                keyExtractor={(item, index) => item.resourceId}
                 extraData={{ images }}
                 horizontal={true}
                 renderItem={({ item }) => {
