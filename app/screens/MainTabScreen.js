@@ -7,6 +7,7 @@ import HomeStackScreen from './stack-screens/HomeStackScreen';
 import WanderStackScreen from './stack-screens/WanderStackScreen';
 import RewardsStackScreen from './stack-screens/RewardsStackScreen';
 import ProfileStackScreen from './stack-screens/ProfileStackScreen';
+import ProfileScreen from './tab-screens/ProfileScreen'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -46,7 +47,7 @@ const MainTabScreen = () => (
 
     <Tab.Screen
       name="Profile"
-      component={ProfileStackScreen}
+      component={ProfileScreen}
       options={{
         tabBarIcon: ({color}) => <Icon name="person" color={color} size={24} />,
       }}
