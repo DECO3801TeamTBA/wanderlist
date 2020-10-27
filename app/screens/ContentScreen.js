@@ -106,7 +106,6 @@ export default function ContentScreen({ route, navigation }) {
           }),
         )
         .catch((res) => {
-          s;
           console.log('why though? ' + res);
         })
         .finally(() => {
@@ -188,7 +187,7 @@ export default function ContentScreen({ route, navigation }) {
                     <FlatList
                       data={shortLists}
                       renderItem={renderItem}
-                      keyExtractor={(item, index) => index.toString()}
+                      keyExtractor={(item, index) => item.shortlistId}
                     />
                     <TouchableOpacity
                       style={styles.closeButton}
