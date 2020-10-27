@@ -52,7 +52,7 @@ export function SidebarScreen(props) {
           />
           <DrawerItem
             icon={({color, size}) => (
-              <Icon name="ribbon" color={color} size={size} />
+              <Icon name="pricetags" color={color} size={size} />
             )}
             label="Rewards"
             onPress={() => {
@@ -82,7 +82,7 @@ export function SidebarScreen(props) {
             dispatch(setExpiry(''))
             dispatch(setToken(''))
             dispatch(setIsAuth(false))
-            
+
             //props.navigation.dispatch(resetAction)
             //props.navigation.navigate('Login');
           }}
