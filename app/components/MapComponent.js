@@ -81,6 +81,7 @@ export default function HeatMap() {
               latlng: {latitude: c.latitude, longitude: c.longitude},
               capacity: c.capacity,
               type: c.type,
+              coverId: c.coverImage.resourceMetaId,
             };
           });
           setMarkers(tmpList);
@@ -117,8 +118,15 @@ export default function HeatMap() {
                   {/*  style={*/}
                   {/*    styles.name*/}
                   {/*  }>{`Type: ${marker.type}, Capacity:`}</Text>*/}
-                  <Text style={styles.name}>Capacity:</Text>
+                  <Text style={styles.name}>{marker.name}</Text>
                   <StarReview rate={marker.capacity} />
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `${CONFIG.API_URL}resource/${marker.coverId}`,
+                      headers: {Authorization: `Bearer ${token}`},
+                    }}
+                  />
                 </View>
                 <View style={styles.arrowBorder} />
                 <View style={styles.arrow} />
@@ -201,5 +209,10 @@ const styles = StyleSheet.create({
   },
   starRatingContent: {
     marginLeft: 30,
+  },
+  image: {
+    width: '100%',
+    height: 80,
+    marginTop: 10,
   },
 });
