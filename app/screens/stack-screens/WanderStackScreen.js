@@ -3,6 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import WanderScreen from '../tab-screens/WanderScreen';
+import ListScreen from '../ListScreen';
+
 
 const WanderListStack = createStackNavigator();
 
@@ -25,6 +27,7 @@ export default function WanderStackScreen({navigation}) {
           ),
         }}
       />
+      <WanderListStack.Screen name="List" component={ListScreen} />
     </WanderListStack.Navigator>
   );
 }

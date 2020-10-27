@@ -29,12 +29,11 @@ export class WanderScreen extends React.Component {
     userIcon: "",
     newTextList: "NaN",
     collection: [],
+    key: ""
   }
   
 // get data from server 
   componentDidMount() {
-    
-    
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
@@ -53,6 +52,7 @@ export class WanderScreen extends React.Component {
    
   }
 
+  //update list method
   updateList = () => {
     //enable loading again
     this.setState({ isLoading: true })
@@ -72,6 +72,7 @@ export class WanderScreen extends React.Component {
       })
   }
 
+  //adding list method
   addNewList = () => {
     const newList = {
       listName: this.state.newTextList
@@ -100,13 +101,14 @@ export class WanderScreen extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible })
   }
 
+  //toggle popup
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible })
   };
 
-  removeList = (data) => {
-    //post list to server
-    console.log(data.item.listName);
+  //remove list
+  removeList = (data, rowMap) => {
+    //post list to server 
     axios.delete(`${CONFIG.API_URL}Shortlist/${data.item.shortlistId}`, {
       headers: {
         "Authorization": `Bearer ${this.props.token}`
@@ -116,13 +118,22 @@ export class WanderScreen extends React.Component {
     })
     .catch((res) => {
       console.log('Wander failed cause: ' + res)
+      alert("Error, pls contact the developers" + res)
     })
     .finally(() => {
       this.updateList()
     })
+    this.closeRow(rowMap, data.item.shortlistId)
+
   }
   
-  
+  closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+        rowMap[rowKey].closeRow();
+        console.log(rowMap[rowKey]);
+
+    }
+  } 
 
   render() {
     return (
@@ -192,8 +203,12 @@ export class WanderScreen extends React.Component {
         
         <SwipeListView
 
+          disableLeftSwipe
+          closeOnScroll
+          closeOnRowPress
+          closeOnRowOpen	
           data={this.state.shortlists}
-          renderItem={({ item }) => {
+          renderItem={({item}) => {
             return (
               
 
@@ -227,21 +242,25 @@ export class WanderScreen extends React.Component {
 
                 </TouchableWithoutFeedback>
             
-
             )
           }}
           extraData={this.state}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.shortlistId.toString()}
+          // keyExtractor={(item, index) => {
+          //   return rowData.id.toString();
+          // }}
           renderHiddenItem={ (data, rowMap) => (
                 <TouchableOpacity
                   style={styles.rowBack}
-                  onPress={() => this.removeList(data)}
+                  onPress={() => this.removeList(data, rowMap)}
                 >
                   <Text style={styles.styleRemove}>Delete</Text>
                 </TouchableOpacity>
           )}
           leftOpenValue={75}
-          // rightOpenValue={-75}
+          // previewRowKey={'0'}
+          previewOpenDelay={3000}
+s
         />
 
       </View>
@@ -349,7 +368,7 @@ const styles = StyleSheet.create({
   rowBack: {
     borderRadius: 20,
     height: 200,
-    width: 150,
+    width: 350,
     marginVertical: 15,
     marginHorizontal: 20,
     elevation: 5,

@@ -12,48 +12,20 @@ import {
 import { SearchBar } from 'react-native-elements';
 import CONFIG from '../config';
 import axios from 'axios';
+// import RewardsScreen from '../side-screens/RewardsScreen';
 
 
-export default function ListScreen({ route, navigation}) {
+export default function ListScreen({route, navigation}) {
 
     const { shortlistId } = route.params;
     const { listName } = route.params;
     const { collection } = route.params;
 
     const { token } = route.params;
-    // const [isLoading, setLoading] = useState(true);
-    // const [collection, setCollection] = useState([]);
-
-
-
-    // useEffect(() => {
-    //   //gather cities
-    //   async function onHomeLoad() {
-    //     await axios
-    //       .get(`${CONFIG.API_URL}ShortlistContent/${shortlistId}`, {
-    //         headers: {Authorization: `Bearer ${token}`},
-    //       })
-    //       .then(async (res) => {
-    //         //expecting a list of cities
-    //         // setCities(res.data);
-    //         setCollection(res.data);
-    //         console.log(res.data);
-
-    //       })
-    //       .catch((res) => {
-    //         console.log('Collection failed cause: ' + res);
-    //       })
-    //       .finally(() => {
-    //         setLoading(false);
-    //       });   
-    //   }
-    //   onHomeLoad();
-    // }, []);
-
 
     return (
       <View style={styles.viewStyle}>
-          <Text style={styles.bigBlackCentre}>{listName}</Text>
+          {/* <Text style={styles.bigBlackCentre}>{listName}</Text> */}
     
           
           <View style={{height: 50}}>
@@ -63,19 +35,14 @@ export default function ListScreen({ route, navigation}) {
               clearIcon={true}            
               round
               searchIcon={{ size: 20 }}
-              
               placeholder="Search Your Lists"
-              
           />
           </View>
 
           <View style={{height: 50}} >
-
           <Text style={styles.bigBlack}>
               Collection
           </Text>
-          
-
           </View>
 
           <FlatList
@@ -107,8 +74,6 @@ export default function ListScreen({ route, navigation}) {
             extraData={collection}
             keyExtractor={(item, index) => index.toString()}  
           />
-      
-
       </View>
     );
 }

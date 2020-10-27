@@ -8,6 +8,7 @@ import WanderStackScreen from './stack-screens/WanderStackScreen';
 import RewardsStackScreen from './stack-screens/RewardsStackScreen';
 import ProfileStackScreen from './stack-screens/ProfileStackScreen';
 
+
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
@@ -51,6 +52,8 @@ const MainTabScreen = () => (
         tabBarIcon: ({color}) => <Icon name="person" color={color} size={24} />,
       }}
     />
+
+
   </Tab.Navigator>
 );
 
