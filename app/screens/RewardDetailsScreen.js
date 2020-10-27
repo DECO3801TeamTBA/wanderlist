@@ -99,6 +99,7 @@ export default function RewardsDetailsScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
     mainContainer: {
+        marginTop:7,
         flexDirection: 'column',
         backgroundColor:'#f4f4f4'
     },
@@ -120,7 +121,8 @@ const styles = StyleSheet.create({
         paddingTop: 80,
         color: '#FFFFFF',
         fontSize: 28,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        fontWeight:'bold'
     },
     imageBGStyle: {
 
@@ -136,10 +138,10 @@ const styles = StyleSheet.create({
     descriptionHolder: {
         margin:10,
         backgroundColor:'#FFFFFF',
-        borderRadius:2
+        borderRadius:10
     },
     descriptionStyle:{
-        padding:5,
+        padding:10,
         fontSize:16,
         fontWeight:'600'
     },

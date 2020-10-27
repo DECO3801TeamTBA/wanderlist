@@ -116,7 +116,7 @@ export default function RewardsScreen({ navigation }) {
                             <Text style={styles.cardTitle}>
                               {item.name}{"\n"}{"\n"}{item.value}
                             </Text>
-                            <Text style={styles.cardDetails}>{item.description}</Text>
+                            <Text style={styles.cardDetails}></Text>
                             <View style={styles.lockIcon}>
                               {item.unlocked ?
                                 <Icon size={24} name="lock-open-outline" color="#22d634" style={styles.lockIcons} ></Icon>
