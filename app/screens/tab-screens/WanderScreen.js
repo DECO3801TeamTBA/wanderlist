@@ -168,11 +168,13 @@ export class WanderScreen extends React.Component {
             <View style={styles.plus}>
 
             </View>
-            <Modal isVisible={this.state.isModalVisible}    >
-
-                <View style={{flex: 1, alignSelf: "center",}}>
-                  <View style={styles.card}>
-                    <Text style={styles.bigBlack}>New List</Text>
+            <Modal 
+              onBackdropPress={this.toggleModal}
+              isVisible={this.state.isModalVisible}    
+              >
+                {/* <View style={{flex: 1, alignSelf: "center",}}> */}
+                  <View style={styles.popup}>
+                    <Text style={styles.bigBlackPopUp}>New List</Text>
                     <TextInput
                       style={styles.inputText}
                       placeholder="Enter name of new list!"
@@ -183,18 +185,20 @@ export class WanderScreen extends React.Component {
                       onPress={this.addNewList}
                       backgroundColor="#fff"
                       color="#008000"
+                      size={10}
                     >Create</Icon.Button>
-                    <Icon.Button
+
+                    {/* <Icon.Button
                       style={{fontStyle: "bold", }}
                       onPress={this.toggleModal}
                       backgroundColor="#fff"
                       color="#008000"
                       size={30}
-                    >Cancel</Icon.Button>
+                    >Cancel</Icon.Button> */}
 
                   </View>
 
-                </View>
+                {/* </View> */}
             </Modal>
 
           </Text>
@@ -326,6 +330,20 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: '#fff',
   },
+  popup: {
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    height: 200,
+    // width: 350,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#999',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5, 
+    backgroundColor: '#fff',
+  },
   categoryContainer: {
     flexDirection: 'row',
     width: '90%',
@@ -338,6 +356,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginHorizontal: 20,
+    marginVertical: 15,
+  },
+  bigBlackPopUp: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 30,
+    marginHorizontal: 20,
+    marginVertical: 0,
   },
   cardInfo: {
     flex: 2,
@@ -386,8 +412,10 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   plus: {
-    // paddingHorizontal:240,
     paddingVertical: -20,
+    // paddingLeft: 10,
+    // paddingRight: 40,s 
+
   },
 });
 

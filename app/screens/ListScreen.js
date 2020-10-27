@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 25,
       marginHorizontal: 20,
+      marginVertical: 15,
     },
     bigBlackCentre: {
       paddingTop: 20,
