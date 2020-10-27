@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     color: 'rgb(0,122,255)',
   },
   buttonScan: {
-    marginTop:20,
+    marginTop:30,
     marginRight:15,
     alignSelf:'center'
   },
