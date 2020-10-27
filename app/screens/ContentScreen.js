@@ -7,7 +7,6 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  Button,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
@@ -217,7 +216,11 @@ export default function ContentScreen({route, navigation}) {
                         <TouchableOpacity
                           style={styles.closeButton}
                           onPress={toggleModal}>
-                          <Icon name="close-circle-outline" color="#fff" size={24} />
+                          <Icon
+                            name="close-circle-outline"
+                            color="#fff"
+                            size={24}
+                          />
                         </TouchableOpacity>
                       </View>
                     </Modal>
