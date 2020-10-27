@@ -75,7 +75,7 @@ export default function RewardsDetailsScreen({ route, navigation }) {
                         </View> : <></>}
 
                         <View style={styles.qrStyle}>
-                            <Text style={styles.qrTitle}>Scan QR Code</Text>
+                            <Text style={styles.qrTitle}>Scan QR Code for Discount</Text>
                             <QRCode
                                 value={rewardId}
                                 size={150}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     coverImage: {
         margin:5,
-        height: 300,
+        height: 200,
         borderRadius: 10
     },
     qrStyle: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     nameStyle: {
-        paddingTop: 100,
+        paddingTop: 80,
         color: '#FFFFFF',
         fontSize: 28,
         alignSelf: 'center'
@@ -126,11 +126,11 @@ const styles = StyleSheet.create({
 
     },
     valueStyle: {
-        marginTop: 175,
+        marginTop: 100,
         fontWeight: '500',
         fontSize: 24,
         color: '#fe7662',
-        alignSelf: 'flex-end',
+        textAlign:'right',
         marginRight: 10
     },
     descriptionHolder: {
