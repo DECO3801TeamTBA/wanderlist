@@ -31,13 +31,14 @@ export class WanderScreen extends React.Component {
     collection: [],
     key: ""
   }
-  
-// get data from server 
+
+// get data from server
   componentDidMount() {
+
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
-        
+
         this.setState({ shortlists: res.data })
 
       })
@@ -45,11 +46,11 @@ export class WanderScreen extends React.Component {
         console.log('Wander failed cause: ' + res)
       })
       .finally(() => {
-        
+
         this.setState({ isLoading: false })
       })
 
-   
+
   }
 
   //update list method
@@ -59,7 +60,7 @@ export class WanderScreen extends React.Component {
     axios.get(`${CONFIG.API_URL}User/${this.props.user.id}/Shortlist`,
       { headers: { "Authorization": `Bearer ${this.props.token}` } })
       .then((res) => {
-        
+
         this.setState({ shortlists: res.data })
 
       })
@@ -95,7 +96,7 @@ export class WanderScreen extends React.Component {
       })
       .finally(() => {
         this.updateList()
-      })  
+      })
       // created list pop up
     alert("Your List is created");
     this.setState({ isModalVisible: !this.state.isModalVisible })
@@ -135,11 +136,12 @@ export class WanderScreen extends React.Component {
     }
   } 
 
+
   render() {
     return (
       //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
-       
+
         <View style={{ height: 50 }}>
           <SearchBar
             showLoading={false}
@@ -162,9 +164,9 @@ export class WanderScreen extends React.Component {
                 onPress={this.toggleModal}
                 style={styles.plus}
               >
-            </Icon.Button>   
+            </Icon.Button>
             <View style={styles.plus}>
-                   
+
             </View>
             <Modal isVisible={this.state.isModalVisible}    >
 
@@ -177,13 +179,13 @@ export class WanderScreen extends React.Component {
                       placeholderTextColor="#4d4d4d"
                       onChangeText={(text) => this.setState({newTextList: text})}
                     />
-                    <Icon.Button  
+                    <Icon.Button
                       onPress={this.addNewList}
                       backgroundColor="#fff"
-                      color="#008000" 
+                      color="#008000"
                     >Create</Icon.Button>
-                    <Icon.Button 
-                      style={{fontStyle: "bold", }} 
+                    <Icon.Button
+                      style={{fontStyle: "bold", }}
                       onPress={this.toggleModal}
                       backgroundColor="#fff"
                       color="#008000"
@@ -191,16 +193,16 @@ export class WanderScreen extends React.Component {
                     >Cancel</Icon.Button>
 
                   </View>
-                  
+
                 </View>
             </Modal>
-            
+
           </Text>
-          
-          
+
+
 
         </View>
-        
+
         <SwipeListView
 
           disableLeftSwipe
@@ -210,18 +212,18 @@ export class WanderScreen extends React.Component {
           data={this.state.shortlists}
           renderItem={({item}) => {
             return (
-              
+
 
                 <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
                   <View style={styles.card}>
                     {item.coverImage ? (
                       <>
-                      <Image 
-                      style={styles.cover} 
-                    
+                      <Image
+                      style={styles.cover}
+
                       source={{
                           uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                          headers: {Authorization: `Bearer ${this.props.token}`} 
+                          headers: {Authorization: `Bearer ${this.props.token}`}
                         }
                       }
                     ></Image>
@@ -229,19 +231,19 @@ export class WanderScreen extends React.Component {
                     </>
                     ) : (
                       <>
-                      <Image 
-                      style={styles.cover}          
+                      <Image
+                      style={styles.cover}
                       source={require('../../../assets/default_cover.png')}
                       />
                     <Text style={styles.titleStyle}>{item.listName}</Text>
                     </>
                     )}
-                    
-                        
+
+
                   </View>
 
                 </TouchableWithoutFeedback>
-            
+
             )
           }}
           extraData={this.state}
@@ -260,7 +262,7 @@ export class WanderScreen extends React.Component {
           leftOpenValue={75}
           // previewRowKey={'0'}
           previewOpenDelay={3000}
-s
+
         />
 
       </View>
@@ -286,8 +288,8 @@ s
     })
     .finally(() => {
       // setLoading(false);
-    });  
-    
+    });
+
   }
 }
 
@@ -384,7 +386,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   plus: {
-    paddingHorizontal:240,
+    // paddingHorizontal:240,
     paddingVertical: -20,
   },
 });

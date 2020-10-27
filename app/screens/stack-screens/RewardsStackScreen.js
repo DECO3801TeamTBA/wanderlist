@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import RewardsScreen from '../side-screens/RewardsScreen';
+import RewardDetailsScreen from '../RewardDetailsScreen';
+import {HeaderBackButton} from '@react-navigation/stack';
+import {CommonActions} from '@react-navigation/native';
 
 const RewardsStack = createStackNavigator();
 
@@ -15,14 +18,19 @@ export default function RewardsStackScreen({navigation}) {
         options={{
           title: 'Rewards',
           headerLeft: () => (
-            <Icon.Button
-              name="menu"
-              size={30}
-              backgroundColor="#ffffff"
-              color="#000000"
-              onPress={() => navigation.openDrawer()}
+            <HeaderBackButton
+              onPress={() => {
+                navigation.dispatch(CommonActions.goBack());
+              }}
             />
           ),
+        }}
+      />
+      <RewardsStack.Screen
+        name="RewardDetails"
+        component={RewardDetailsScreen}
+        options={{
+          title: 'Reward Details',
         }}
       />
     </RewardsStack.Navigator>

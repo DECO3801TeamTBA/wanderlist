@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
 import CONFIG from '../config';
@@ -18,34 +25,40 @@ const StarReview = ({rate}) => {
 
   for (i = 0; i < fullStar; i++) {
     starComponents.push(
-      <Image
-        key={`full-${i}`}
-        source={require('../../assets/fire_full.png')}
-        resizeMode="cover"
-        style={styles.star}
-      />,
+      <Text>
+        <Image
+          key={`full-${i}`}
+          source={require('../../assets/fire_full.png')}
+          resizeMode="cover"
+          style={styles.star}
+        />
+      </Text>,
     );
   }
 
   for (i = 0; i < halfStar; i++) {
     starComponents.push(
-      <Image
-        key={`half-${i}`}
-        source={require('../../assets/fire_half.png')}
-        resizeMode="cover"
-        style={styles.star}
-      />,
+      <Text>
+        <Image
+          key={`half-${i}`}
+          source={require('../../assets/fire_half.png')}
+          resizeMode="cover"
+          style={styles.star}
+        />
+      </Text>,
     );
   }
 
   for (i = 0; i < noStar; i++) {
     starComponents.push(
-      <Image
-        key={`empty-${i}`}
-        source={require('../../assets/fire_empty.png')}
-        resizeMode="cover"
-        style={styles.star}
-      />,
+      <Text>
+        <Image
+          key={`empty-${i}`}
+          source={require('../../assets/fire_empty.png')}
+          resizeMode="cover"
+          style={styles.star}
+        />
+      </Text>,
     );
   }
 
@@ -64,6 +77,8 @@ export default function HeatMap() {
   const [modalShow, setModalShow] = useState(false);
   const [markers, setMarkers] = useState([]);
 
+  // const [initialRender, setInitialRender] = useState(true);
+
   useEffect(() => {
     async function mapLoad() {
       // for the testing, i'm just going to load 3 specific
@@ -81,6 +96,7 @@ export default function HeatMap() {
               latlng: {latitude: c.latitude, longitude: c.longitude},
               capacity: c.capacity,
               type: c.type,
+              coverId: c.coverImage.resourceMetaId,
             };
           });
           setMarkers(tmpList);
@@ -117,8 +133,22 @@ export default function HeatMap() {
                   {/*  style={*/}
                   {/*    styles.name*/}
                   {/*  }>{`Type: ${marker.type}, Capacity:`}</Text>*/}
-                  <Text style={styles.name}>Capacity:</Text>
-                  <StarReview rate={marker.capacity} />
+
+                  <Text style={styles.name}>{marker.name}</Text>
+                  <Text>
+                    <StarReview rate={marker.capacity} />
+                  </Text>
+
+                  <Text>
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: `${CONFIG.API_URL}resource/${marker.coverId}`,
+                        headers: {Authorization: `Bearer ${token}`},
+                      }}
+                      resizeMode="contain"
+                    />
+                  </Text>
                 </View>
                 <View style={styles.arrowBorder} />
                 <View style={styles.arrow} />
@@ -201,5 +231,10 @@ const styles = StyleSheet.create({
   },
   starRatingContent: {
     marginLeft: 30,
+  },
+  image: {
+    width: 130,
+    height: 80,
+    marginTop: 10,
   },
 });

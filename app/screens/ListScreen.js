@@ -72,7 +72,7 @@ export default function ListScreen({route, navigation}) {
               )
             }}
             extraData={collection}
-            keyExtractor={(item, index) => index.toString()}  
+            keyExtractor={(item, index) => item.id}  
           />
       </View>
     );

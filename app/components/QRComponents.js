@@ -14,6 +14,7 @@ import {Modal} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('window');
 
@@ -44,16 +45,17 @@ export default function QRScannerModal() {
       });
   };
   return (
-    <View>
+    <View style={{
+      marginTop:10,
+      alignSelf:'center'
+    }}>
       <Pressable
         onPress={() => {
           setModalShow(true);
         }}
         style={styles.buttonScan}>
         {/*<TouchableOpacity style={styles.qr}>*/}
-        <LinearGradient colors={['#81c784', '#4caf50']} style={styles.qr}>
-          <Text style={styles.textQR}>Scan QR Code</Text>
-        </LinearGradient>
+        <Icon name="scan-circle-outline" size={32}></Icon>
         {/*</TouchableOpacity>*/}
       </Pressable>
       <View style={styles.modal}>
@@ -122,3 +124,10 @@ const styles = StyleSheet.create({
     marginTop: -450,
   },
 });
+
+/*
+<LinearGradient colors={['#81c784', '#4caf50']} style={styles.qr}>
+          <Text style={styles.textQR}>Scan QR Code</Text>
+        </LinearGradient>
+
+*/
