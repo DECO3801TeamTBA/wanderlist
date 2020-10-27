@@ -28,7 +28,7 @@ const MainTabScreen = () => (
     />
 
     <Tab.Screen
-      name="Wander"
+      name="Lists"
       component={WanderStackScreen}
       options={{
         tabBarIcon: ({color}) => <Icon name="reader" color={color} size={24} />,
