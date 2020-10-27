@@ -15,6 +15,7 @@ import ContentScreen from './app/screens/ContentScreen';
 import SplashScreen from './app/screens/SplashScreen'
 import LoginScreen from './app/screens/LoginScreen'
 import SignUpScreen from './app/screens/SignUpScreen'
+import ImageViewerScreen from './app/screens/ImageViewerScreen'
 
 import { LogBox } from 'react-native';
 
@@ -75,6 +76,11 @@ export default function App() {
               name="Content"
               component={ContentScreen}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ImageViewer"
+              component={ImageViewerScreen}
+              options={{ title:"Picture"}}
             />
           </>
         ) : (
