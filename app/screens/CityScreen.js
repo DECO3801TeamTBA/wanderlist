@@ -46,6 +46,7 @@ export default function CityScreen({route, navigation}) {
             setActivities(resContent.data.activities);
             setDestinations(resContent.data.destinations);
             setVideo(resCity.data.video);
+            navigation.setOptions({title:resCity.data.name})
           })
         )
         .catch((res) => {
