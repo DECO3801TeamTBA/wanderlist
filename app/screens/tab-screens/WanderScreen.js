@@ -3,12 +3,10 @@ import {
   Text,
   View,
   StyleSheet,
-  FlatList,
   Platform,
   TouchableWithoutFeedback,
   Image,
   TextInput,
-  Alert,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
@@ -17,12 +15,9 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import CONFIG from '../../config';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Modal from 'react-native-modal';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {LogBox} from 'react-native';
-import Popup from './Popup';
-
-import DialogInput from 'react-native-dialog-input';
+import LinearGradient from 'react-native-linear-gradient';
 
 const window = Dimensions.get('window');
 
@@ -160,16 +155,16 @@ export class WanderScreen extends React.Component {
     return (
       //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
-        <View>
-          <SearchBar
-            showLoading={false}
-            platform={Platform.OS}
-            clearIcon={true}
-            round
-            searchIcon={{size: 20}}
-            placeholder="Search Your Lists"
-          />
-        </View>
+        {/*<View>*/}
+        {/*  <SearchBar*/}
+        {/*    showLoading={false}*/}
+        {/*    platform={Platform.OS}*/}
+        {/*    clearIcon={true}*/}
+        {/*    round*/}
+        {/*    searchIcon={{size: 20}}*/}
+        {/*    placeholder="Search Your Lists"*/}
+        {/*  />*/}
+        {/*</View>*/}
 
         <View style={styles.bigBlackContainer}>
           <Text style={styles.bigBlack}>Your Lists</Text>
@@ -236,7 +231,7 @@ export class WanderScreen extends React.Component {
                         }}
                       />
                       {/*TODO: some meaningful name here*/}
-                      <Text style={styles.titleStyle}>ShaggyList</Text>
+                      <Text style={styles.titleStyle}>Some name here</Text>
                     </>
                   ) : (
                     <>
@@ -245,7 +240,7 @@ export class WanderScreen extends React.Component {
                         source={require('../../../assets/default_cover.png')}
                       />
                       {/*TODO: some meaningful name here*/}
-                      <Text style={styles.titleStyle}>ShaggyList</Text>
+                      <Text style={styles.titleStyle}>Some name here</Text>
                     </>
                   )}
                 </View>
@@ -278,22 +273,25 @@ export class WanderScreen extends React.Component {
               placeholderTextColor="#4d4d4d"
               onChangeText={(text) => this.setState({newTextList: text})}
             />
-            <View>
-              <Icon.Button
-                onPress={this.addNewList}
-                backgroundColor="#fff"
-                color="#008000"
-                size={10}>
-                Create
-              </Icon.Button>
-              <Icon.Button
-                style={{fontStyle: 'bold'}}
-                onPress={this.togglePopup.bind(this)}
-                backgroundColor="#fff"
-                color="#008000"
-                size={10}>
-                Cancel
-              </Icon.Button>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonCreate}
+                onPress={this.addNewList}>
+                <LinearGradient
+                  colors={['#4caf50', '#388e3c']}
+                  style={styles.buttonCreate}>
+                  <Text style={styles.textButtonCreate}>Create</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonCancel}
+                onPress={this.togglePopup.bind(this)}>
+                <LinearGradient
+                  colors={['#f06292', '#e91e63']}
+                  style={styles.buttonCancel}>
+                  <Text style={styles.textButtonCancel}>Cancel</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
           </View>
         ) : null}
@@ -393,8 +391,44 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
     fontSize: 30,
-    marginHorizontal: 20,
-    marginVertical: 0,
+  },
+  inputText: {
+    marginTop: 15,
+    paddingHorizontal: 20,
+    paddingBottom: 5,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  buttonCreate: {
+    width: 90,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 15,
+    marginRight: 10,
+  },
+  buttonCancel: {
+    width: 90,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 15,
+    marginLeft: 10,
+  },
+  textButtonCreate: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  textButtonCancel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
   },
   cardInfo: {
     flex: 2,
@@ -413,16 +447,6 @@ const styles = StyleSheet.create({
     flex: 3,
     marginHorizontal: 0,
     marginBottom: 60,
-  },
-  inputText: {
-    marginTop: Platform.OS === 'ios' ? 0 : -10,
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    marginLeft: 20,
-    marginRight: 20,
-    //height: 40,
   },
   rowBack: {
     borderRadius: 20,

@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   textSignUp: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#388e3c',
+    color: '#4ba199',
   },
   errorStyle: {
     height: 50,

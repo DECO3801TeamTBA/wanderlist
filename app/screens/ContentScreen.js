@@ -7,14 +7,12 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  Button,
   SafeAreaView,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
 import {ActivityIndicator} from 'react-native-paper';
-import QRScanner from '../components/QRComponents';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import {TextShadow} from 'text-shadow-component';
@@ -117,7 +115,6 @@ export default function ContentScreen({route, navigation}) {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
-    // console.log(shortLists);
   };
 
   const addToList = (item) => {
@@ -125,7 +122,7 @@ export default function ContentScreen({route, navigation}) {
     //   shortlistId: item.shortlistId,
     //   contentId: contentId,
     // }
-    var newList = [{shortlistId: item.shortlistId, contentId: contentId}];
+    const newList = [{shortlistId: item.shortlistId, contentId: contentId}];
     //  post list to server
     axios
       .post(`${CONFIG.API_URL}ShortlistContent`, newList, {
@@ -152,7 +149,9 @@ export default function ContentScreen({route, navigation}) {
 
   const Item = ({title}) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      {/*<Text style={styles.title}>{title}</Text>*/}
+      {/*TODO: some meaningful name here*/}
+      <Text style={styles.title}>Some Name here</Text>
     </View>
   );
 
@@ -168,6 +167,17 @@ export default function ContentScreen({route, navigation}) {
         <ActivityIndicator />
       ) : (
         <>
+          <Modal
+            isVisible={isModalVisible}
+            onBackdropPress={() => toggleModal()}>
+            <View style={styles.card}>
+              <FlatList
+                data={shortLists}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => item.shortlistId}
+              />
+            </View>
+          </Modal>
           <View style={styles.image}>
             <ImageBackground
               source={{
@@ -188,20 +198,6 @@ export default function ContentScreen({route, navigation}) {
                 }}>
                 <Icon name="chevron-back" color="#fff" size={24} />
               </TouchableOpacity>
-              <Modal isVisible={isModalVisible}>
-                <View style={styles.card}>
-                  <FlatList
-                    data={shortLists}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => item.shortlistId}
-                  />
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={toggleModal}>
-                    <Icon name="close-circle-outline" color="#fff" size={24} />
-                  </TouchableOpacity>
-                </View>
-              </Modal>
             </ImageBackground>
           </View>
           <View style={styles.ratings}>
@@ -220,8 +216,7 @@ export default function ContentScreen({route, navigation}) {
               <TouchableOpacity
                 style={styles.collectButton}
                 onPress={() => {
-                  // TODO: Add to collections
-                  setModalVisible(!isModalVisible);
+                  setModalVisible(true);
                 }}>
                 <Icon name="heart" color="#fff" size={24} />
               </TouchableOpacity>
@@ -283,8 +278,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 30,
     fontWeight: 'bold',
-    paddingHorizontal: 20,
-    marginVertical: 5,
+    marginHorizontal: 20,
+    marginVertical: 15,
   },
   description: {
     color: 'white',
@@ -311,14 +306,12 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-
     right: 20,
     top: 140,
     padding: 10,
     borderRadius: 40,
     backgroundColor: '#f44336',
   },
-
   star: {
     width: 20,
     height: 20,
@@ -350,39 +343,29 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   card: {
-    borderRadius: 20,
-
-    height: 200,
-    marginVertical: 15,
-    marginHorizontal: 20,
-    shadowColor: '#999',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
+    borderRadius: 30,
+    height: 300,
+    marginTop: 20,
+    marginBottom: 20,
     backgroundColor: '#fff',
   },
   item: {
     borderRadius: 20,
-
     height: 50,
-    marginVertical: 15,
+    marginTop: 20,
     marginHorizontal: 20,
     shadowColor: '#999',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    elevation: 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#4ba199',
   },
   title: {
+    textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold',
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 0,
-    bottom: 0,
+    marginTop: 12,
+    fontWeight: '500',
+    color: '#fff',
   },
   scrollView: {
     paddingLeft: 5,
@@ -401,65 +384,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   descriptionStyle: {
-    padding: 10,
+    padding: 20,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
+    lineHeight: 25,
   },
 });
-
-/*
-<FlatList
-              data={images}
-              keyExtractor={(item, index) => item.resourceId}
-              extraData={{images}}
-              renderItem={({item}) => {
-                return (
-                  <ImageBackground
-                    source={{
-                      uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
-                      headers: {Authorization: `Bearer ${token}`},
-                    }}
-                    style={styles.image}
-                    imageStyle={styles.imageStyle}>
-                    <Text style={styles.name}>
-                      {{type} name: {content.name}}
-                      {content.name}
-                    </Text>
-                    <Text style={styles.description}>
-                      {{type} description: {content.description}}
-                      {content.description}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.backButton}
-                      onPress={() => {
-                        navigation.navigate('Home');
-                      }}>
-                      <Icon name="chevron-back" color="#fff" size={24} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.collectButton}
-                      onPress={() => {
-                        // TODO: Add to collections
-                        setModalVisible(!isModalVisible);
-                      }}>
-                      <Icon name="heart" color="#fff" size={24} />
-                    </TouchableOpacity>
-                    <Modal isVisible={isModalVisible}>
-                      <View style={styles.card}>
-                        <FlatList
-                          data={shortLists}
-                          renderItem={renderItem}
-                          keyExtractor={(item, index) => index.toString()}
-                        />
-                        <TouchableOpacity
-                          style={styles.closeButton}
-                          onPress={toggleModal}>
-                          <Icon name="close-circle-outline" color="#fff" size={24} />
-                        </TouchableOpacity>
-                      </View>
-                    </Modal>
-                  </ImageBackground>
-                );
-              }}
-            />
-*/
