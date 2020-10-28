@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,17 +10,16 @@ import {
   Button,
   SafeAreaView,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import CONFIG from '../config';
 import axios from 'axios';
-import { ActivityIndicator } from 'react-native-paper';
+import {ActivityIndicator} from 'react-native-paper';
 import QRScanner from '../components/QRComponents';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import { TextShadow } from 'text-shadow-component'
+import {TextShadow} from 'text-shadow-component';
 
-
-const StarReview = ({ rate }) => {
+const StarReview = ({rate}) => {
   let i;
   const starComponents = [];
   const fullStar = Math.floor(rate);
@@ -68,7 +67,7 @@ const StarReview = ({ rate }) => {
   );
 };
 
-export default function ContentScreen({ route, navigation }) {
+export default function ContentScreen({route, navigation}) {
   const [images, setImages] = useState([]);
   const [content, setContent] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -78,7 +77,7 @@ export default function ContentScreen({ route, navigation }) {
   const token = useSelector((state) => state.userReducer.authToken);
   const user = useSelector((state) => state.userReducer.user);
 
-  const { contentId, type } = route.params;
+  const {contentId, type} = route.params;
   //assume we're passing a contentID?
   //so nothing here is finalised
   //database/API isn't set up for this yet
@@ -89,13 +88,13 @@ export default function ContentScreen({ route, navigation }) {
       await axios
         .all([
           axios.get(`${CONFIG.API_URL}content/${contentId}`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {Authorization: `Bearer ${token}`},
           }),
           axios.get(`${CONFIG.API_URL}content/${contentId}/resource`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {Authorization: `Bearer ${token}`},
           }),
           axios.get(`${CONFIG.API_URL}User/${user.id}/Shortlist`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {Authorization: `Bearer ${token}`},
           }),
         ])
         .then(
@@ -126,40 +125,38 @@ export default function ContentScreen({ route, navigation }) {
     //   shortlistId: item.shortlistId,
     //   contentId: contentId,
     // }
-    var newList = [{ shortlistId: item.shortlistId, contentId: contentId }];
+    var newList = [{shortlistId: item.shortlistId, contentId: contentId}];
     //  post list to server
     axios
       .post(`${CONFIG.API_URL}ShortlistContent`, newList, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then((res) => {
         //  console.log(res.data);s
-          alert('Added to our list!');
+        alert('Added to our list!');
       })
       .catch((res) => {
-        if (res.response){
-           console.log(res.response.data.message)
-           let msg = res.response.data.message;
-           if (msg.includes("updating the entries")) {
-              alert("That list already contains that item.")
-           } else {
-             alert("Error updating list.")
-           }
+        if (res.response) {
+          console.log(res.response.data.message);
+          let msg = res.response.data.message;
+          if (msg.includes('updating the entries')) {
+            alert('That list already contains that item.');
+          } else {
+            alert('Error updating list.');
+          }
         }
       })
-      .finally(() => {
-        
-      });
+      .finally(() => {});
     setModalVisible(!isModalVisible);
   };
 
-  const Item = ({ title }) => (
+  const Item = ({title}) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
     </View>
   );
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity onPress={() => addToList(item)}>
       <Item title={item.listName} />
     </TouchableOpacity>
@@ -170,102 +167,102 @@ export default function ContentScreen({ route, navigation }) {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-          <>
-            <View style={styles.image}>
-              <ImageBackground
-                source={{
-                  uri: `${CONFIG.API_URL}resource/${content.coverImage.resourceId}`,
-                  headers: { Authorization: `Bearer ${token}` },
-                }}
-                style={styles.image}
-                imageStyle={styles.imageStyle}>
-                <TextShadow titleStyle={styles.name}
-                  title={content.name}
-                  textShadow={'2px 1px 0 #000000'}>
-                </TextShadow>
-                <TouchableOpacity
-                  style={styles.backButton}
-                  onPress={() => {
-                    navigation.navigate('Home');
-                  }}>
-                  <Icon name="chevron-back" color="#fff" size={24} />
-                </TouchableOpacity>
-                <Modal isVisible={isModalVisible}>
-                  <View style={styles.card}>
-                    <FlatList
-                      data={shortLists}
-                      renderItem={renderItem}
-                      keyExtractor={(item, index) => item.shortlistId}
-                    />
+        <>
+          <View style={styles.image}>
+            <ImageBackground
+              source={{
+                uri: `${CONFIG.API_URL}resource/${content.coverImage.resourceId}`,
+                headers: {Authorization: `Bearer ${token}`},
+              }}
+              style={styles.image}
+              imageStyle={styles.imageStyle}>
+              <TextShadow
+                titleStyle={styles.name}
+                title={content.name}
+                textShadow={'2px 1px 0 #000000'}
+              />
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => {
+                  navigation.navigate('Home');
+                }}>
+                <Icon name="chevron-back" color="#fff" size={24} />
+              </TouchableOpacity>
+              <Modal isVisible={isModalVisible}>
+                <View style={styles.card}>
+                  <FlatList
+                    data={shortLists}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => item.shortlistId}
+                  />
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={toggleModal}>
+                    <Icon name="close-circle-outline" color="#fff" size={24} />
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+            </ImageBackground>
+          </View>
+          <View style={styles.ratings}>
+            <View style={styles.ratingRow}>
+              <View>
+                <Text style={{fontSize: 12}}>Social Rating</Text>
+                <Text style={styles.ratingText}>Economic Rating</Text>
+                <Text style={styles.ratingText}>Environmental Rating</Text>
+              </View>
+              <View style={styles.starRatingContent}>
+                <StarReview rate={content.socialRating} />
+                <StarReview rate={content.economicRating} />
+                <StarReview rate={content.environmentalRating} />
+              </View>
+
+              <TouchableOpacity
+                style={styles.collectButton}
+                onPress={() => {
+                  // TODO: Add to collections
+                  setModalVisible(!isModalVisible);
+                }}>
+                <Icon name="heart" color="#fff" size={24} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <SafeAreaView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}>
+            <FlatList
+              style={styles.scrollView}
+              data={images}
+              keyExtractor={(item, index) => item.resourceId}
+              extraData={{images}}
+              horizontal={true}
+              renderItem={({item}) => {
+                return (
+                  <View style={styles.swipeItem}>
                     <TouchableOpacity
-                      style={styles.closeButton}
-                      onPress={toggleModal}>
-                      <Icon name="close-circle-outline" color="#fff" size={24} />
+                      onPress={() => {
+                        navigation.navigate('ImageViewer', {
+                          imageId: item.resourceId,
+                        });
+                      }}>
+                      <Image
+                        style={styles.swipeImage}
+                        source={{
+                          uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
+                          headers: {Authorization: `Bearer ${token}`},
+                        }}
+                      />
                     </TouchableOpacity>
                   </View>
-                </Modal>
-              </ImageBackground>
-            </View>
-            <View style={styles.ratings}>
-              <View style={styles.ratingRow}>
-                <View>
-                  <Text style={{ fontSize: 12 }}>Social Rating</Text>
-                  <Text style={styles.ratingText}>Economic Rating</Text>
-                  <Text style={styles.ratingText}>Environmental Rating</Text>
-                </View>
-                <View style={styles.starRatingContent}>
-                  <StarReview rate={content.socialRating} />
-                  <StarReview rate={content.economicRating} />
-                  <StarReview rate={content.environmentalRating} />
-                </View>
-
-                <TouchableOpacity
-                  style={styles.collectButton}
-                  onPress={() => {
-                    // TODO: Add to collections
-                    setModalVisible(!isModalVisible);
-                  }}>
-                  <Icon name="heart" color="#fff" size={24} />
-                </TouchableOpacity>
-
-              </View>
-            </View>
-            <SafeAreaView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <FlatList
-                style={styles.scrollView}
-                data={images}
-                keyExtractor={(item, index) => item.resourceId}
-                extraData={{ images }}
-                horizontal={true}
-                renderItem={({ item }) => {
-                  return (
-                    <View style={styles.swipeItem}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('ImageViewer', {
-                            imageId:item.resourceId
-                          })
-                        }}>
-                        <Image
-                          style={styles.swipeImage}
-                          source={{
-                            uri: `${CONFIG.API_URL}resource/${item.resourceId}`,
-                            headers: { Authorization: `Bearer ${token}` },
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  );
-                }}
-              />
-            </SafeAreaView>
-            <View style={styles.descriptionHolder}>
-              <Text style={styles.descriptionStyle}>{content.description}</Text>
-            </View>
-          </>
-        )}
+                );
+              }}
+            />
+          </SafeAreaView>
+          <View style={styles.descriptionHolder}>
+            <Text style={styles.descriptionStyle}>{content.description}</Text>
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -347,7 +344,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     marginTop: 5,
-    fontSize: 12
+    fontSize: 12,
   },
   starRatingContent: {
     marginLeft: 30,
@@ -359,7 +356,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 20,
     shadowColor: '#999',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
@@ -372,7 +369,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 20,
     shadowColor: '#999',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
@@ -401,12 +398,12 @@ const styles = StyleSheet.create({
   descriptionHolder: {
     margin: 10,
     backgroundColor: '#FFFFFF',
-    borderRadius: 10
+    borderRadius: 10,
   },
   descriptionStyle: {
     padding: 10,
     fontSize: 16,
-    fontWeight: '600'
+    fontWeight: '600',
   },
 });
 

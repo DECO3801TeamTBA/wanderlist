@@ -25,40 +25,34 @@ const StarReview = ({rate}) => {
 
   for (i = 0; i < fullStar; i++) {
     starComponents.push(
-      <Text>
-        <Image
-          key={`full-${i}`}
-          source={require('../../assets/fire_full.png')}
-          resizeMode="cover"
-          style={styles.star}
-        />
-      </Text>,
+      <Image
+        key={`full-${i}`}
+        source={require('../../assets/fire_full.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
     );
   }
 
   for (i = 0; i < halfStar; i++) {
     starComponents.push(
-      <Text>
-        <Image
-          key={`half-${i}`}
-          source={require('../../assets/fire_half.png')}
-          resizeMode="cover"
-          style={styles.star}
-        />
-      </Text>,
+      <Image
+        key={`half-${i}`}
+        source={require('../../assets/fire_half.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
     );
   }
 
   for (i = 0; i < noStar; i++) {
     starComponents.push(
-      <Text>
-        <Image
-          key={`empty-${i}`}
-          source={require('../../assets/fire_empty.png')}
-          resizeMode="cover"
-          style={styles.star}
-        />
-      </Text>,
+      <Image
+        key={`empty-${i}`}
+        source={require('../../assets/fire_empty.png')}
+        resizeMode="cover"
+        style={styles.star}
+      />,
     );
   }
 
@@ -138,17 +132,14 @@ export default function HeatMap() {
                   <Text>
                     <StarReview rate={marker.capacity} />
                   </Text>
-
-                  <Text>
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: `${CONFIG.API_URL}resource/${marker.coverId}`,
-                        headers: {Authorization: `Bearer ${token}`},
-                      }}
-                      resizeMode="contain"
-                    />
-                  </Text>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `${CONFIG.API_URL}resource/${marker.coverId}`,
+                      headers: {Authorization: `Bearer ${token}`},
+                    }}
+                    resizeMode="cover"
+                  />
                 </View>
                 <View style={styles.arrowBorder} />
                 <View style={styles.arrow} />
@@ -233,8 +224,8 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   image: {
-    width: 130,
+    width: '100%',
     height: 80,
-    marginTop: 10,
+    marginTop: 5,
   },
 });

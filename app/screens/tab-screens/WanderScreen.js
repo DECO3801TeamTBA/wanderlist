@@ -19,11 +19,10 @@ import CONFIG from '../../config';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 import Popup from './Popup';
 
 import DialogInput from 'react-native-dialog-input';
-
 
 const window = Dimensions.get('window');
 
@@ -42,7 +41,7 @@ export class WanderScreen extends React.Component {
 
   togglePopup() {
     this.setState({
-      showPopup: !this.state.showPopup
+      showPopup: !this.state.showPopup,
     });
   }
 
@@ -112,7 +111,6 @@ export class WanderScreen extends React.Component {
       .finally(() => {
         this.updateList();
         //close the popup
-
       });
     this.setState({showPopup: !this.state.showPopup});
 
@@ -162,7 +160,7 @@ export class WanderScreen extends React.Component {
     return (
       //ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
-        <View style={{height: 50}}>
+        <View>
           <SearchBar
             showLoading={false}
             platform={Platform.OS}
@@ -173,25 +171,24 @@ export class WanderScreen extends React.Component {
           />
         </View>
 
-        <View style={{height: 100}}>
-          <Text style={styles.bigBlack}>
-            Your Lists
+        <View style={styles.bigBlackContainer}>
+          <Text style={styles.bigBlack}>Your Lists</Text>
+          <View style={styles.plus}>
             <Icon.Button
-              name="plus"
+              name="plus-circle"
               backgroundColor="#fff"
-              color="#000000"
+              color="#4ba199"
+              size={32}
               onPress={this.togglePopup.bind(this)}
-              style={styles.plus}
             />
-            <View style={styles.plus} />
-            
-            
-            {/* <Modal
+          </View>
+        </View>
+        {/* <Modal
               onBackdropPress={this.toggleModal}
               isVisible={this.state.isModalVisible}>
               <View style={styles.popup}>
                 <Text style={styles.bigBlackPopUp}>New List</Text>
-                
+
                 <TextInput
                   style={styles.inputText}
                   placeholder="Enter name of new list!"
@@ -204,7 +201,7 @@ export class WanderScreen extends React.Component {
                   color="#008000"
                   size={10}>
                   Create
-                </Icon.Button> 
+                </Icon.Button>
 
                 <Icon.Button
                       style={{fontStyle: "bold", }}
@@ -216,96 +213,90 @@ export class WanderScreen extends React.Component {
               </View>
 
             </Modal> */}
-          </Text>
-        </View>
-        
-          <SwipeListView
-            disableLeftSwipe
-            closeOnScroll
-            closeOnRowPress
-            closeOnRowOpen
-            data={this.state.shortlists}
-            renderItem={({item}) => {
-              return (
-                <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
-                  <View style={styles.card}>
-                    {item.coverImage ? (
-                      <>
-                        <Image
-                          style={styles.cover}
-                          source={{
-                            uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                            headers: {
-                              Authorization: `Bearer ${this.props.token}`,
-                            },
-                          }}
-                        />
-                        <Text style={styles.titleStyle}>{item.listName}</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Image
-                          style={styles.cover}
-                          source={require('../../../assets/default_cover.png')}
-                        />
-                        <Text style={styles.titleStyle}>{item.listName}</Text>
-                      </>
-                    )}
-                  </View>
-                </TouchableWithoutFeedback>
-              );
-            }}
-            extraData={this.state}
-            keyExtractor={(item, index) => item.shortlistId.toString()}
-            // keyExtractor={(item, index) => {
-            //   return rowData.id.toString();
-            // }}
-            renderHiddenItem={(data, rowMap) => (
-              <TouchableOpacity
-                style={styles.rowBack}
-                onPress={() => this.removeList(data, rowMap)}>
-                <Text style={styles.styleRemove}>Delete</Text>
-              </TouchableOpacity>
-            )}
-            leftOpenValue={75}
-            // previewRowKey={'0'}
-            previewOpenDelay={3000}
-          />
 
+        <SwipeListView
+          disableLeftSwipe
+          closeOnScroll
+          closeOnRowPress
+          closeOnRowOpen
+          data={this.state.shortlists}
+          renderItem={({item}) => {
+            return (
+              <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
+                <View style={styles.card}>
+                  {item.coverImage ? (
+                    <>
+                      <Image
+                        style={styles.cover}
+                        source={{
+                          uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                          headers: {
+                            Authorization: `Bearer ${this.props.token}`,
+                          },
+                        }}
+                      />
+                      {/*TODO: some meaningful name here*/}
+                      <Text style={styles.titleStyle}>ShaggyList</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Image
+                        style={styles.cover}
+                        source={require('../../../assets/default_cover.png')}
+                      />
+                      {/*TODO: some meaningful name here*/}
+                      <Text style={styles.titleStyle}>ShaggyList</Text>
+                    </>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
+            );
+          }}
+          extraData={this.state}
+          keyExtractor={(item, index) => item.shortlistId.toString()}
+          // keyExtractor={(item, index) => {
+          //   return rowData.id.toString();
+          // }}
+          renderHiddenItem={(data, rowMap) => (
+            <TouchableOpacity
+              style={styles.rowBack}
+              onPress={() => this.removeList(data, rowMap)}>
+              <Text style={styles.styleRemove}>Delete</Text>
+            </TouchableOpacity>
+          )}
+          leftOpenValue={75}
+          // previewRowKey={'0'}
+          previewOpenDelay={3000}
+        />
 
-
-          {this.state.showPopup ?
-
-            <View style={styles.popup}>
-              
-              <Text style={styles.bigBlackPopUp}>New List</Text>
-              <TextInput
-                style={styles.inputText}
-                placeholder="Enter name of new list!"
-                placeholderTextColor="#4d4d4d"
-                onChangeText={(text) => this.setState({newTextList: text})}
-              />
-              <View>
-                <Icon.Button
-                  onPress={this.addNewList}
-                  backgroundColor="#fff"
-                  color="#008000"
-                  size={10}>
-                  Create
-                </Icon.Button> 
-                <Icon.Button
-                      style={{fontStyle: "bold", }}
-                      onPress={this.togglePopup.bind(this)}
-                      backgroundColor="#fff"
-                      color="#008000"
-                      size={10} 
-                    >Cancel</Icon.Button>
-              </View>
-              
+        {this.state.showPopup ? (
+          <View style={styles.popup}>
+            <Text style={styles.bigBlackPopUp}>New List</Text>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Enter name of new list!"
+              placeholderTextColor="#4d4d4d"
+              onChangeText={(text) => this.setState({newTextList: text})}
+            />
+            <View>
+              <Icon.Button
+                onPress={this.addNewList}
+                backgroundColor="#fff"
+                color="#008000"
+                size={10}>
+                Create
+              </Icon.Button>
+              <Icon.Button
+                style={{fontStyle: 'bold'}}
+                onPress={this.togglePopup.bind(this)}
+                backgroundColor="#fff"
+                color="#008000"
+                size={10}>
+                Cancel
+              </Icon.Button>
             </View>
-            : null
-            }
-        
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -349,14 +340,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     position: 'absolute',
-    top: 80,
+    top: 150,
     left: 20,
     right: 0,
     bottom: 0,
   },
   card: {
     borderRadius: 20,
-
     height: 200,
     marginVertical: 15,
     marginHorizontal: 20,
@@ -370,11 +360,11 @@ const styles = StyleSheet.create({
   popup: {
     position: 'absolute',
     borderRadius: 20,
-    marginTop: window.height*0.75,
-    marginLeft: window.width*0.13,
+    marginTop: window.height * 0.75,
+    marginLeft: window.width * 0.13,
     //paddingHorizontal: 20,
     height: 200,
-    width: window.width*0.75,
+    width: window.width * 0.75,
     // width: 350,
     justifyContent: 'center',
     alignItems: 'center',
@@ -422,7 +412,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 3,
     marginHorizontal: 0,
-    marginBottom: 130,
+    marginBottom: 60,
   },
   inputText: {
     marginTop: Platform.OS === 'ios' ? 0 : -10,
@@ -452,10 +442,14 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  bigBlackContainer: {
+    flexDirection: 'row',
+    width: window.width,
+  },
   plus: {
-    paddingVertical: 0,
-    paddingLeft: 10,
-    paddingRight: 40,
+    position: 'absolute',
+    marginTop: 10,
+    right: 10,
   },
 });
 

@@ -8,7 +8,7 @@ import {
   Pressable,
   Platform,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {setUser, setToken, setExpiry, setIsAuth} from '../actions/user';
@@ -23,13 +23,14 @@ export class LoginScreen extends React.Component {
     username: '',
     password: '',
     hasError: false,
-    errorMessage: ''
+    errorMessage: '',
   };
   render() {
     return (
-      <ImageBackground style={styles.container}
-      source={require('../../assets/login_screen.png')}>
-        <View style={{height:150}}></View>
+      <ImageBackground
+        style={styles.container}
+        source={require('../../assets/login_screen.png')}>
+        <View style={{height: 150}} />
         <View style={styles.inputView}>
           <Icon name="person" size={24} color="#5F9E98" />
           <TextInput
@@ -49,9 +50,13 @@ export class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({password: text})}
           />
         </View>
-        {this.state.hasError ? (<View style={styles.errorStyle}>
+        {this.state.hasError ? (
+          <View style={styles.errorStyle}>
             <Text style={styles.errorTextStyle}>{this.state.errorMessage}</Text>
-          </View>) : <View style={styles.errorStyle}></View>}
+          </View>
+        ) : (
+          <View style={styles.errorStyle} />
+        )}
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}
@@ -70,7 +75,7 @@ export class LoginScreen extends React.Component {
                   this.props.attachUser(user);
                   this.props.attachExpiry(expiry);
                   this.props.attachToken(authToken);
-                  
+
                   await AsyncStorage.setItem(
                     'persistentAuth',
                     JSON.stringify({
@@ -79,7 +84,7 @@ export class LoginScreen extends React.Component {
                       user: user,
                     }),
                   );
-                  this.props.attachIsAuth(true)
+                  this.props.attachIsAuth(true);
                   //this.props.navigation.popToTop()
                   //Then navigate from here. Now in homescreen and beyond, we can check the global user state
                 })
@@ -87,7 +92,10 @@ export class LoginScreen extends React.Component {
                   //Display login failed text and don't do anything?
                   //TODO: Inform user that login failed and prompt them again?
                   console.log('Login failed reason: ' + res);
-                  this.setState({hasError:true, errorMessage:"Sign in failed. Please try again."})
+                  this.setState({
+                    hasError: true,
+                    errorMessage: 'Sign in failed. Please try again.',
+                  });
                 });
             }}>
             <LinearGradient
@@ -156,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    borderColor: '#388e3c',
+    borderColor: '#4ba199',
     borderWidth: 1,
     marginTop: 15,
   },
@@ -166,12 +174,13 @@ const styles = StyleSheet.create({
     color: '#388e3c',
   },
   errorStyle: {
-    height:50,
+    height: 50,
   },
-  errorTextStyle:{
-    color:'#ed0524',
-    fontSize:20, paddingTop:25
-  }
+  errorTextStyle: {
+    color: '#ed0524',
+    fontSize: 20,
+    paddingTop: 25,
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -185,7 +194,7 @@ const mapDispatchToProps = (dispatch) => {
     attachUser: (user) => dispatch(setUser(user)),
     attachToken: (authToken) => dispatch(setToken(authToken)),
     attachExpiry: (expiry) => dispatch(setExpiry(expiry)),
-    attachIsAuth: (isAuth) => dispatch(setIsAuth(isAuth))
+    attachIsAuth: (isAuth) => dispatch(setIsAuth(isAuth)),
   };
 };
 
