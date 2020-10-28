@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  SafeAreaView,
+  SafeAreaView, Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CONFIG from '../config';
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 20,
-    top: 50,
+    top: Platform.OS === 'ios' ? 50 : 20,
     padding: 10,
     borderRadius: 40,
     backgroundColor: '#388e3c',
