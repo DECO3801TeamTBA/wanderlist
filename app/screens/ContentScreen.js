@@ -134,13 +134,21 @@ export default function ContentScreen({ route, navigation }) {
       })
       .then((res) => {
         //  console.log(res.data);s
+          alert('Added to our list!');
       })
       .catch((res) => {
-        console.log('Wander failed cause: ' + res);
-        alert('Failed because' + res);
+        if (res.response){
+           console.log(res.response.data.message)
+           let msg = res.response.data.message;
+           if (msg.includes("updating the entries")) {
+              alert("That list already contains that item.")
+           } else {
+             alert("Error updating list.")
+           }
+        }
       })
       .finally(() => {
-        alert('Added to our list!');
+        
       });
     setModalVisible(!isModalVisible);
   };
