@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Pressable,
   Platform,
+  ImageBackground
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -46,17 +47,17 @@ export default class SignUp extends React.Component {
         })
         .catch(res => {
           console.log(res)
-          this.setState({ hasError: true, errorMessage: res.data.message })
+          this.setState({ hasError: true, errorMessage: res.response.data.message })
         })
     } else {
       if (password != confirmPassword) {
       this.setState({ errorMessage: "Passwords must match", hasError: true })
       } else if (!strongRegex.test(password)) {
-        this.setState({ errorMessage: "Password is too weak. Must contain at least 1 lower case, 1 upper case, 1 special character, 1 number and least 8 characters long.", hasError: true })
+        this.setState({ errorMessage: "Password is too weak.", hasError: true })
       } else if (!emailRegex.test(email)) {
         this.setState({ errorMessage: "Invalid email.", hasError: true })
       } else {
-        this.setState({ errorMessage: "Create user failed. Check details and try again.", hasError: true })
+        this.setState({ errorMessage: "Create user failed.", hasError: true })
       }
       console.log("passwords must match")
     }
@@ -64,8 +65,9 @@ export default class SignUp extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>WanderList</Text>
+      <ImageBackground source={require('../../assets/login_screen.png')}
+       style={styles.container}>
+         <View style={{height:240}}></View>
         <View style={styles.inputView}>
           <Icon name="person" size={24} color="#5F9E98" />
           <TextInput
@@ -105,14 +107,14 @@ export default class SignUp extends React.Component {
           />
         </View>
         <View style={styles.button}>
-          {this.state.hasError ? (<View>
-            <Text>{this.state.errorMessage}</Text>
-          </View>) : (<></>)}
+        {this.state.hasError ? (<View style={styles.errorStyle}>
+            <Text style={styles.errorTextStyle}>{this.state.errorMessage}</Text>
+          </View>) : <View style={styles.errorStyle}></View>}
 
           <TouchableOpacity style={styles.signUp}
           onPress={this.signUp}>
             <LinearGradient
-              colors={['#81c784', '#4caf50']}
+              colors={['#54b3aa', '#4ba199']}
               style={styles.signIn}>
               <Text style={styles.textSignIn}>Sign Up</Text>
             </LinearGradient>
@@ -127,7 +129,7 @@ export default class SignUp extends React.Component {
             </Pressable>
           </TouchableOpacity>
         </View>
-      </View>
+      </ImageBackground>
       // <View style={styles.container}>
       //   <TextInput
       //     style={styles.input}
@@ -178,7 +180,6 @@ const styles = StyleSheet.create({
   button: {
     width: '80%',
     alignItems: 'center',
-    marginTop: 50,
   },
   inputView: {
     width: '60%',
@@ -218,6 +219,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#388e3c',
   },
+  errorStyle: {
+    height:50,
+  },
+  errorTextStyle:{
+    color:'#ed0524',
+    fontSize:16,
+    paddingTop:15
+  }
   // input: {
   //   width: 350,
   //   height: 55,
