@@ -8,6 +8,7 @@ import {
   Pressable,
   Platform,
   TouchableOpacity,
+  ImageBackground
 } from 'react-native';
 import {connect} from 'react-redux';
 import {setUser, setToken, setExpiry, setIsAuth} from '../actions/user';
@@ -26,8 +27,9 @@ export class LoginScreen extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>WanderList</Text>
+      <ImageBackground style={styles.container}
+      source={require('../../assets/login_screen.png')}>
+        <View style={{height:150}}></View>
         <View style={styles.inputView}>
           <Icon name="person" size={24} color="#5F9E98" />
           <TextInput
@@ -47,9 +49,9 @@ export class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({password: text})}
           />
         </View>
-        {this.state.hasError ? (<View>
-            <Text>{this.state.errorMessage}</Text>
-          </View>) : (<></>)}
+        {this.state.hasError ? (<View style={styles.errorStyle}>
+            <Text style={styles.errorTextStyle}>{this.state.errorMessage}</Text>
+          </View>) : <View style={styles.errorStyle}></View>}
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}
@@ -89,7 +91,7 @@ export class LoginScreen extends React.Component {
                 });
             }}>
             <LinearGradient
-              colors={['#81c784', '#4caf50']}
+              colors={['#54b3aa', '#4ba199']}
               style={styles.signIn}>
               <Text style={styles.textSignIn}>Sign In</Text>
             </LinearGradient>
@@ -104,7 +106,7 @@ export class LoginScreen extends React.Component {
             </Pressable>
           </TouchableOpacity>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -163,6 +165,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#388e3c',
   },
+  errorStyle: {
+    height:50,
+  },
+  errorTextStyle:{
+    color:'#ed0524',
+    fontSize:20, paddingTop:25
+  }
 });
 
 const mapStateToProps = (state) => {
