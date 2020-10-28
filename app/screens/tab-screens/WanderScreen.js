@@ -20,8 +20,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import { LogBox } from 'react-native';
+import Popup from './Popup';
 
-import TextArea from "@freakycoder/react-native-text-area";
+import DialogInput from 'react-native-dialog-input';
+
 
 const window = Dimensions.get('window');
 
@@ -34,7 +36,15 @@ export class WanderScreen extends React.Component {
     newTextList: 'NaN',
     collection: [],
     key: '',
+    showPopup: false,
+    isDialogVisible: false,
   };
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
 
   // get data from server
   componentDidMount() {
@@ -101,10 +111,16 @@ export class WanderScreen extends React.Component {
       })
       .finally(() => {
         this.updateList();
+        //close the popup
+
       });
+    this.setState({showPopup: !this.state.showPopup});
+
     // created list pop up
     alert('Your List is created');
-    this.setState({isModalVisible: !this.state.isModalVisible});
+    // this.togglePopup.bind(this)
+
+    // this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
   //toggle popup
@@ -164,23 +180,24 @@ export class WanderScreen extends React.Component {
               name="plus"
               backgroundColor="#fff"
               color="#000000"
-              onPress={this.toggleModal}
+              onPress={this.togglePopup.bind(this)}
               style={styles.plus}
             />
             <View style={styles.plus} />
-            <Modal
+            
+            
+            {/* <Modal
               onBackdropPress={this.toggleModal}
               isVisible={this.state.isModalVisible}>
-              {/* <View style={{flex: 1, alignSelf: "center",}}> */}
               <View style={styles.popup}>
                 <Text style={styles.bigBlackPopUp}>New List</Text>
                 
-                {/* <TextArea
+                <TextInput
                   style={styles.inputText}
                   placeholder="Enter name of new list!"
                   placeholderTextColor="#4d4d4d"
                   onChangeText={(text) => this.setState({newTextList: text})}
-                /> */}
+                />
                 <Icon.Button
                   onPress={this.addNewList}
                   backgroundColor="#fff"
@@ -189,72 +206,106 @@ export class WanderScreen extends React.Component {
                   Create
                 </Icon.Button> 
 
-                {/* <Icon.Button
+                <Icon.Button
                       style={{fontStyle: "bold", }}
                       onPress={this.toggleModal}
                       backgroundColor="#fff"
                       color="#008000"
                       size={30}
-                    >Cancel</Icon.Button> */}
+                    >Cancel</Icon.Button>
               </View>
 
-              {/* </View> */}
-            </Modal>
+            </Modal> */}
           </Text>
         </View>
+        
+          <SwipeListView
+            disableLeftSwipe
+            closeOnScroll
+            closeOnRowPress
+            closeOnRowOpen
+            data={this.state.shortlists}
+            renderItem={({item}) => {
+              return (
+                <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
+                  <View style={styles.card}>
+                    {item.coverImage ? (
+                      <>
+                        <Image
+                          style={styles.cover}
+                          source={{
+                            uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
+                            headers: {
+                              Authorization: `Bearer ${this.props.token}`,
+                            },
+                          }}
+                        />
+                        <Text style={styles.titleStyle}>{item.listName}</Text>
+                      </>
+                    ) : (
+                      <>
+                        <Image
+                          style={styles.cover}
+                          source={require('../../../assets/default_cover.png')}
+                        />
+                        <Text style={styles.titleStyle}>{item.listName}</Text>
+                      </>
+                    )}
+                  </View>
+                </TouchableWithoutFeedback>
+              );
+            }}
+            extraData={this.state}
+            keyExtractor={(item, index) => item.shortlistId.toString()}
+            // keyExtractor={(item, index) => {
+            //   return rowData.id.toString();
+            // }}
+            renderHiddenItem={(data, rowMap) => (
+              <TouchableOpacity
+                style={styles.rowBack}
+                onPress={() => this.removeList(data, rowMap)}>
+                <Text style={styles.styleRemove}>Delete</Text>
+              </TouchableOpacity>
+            )}
+            leftOpenValue={75}
+            // previewRowKey={'0'}
+            previewOpenDelay={3000}
+          />
 
-        <SwipeListView
-          disableLeftSwipe
-          closeOnScroll
-          closeOnRowPress
-          closeOnRowOpen
-          data={this.state.shortlists}
-          renderItem={({item}) => {
-            return (
-              <TouchableWithoutFeedback onPress={() => this.actionOnRow(item)}>
-                <View style={styles.card}>
-                  {item.coverImage ? (
-                    <>
-                      <Image
-                        style={styles.cover}
-                        source={{
-                          uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                          headers: {
-                            Authorization: `Bearer ${this.props.token}`,
-                          },
-                        }}
-                      />
-                      <Text style={styles.titleStyle}>{item.listName}</Text>
-                    </>
-                  ) : (
-                    <>
-                      <Image
-                        style={styles.cover}
-                        source={require('../../../assets/default_cover.png')}
-                      />
-                      <Text style={styles.titleStyle}>{item.listName}</Text>
-                    </>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            );
-          }}
-          extraData={this.state}
-          keyExtractor={(item, index) => item.shortlistId.toString()}
-          // keyExtractor={(item, index) => {
-          //   return rowData.id.toString();
-          // }}
-          renderHiddenItem={(data, rowMap) => (
-            <TouchableOpacity
-              style={styles.rowBack}
-              onPress={() => this.removeList(data, rowMap)}>
-              <Text style={styles.styleRemove}>Delete</Text>
-            </TouchableOpacity>
-          )}
-          leftOpenValue={75}
-          // previewRowKey={'0'}
-          previewOpenDelay={3000}
-        />
+
+
+          {this.state.showPopup ?
+
+            <View style={styles.popup}>
+              
+              <Text style={styles.bigBlackPopUp}>New List</Text>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Enter name of new list!"
+                placeholderTextColor="#4d4d4d"
+                onChangeText={(text) => this.setState({newTextList: text})}
+              />
+              <View>
+                <Icon.Button
+                  onPress={this.addNewList}
+                  backgroundColor="#fff"
+                  color="#008000"
+                  size={10}>
+                  Create
+                </Icon.Button> 
+                <Icon.Button
+                      style={{fontStyle: "bold", }}
+                      onPress={this.togglePopup.bind(this)}
+                      backgroundColor="#fff"
+                      color="#008000"
+                      size={10} 
+                    >Cancel</Icon.Button>
+              </View>
+              
+            </View>
+            : null
+            }
+        
       </View>
     );
   }
@@ -317,13 +368,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   popup: {
+    position: 'absolute',
     borderRadius: 20,
     marginTop: window.height*0.75,
+    marginLeft: window.width*0.13,
     //paddingHorizontal: 20,
     height: 200,
+    width: window.width*0.75,
     // width: 350,
-    //justifyContent: 'center',
-    //alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowColor: '#999',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
