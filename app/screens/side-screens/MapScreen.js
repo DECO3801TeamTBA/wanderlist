@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import HeatMap from '../../components/MapComponent';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 20,
-    top: 50,
+    top: Platform.OS === 'ios' ? 50 : 20,
     padding: 10,
     borderRadius: 40,
     backgroundColor: '#388e3c',
