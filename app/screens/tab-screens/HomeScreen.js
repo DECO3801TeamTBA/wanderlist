@@ -38,11 +38,12 @@ export default function HomeScreen({ navigation }) {
       .then((res) => {
         //scan succeeded, alert user?
         // show a message then
-        alert("QR scan successful")
+        alert("QR scan successful.")
       })
       .catch((res) => {
         console.log('QR failed cause: ' + res);
         //scan failed, alert user as to reason
+        console.log(res.response.data)
         if (res.response.data.message) {
           let msg = res.response.data.message
           if (msg.includes("has already been to this location")) {
@@ -52,6 +53,8 @@ export default function HomeScreen({ navigation }) {
           } else {
             alert("Error scanning code.")
           }
+        } else {
+          alert("Error scanning code.")
         }
       })
       .finally(() => {
