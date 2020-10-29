@@ -203,7 +203,7 @@ export default function ContentScreen({route, navigation}) {
           <View style={styles.ratings}>
             <View style={styles.ratingRow}>
               <View>
-                <Text style={{fontSize: 12}}>Social Rating</Text>
+                <Text style={styles.firstRatingText}>Social Rating</Text>
                 <Text style={styles.ratingText}>Economic Rating</Text>
                 <Text style={styles.ratingText}>Environmental Rating</Text>
               </View>
@@ -335,12 +335,17 @@ const styles = StyleSheet.create({
   ratingRow: {
     flexDirection: 'row',
   },
+  firstRatingText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
   ratingText: {
     marginTop: 5,
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: '500',
   },
   starRatingContent: {
-    marginLeft: 30,
+    marginLeft: 20,
   },
   card: {
     borderRadius: 30,
