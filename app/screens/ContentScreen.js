@@ -149,9 +149,9 @@ export default function ContentScreen({route, navigation}) {
 
   const Item = ({title}) => (
     <View style={styles.item}>
-      {/*<Text style={styles.title}>{title}</Text>*/}
+      <Text style={styles.title}>{title}</Text>
       {/*TODO: some meaningful name here*/}
-      <Text style={styles.title}>Some Name here</Text>
+      {/*<Text style={styles.title}>Some Name here</Text>*/}
     </View>
   );
 

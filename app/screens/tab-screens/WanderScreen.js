@@ -231,7 +231,7 @@ export class WanderScreen extends React.Component {
                         }}
                       />
                       {/*TODO: some meaningful name here*/}
-                      <Text style={styles.titleStyle}>Some name here</Text>
+                      <Text style={styles.titleStyle}>{item.listName}</Text>
                     </>
                   ) : (
                     <>
@@ -240,7 +240,7 @@ export class WanderScreen extends React.Component {
                         source={require('../../../assets/default_cover.png')}
                       />
                       {/*TODO: some meaningful name here*/}
-                      <Text style={styles.titleStyle}>Some name here</Text>
+                      <Text style={styles.titleStyle}>{item.listName}</Text>
                     </>
                   )}
                 </View>
