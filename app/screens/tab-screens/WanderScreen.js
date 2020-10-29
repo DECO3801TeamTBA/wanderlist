@@ -237,7 +237,8 @@ export class WanderScreen extends React.Component {
                     <>
                       <Image
                         style={styles.cover}
-                        source={require('../../../assets/default_cover.png')}
+                        source={require('../../../assets/balloons.png')}
+                        resizeMode='cover'
                       />
                       {/*TODO: some meaningful name here*/}
                       <Text style={styles.titleStyle}>{item.listName}</Text>
@@ -447,6 +448,7 @@ const styles = StyleSheet.create({
     flex: 3,
     marginHorizontal: 0,
     marginBottom: 60,
+    width:'100%'
   },
   rowBack: {
     borderRadius: 20,
