@@ -21,6 +21,7 @@
 ### Details
 
 [React Native CLI QuickStart](https://reactnative.dev/docs/environment-setup)
+Notes: If you have trouble with Expo CLI Quickstart, we should have a try with React Native CLI Quickstart
 
 ### Next steps (after the environment set-up)
 ```sh
