@@ -13,7 +13,7 @@
 
 > This is React Native application using APIs from https://github.com/johnpaulsmith87/TBABackend
 
-### 🏠 [Homepage](Unavailable)
+### 🏠 [WanderList Portfolio](https://www.canva.com/design/DAELA9o_tRU/cPwpaAc-JIVPDULueluXZQ/edit)
 
 ### ✨ [Demo](https://drive.google.com/file/d/1l0vEDDZ3__mJtioTxPF10MYEuaadrz-p/view)
 
@@ -53,9 +53,11 @@ Run instructions for Windows and macOS:
 ```
 ## config.js (if you want to use another API)
 ```sh
-//using cd to the url below
+
+// You can follow the below path then change it to your own API.
+
 wanderlist/app/config.js
-//then change it to your own api
+
 ```
 
 ## Testing
