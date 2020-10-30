@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Icon from 'react-native-vector-icons/Ionicons';
 import RewardsScreen from '../side-screens/RewardsScreen';
 import RewardDetailsScreen from '../RewardDetailsScreen';
 import {HeaderBackButton} from '@react-navigation/stack';

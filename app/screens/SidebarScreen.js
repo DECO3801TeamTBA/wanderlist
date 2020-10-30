@@ -3,19 +3,12 @@ import {View, Image, StyleSheet} from 'react-native';
 import {Title, Caption, Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { NavigationActions, StackActions  } from 'react-navigation';
-import { useDispatch } from 'react-redux'
-import { setUser, setToken, setExpiry, setIsAuth } from '../actions/user';
+import {useDispatch} from 'react-redux';
+import {setUser, setToken, setExpiry, setIsAuth} from '../actions/user';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const resetAction = StackActions.reset({
-  index: 0,
-  key: null,
-  actions: [NavigationActions.navigate({ routeName: 'Login' })],
-});
-
 export function SidebarScreen(props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -33,7 +26,7 @@ export function SidebarScreen(props) {
         </View>
         <Drawer.Section>
           <DrawerItem
-            icon={({ color, size }) => (
+            icon={({color, size}) => (
               <Icon name="home" color={color} size={size} />
             )}
             label="Home"
@@ -42,7 +35,7 @@ export function SidebarScreen(props) {
             }}
           />
           <DrawerItem
-            icon={({ color, size }) => (
+            icon={({color, size}) => (
               <Icon name="map" color={color} size={size} />
             )}
             label="Map"
@@ -63,11 +56,11 @@ export function SidebarScreen(props) {
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomSection}>
         <DrawerItem
-          icon={({ color, size }) => (
+          icon={({color, size}) => (
             <Icon name="log-out" color={color} size={size} />
           )}
           label="Log Out"
-          onPress={ async () => {
+          onPress={async () => {
             //clear Async storage
             await AsyncStorage.setItem(
               'persistentAuth',
@@ -76,15 +69,11 @@ export function SidebarScreen(props) {
                 expiry: '',
                 user: null,
               }),
-            )
-
-            dispatch(setUser(null))
-            dispatch(setExpiry(''))
-            dispatch(setToken(''))
-            dispatch(setIsAuth(false))
-
-            //props.navigation.dispatch(resetAction)
-            //props.navigation.navigate('Login');
+            );
+            dispatch(setUser(null));
+            dispatch(setExpiry(''));
+            dispatch(setToken(''));
+            dispatch(setIsAuth(false));
           }}
         />
       </Drawer.Section>

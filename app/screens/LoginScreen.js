@@ -61,8 +61,8 @@ export class LoginScreen extends React.Component {
           <TouchableOpacity
             style={styles.signIn}
             onPress={async () => {
-              //email and password are state local only to this screen
-              //no need to rope them into
+              // email and password are state local only to this screen
+              // no need to rope them into
               const {username, password} = this.state;
               const payload = {username, password};
               await axios
@@ -85,8 +85,9 @@ export class LoginScreen extends React.Component {
                     }),
                   );
                   this.props.attachIsAuth(true);
-                  //this.props.navigation.popToTop()
-                  //Then navigate from here. Now in homescreen and beyond, we can check the global user state
+                  // Then navigate from here.
+                  // Now in home screen and beyond
+                  // we can check the global user state
                 })
                 .catch((res) => {
                   //Display login failed text and don't do anything?

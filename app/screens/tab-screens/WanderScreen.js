@@ -3,14 +3,12 @@ import {
   Text,
   View,
   StyleSheet,
-  Platform,
   TouchableWithoutFeedback,
   Image,
   TextInput,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {SearchBar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import CONFIG from '../../config';
@@ -84,15 +82,12 @@ export class WanderScreen extends React.Component {
     const newList = {
       listName: this.state.newTextList,
     };
-    console.log('Add to list');
-
     // invalid input
     if (this.state.newTextList == 'NaN' || this.state.newTextList.length == 0) {
       alert('Invalid input');
       return;
     }
-
-    //post list to server
+    // post list to server
     axios
       .post(`${CONFIG.API_URL}Shortlist/${this.props.user.id}`, newList, {
         headers: {Authorization: `Bearer ${this.props.token}`},
@@ -108,12 +103,8 @@ export class WanderScreen extends React.Component {
         //close the popup
       });
     this.setState({showPopup: !this.state.showPopup});
-
     // created list pop up
     alert('Your List is created');
-    // this.togglePopup.bind(this)
-
-    // this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
   //toggle popup
@@ -153,19 +144,8 @@ export class WanderScreen extends React.Component {
 
   render() {
     return (
-      //ListView to show with text input used as search bar
+      // ListView to show with text input used as search bar
       <View style={styles.viewStyle}>
-        {/*<View>*/}
-        {/*  <SearchBar*/}
-        {/*    showLoading={false}*/}
-        {/*    platform={Platform.OS}*/}
-        {/*    clearIcon={true}*/}
-        {/*    round*/}
-        {/*    searchIcon={{size: 20}}*/}
-        {/*    placeholder="Search Your Lists"*/}
-        {/*  />*/}
-        {/*</View>*/}
-
         <View style={styles.bigBlackContainer}>
           <Text style={styles.bigBlack}>Your Lists</Text>
           <View style={styles.plus}>
@@ -178,37 +158,6 @@ export class WanderScreen extends React.Component {
             />
           </View>
         </View>
-        {/* <Modal
-              onBackdropPress={this.toggleModal}
-              isVisible={this.state.isModalVisible}>
-              <View style={styles.popup}>
-                <Text style={styles.bigBlackPopUp}>New List</Text>
-
-                <TextInput
-                  style={styles.inputText}
-                  placeholder="Enter name of new list!"
-                  placeholderTextColor="#4d4d4d"
-                  onChangeText={(text) => this.setState({newTextList: text})}
-                />
-                <Icon.Button
-                  onPress={this.addNewList}
-                  backgroundColor="#fff"
-                  color="#008000"
-                  size={10}>
-                  Create
-                </Icon.Button>
-
-                <Icon.Button
-                      style={{fontStyle: "bold", }}
-                      onPress={this.toggleModal}
-                      backgroundColor="#fff"
-                      color="#008000"
-                      size={30}
-                    >Cancel</Icon.Button>
-              </View>
-
-            </Modal> */}
-
         <SwipeListView
           disableLeftSwipe
           closeOnScroll
@@ -230,7 +179,6 @@ export class WanderScreen extends React.Component {
                           },
                         }}
                       />
-                      {/*TODO: some meaningful name here*/}
                       <Text style={styles.titleStyle}>{item.listName}</Text>
                     </>
                   ) : (
@@ -238,9 +186,8 @@ export class WanderScreen extends React.Component {
                       <Image
                         style={styles.cover}
                         source={require('../../../assets/balloons.png')}
-                        resizeMode='cover'
+                        resizeMode="cover"
                       />
-                      {/*TODO: some meaningful name here*/}
                       <Text style={styles.titleStyle}>{item.listName}</Text>
                     </>
                   )}
@@ -250,9 +197,6 @@ export class WanderScreen extends React.Component {
           }}
           extraData={this.state}
           keyExtractor={(item, index) => item.shortlistId.toString()}
-          // keyExtractor={(item, index) => {
-          //   return rowData.id.toString();
-          // }}
           renderHiddenItem={(data, rowMap) => (
             <TouchableOpacity
               style={styles.rowBack}
@@ -261,7 +205,6 @@ export class WanderScreen extends React.Component {
             </TouchableOpacity>
           )}
           leftOpenValue={75}
-          // previewRowKey={'0'}
           previewOpenDelay={3000}
         />
 
@@ -361,10 +304,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: window.height * 0.75,
     marginLeft: window.width * 0.13,
-    //paddingHorizontal: 20,
     height: 200,
     width: window.width * 0.75,
-    // width: 350,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#999',
@@ -448,7 +389,7 @@ const styles = StyleSheet.create({
     flex: 3,
     marginHorizontal: 0,
     marginBottom: 60,
-    width:'100%'
+    width: '100%',
   },
   rowBack: {
     borderRadius: 20,

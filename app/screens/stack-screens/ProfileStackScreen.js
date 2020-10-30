@@ -3,14 +3,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from '../tab-screens/ProfileScreen';
-import RewardsScreen from '../side-screens/RewardsScreen';
-import RewardsStackScreen from './RewardsStackScreen'
-import RewardDetailsScreen from '../RewardDetailsScreen'
+import RewardsStackScreen from './RewardsStackScreen';
 
 const ProfileStack = createStackNavigator();
 
-
-//<ProfileStack.Screen name="RewardDetails" component={RewardDetailsScreen} />
 export default function ProfileStackScreen({navigation}) {
   return (
     <ProfileStack.Navigator>

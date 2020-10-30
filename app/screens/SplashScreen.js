@@ -1,19 +1,22 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Pressable} from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
+import {
+  StyleSheet,
+  ImageBackground,
+  Pressable,
+} from 'react-native';
 
 export default function SplashScreen({navigation}) {
-
   return (
-      <ImageBackground source={require('../../assets/Splash_Screen.png')}
+    <ImageBackground
+      source={require('../../assets/Splash_Screen.png')}
       style={styles.container}>
-        <Pressable onPress={() => {
-          navigation.navigate('Login')
+      <Pressable
+        onPress={() => {
+          navigation.navigate('Login');
         }}
-        style={{width:'100%', height:'100%'}}></Pressable>
-      </ImageBackground>
-    
+        style={{width: '100%', height: '100%'}}
+      />
+    </ImageBackground>
   );
 }
 
@@ -56,28 +59,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-
-/*
-      <View style={styles.header}>
-        <Animatable.Image
-          animation="bounceIn"
-          duraton="3000"
-          source={require('../../assets/logo.png')}
-          resizeMode="stretch"
-        />
-      </View>
-      <Animatable.View style={styles.footer} animation="fadeInUp">
-        <Text style={styles.title}>Welcome to WanderList!</Text>
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <LinearGradient
-              colors={['#81c784', '#388e3c']}
-              style={styles.getStarted}>
-              <Text style={styles.getStartedText}>Get Started</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      </Animatable.View>
-
-*/

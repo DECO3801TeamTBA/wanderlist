@@ -5,7 +5,6 @@ import {
   Text,
   Image,
   Dimensions,
-  Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';

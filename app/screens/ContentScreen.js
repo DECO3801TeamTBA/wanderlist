@@ -76,9 +76,6 @@ export default function ContentScreen({route, navigation}) {
   const user = useSelector((state) => state.userReducer.user);
 
   const {contentId, type} = route.params;
-  //assume we're passing a contentID?
-  //so nothing here is finalised
-  //database/API isn't set up for this yet
   useEffect(() => {
     async function contentScreenOnLoad() {
       //assuming the following, the first axios call gets a list of ids
@@ -108,7 +105,7 @@ export default function ContentScreen({route, navigation}) {
         .finally(() => {
           setLoading(false);
         });
-      //we'll just take the first element for testing purposes
+      // we'll just take the first element
     }
     contentScreenOnLoad();
   }, []);
@@ -118,12 +115,8 @@ export default function ContentScreen({route, navigation}) {
   };
 
   const addToList = (item) => {
-    // const newList = {
-    //   shortlistId: item.shortlistId,
-    //   contentId: contentId,
-    // }
     const newList = [{shortlistId: item.shortlistId, contentId: contentId}];
-    //  post list to server
+    // post list to server
     axios
       .post(`${CONFIG.API_URL}ShortlistContent`, newList, {
         headers: {Authorization: `Bearer ${token}`},

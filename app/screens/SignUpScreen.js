@@ -1,21 +1,18 @@
-// SignUp.js
 import React from 'react';
 import axios from 'axios';
 import CONFIG from '../config';
 
 import {
   View,
-  Button,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
   Pressable,
   Platform,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-community/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class SignUp extends React.Component {
@@ -26,16 +23,29 @@ export default class SignUp extends React.Component {
     email: '',
     phone_number: '',
     hasError: false,
-    errorMessage: ''
+    errorMessage: '',
   };
   onChangeText = (key, val) => {
-    this.setState({ [key]: val });
+    this.setState({[key]: val});
   };
   signUp = async () => {
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    const emailRegex = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
-    const { username, password, email, phone_number, confirmPassword } = this.state;
-    if (confirmPassword == password && strongRegex.test(password) && emailRegex.test(email)) {
+    const strongRegex = new RegExp(
+      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
+    );
+    const emailRegex = new RegExp(
+      "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+    );
+    const {
+      username,
+      password,
+      email,
+      confirmPassword,
+    } = this.state;
+    if (
+      confirmPassword === password &&
+      strongRegex.test(password) &&
+      emailRegex.test(email)
+    ) {
       await axios
         .post(CONFIG.API_URL + 'Authenticate/register', {
           username,
@@ -43,38 +53,42 @@ export default class SignUp extends React.Component {
           password,
         })
         .then((res) => {
-          this.props.navigation.pop() //??
+          this.props.navigation.pop(); //??
         })
-        .catch(res => {
-          console.log(res)
-          this.setState({ hasError: true, errorMessage: res.response.data.message })
-        })
+        .catch((res) => {
+          console.log(res);
+          this.setState({
+            hasError: true,
+            errorMessage: res.response.data.message,
+          });
+        });
     } else {
-      if (password != confirmPassword) {
-      this.setState({ errorMessage: "Passwords must match", hasError: true })
+      if (password !== confirmPassword) {
+        this.setState({errorMessage: 'Passwords must match', hasError: true});
       } else if (!strongRegex.test(password)) {
-        this.setState({ errorMessage: "Password is too weak.", hasError: true })
+        this.setState({errorMessage: 'Password is too weak.', hasError: true});
       } else if (!emailRegex.test(email)) {
-        this.setState({ errorMessage: "Invalid email.", hasError: true })
+        this.setState({errorMessage: 'Invalid email.', hasError: true});
       } else {
-        this.setState({ errorMessage: "Create user failed.", hasError: true })
+        this.setState({errorMessage: 'Create user failed.', hasError: true});
       }
-      console.log("passwords must match")
+      console.log('passwords must match');
     }
   };
 
   render() {
     return (
-      <ImageBackground source={require('../../assets/login_screen.png')}
-       style={styles.container}>
-         <View style={{height:240}}></View>
+      <ImageBackground
+        source={require('../../assets/login_screen.png')}
+        style={styles.container}>
+        <View style={{height: 240}} />
         <View style={styles.inputView}>
           <Icon name="person" size={24} color="#5F9E98" />
           <TextInput
             style={styles.inputText}
             placeholder="Username"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({ username: text })}
+            onChangeText={(text) => this.setState({username: text})}
           />
         </View>
         <View style={styles.inputView}>
@@ -83,7 +97,7 @@ export default class SignUp extends React.Component {
             style={styles.inputText}
             placeholder="Email"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({ email: text })}
+            onChangeText={(text) => this.setState({email: text})}
           />
         </View>
         <View style={styles.inputView}>
@@ -93,7 +107,7 @@ export default class SignUp extends React.Component {
             secureTextEntry
             placeholder="Password"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({ password: text })}
+            onChangeText={(text) => this.setState({password: text})}
           />
         </View>
         <View style={styles.inputView}>
@@ -103,16 +117,21 @@ export default class SignUp extends React.Component {
             secureTextEntry
             placeholder="Confirm Password"
             placeholderTextColor="#4d4d4d"
-            onChangeText={(text) => this.setState({ confirmPassword: text })}
+            onChangeText={(text) => this.setState({confirmPassword: text})}
           />
         </View>
         <View style={styles.button}>
-        {this.state.hasError ? (<View style={styles.errorStyle}>
-            <Text style={styles.errorTextStyle}>{this.state.errorMessage}</Text>
-          </View>) : <View style={styles.errorStyle}></View>}
+          {this.state.hasError ? (
+            <View style={styles.errorStyle}>
+              <Text style={styles.errorTextStyle}>
+                {this.state.errorMessage}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.errorStyle} />
+          )}
 
-          <TouchableOpacity style={styles.signUp}
-          onPress={this.signUp}>
+          <TouchableOpacity style={styles.signUp} onPress={this.signUp}>
             <LinearGradient
               colors={['#54b3aa', '#4ba199']}
               style={styles.signIn}>
@@ -130,38 +149,6 @@ export default class SignUp extends React.Component {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      // <View style={styles.container}>
-      //   <TextInput
-      //     style={styles.input}
-      //     placeholder="Username"
-      //     autoCapitalize="none"
-      //     placeholderTextColor="white"
-      //     onChangeText={(val) => this.onChangeText('username', val)}
-      //   />
-      //   <TextInput
-      //     style={styles.input}
-      //     placeholder="Password"
-      //     secureTextEntry={true}
-      //     autoCapitalize="none"
-      //     placeholderTextColor="white"
-      //     onChangeText={(val) => this.onChangeText('password', val)}
-      //   />
-      //   <TextInput
-      //     style={styles.input}
-      //     placeholder="Email"
-      //     autoCapitalize="none"
-      //     placeholderTextColor="white"
-      //     onChangeText={(val) => this.onChangeText('email', val)}
-      //   />
-      //   <TextInput
-      //     style={styles.input}
-      //     placeholder="Phone Number"
-      //     autoCapitalize="none"
-      //     placeholderTextColor="white"
-      //     onChangeText={(val) => this.onChangeText('phone_number', val)}
-      //   />
-      //   <Button title="Sign Up" onPress={this.signUp} />
-      // </View>
     );
   }
 }
@@ -220,27 +207,11 @@ const styles = StyleSheet.create({
     color: '#388e3c',
   },
   errorStyle: {
-    height:50,
+    height: 50,
   },
-  errorTextStyle:{
-    color:'#ed0524',
-    fontSize:16,
-    paddingTop:15
-  }
-  // input: {
-  //   width: 350,
-  //   height: 55,
-  //   backgroundColor: '#42A5F5',
-  //   margin: 10,
-  //   padding: 8,
-  //   color: 'white',
-  //   borderRadius: 14,
-  //   fontSize: 18,
-  //   fontWeight: '500',
-  // },
-  // container: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
+  errorTextStyle: {
+    color: '#ed0524',
+    fontSize: 16,
+    paddingTop: 15,
+  },
 });

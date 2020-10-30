@@ -25,36 +25,59 @@ export class SearchScreen extends Component {
   }
 
   getData = async () => {
-    //gather all kinds of data from server: Cities, Activities and Destinations 
-    this.setState({ loading: true });
-    await axios.all([
-      axios.get(`${CONFIG.API_URL}activity/`, {
-        headers: { Authorization: `Bearer ${this.props.token}` },
-      }),
-      axios.get(`${CONFIG.API_URL}city/`, {
-        headers: { Authorization: `Bearer ${this.props.token}` },
-      }),
-      axios.get(`${CONFIG.API_URL}destination/`, {
-        headers: { Authorization: `Bearer ${this.props.token}` },
-      })
-    ])
-      .then(axios.spread((resActivity, resCity, resDestination) => {
-        //gather results
-        const activities = resActivity.data
-        const destinations = resDestination.data
-        const cities = resCity.data
-        //transform and combine
-        const res = activities.map((a) => {
-          return { name: a.name, coverImage: a.coverImage.resourceId, dataType: "Activity", id: a.activityId }
-        })
-          .concat(destinations.map((d) => {
-            return { name: d.name, coverImage: d.coverImage.resourceId, dataType: "Destination", id: d.destinationId }
-          }))
-          .concat(cities.map((c) => {
-            return { name: c.name, coverImage: c.coverImage.resourceId, dataType: "City", id: c.cityId }
-          }))
-        this.setResult(res);
-      }))
+    // gather all kinds of data from server: Cities, Activities and Destinations
+    this.setState({loading: true});
+    await axios
+      .all([
+        axios.get(`${CONFIG.API_URL}activity/`, {
+          headers: {Authorization: `Bearer ${this.props.token}`},
+        }),
+        axios.get(`${CONFIG.API_URL}city/`, {
+          headers: {Authorization: `Bearer ${this.props.token}`},
+        }),
+        axios.get(`${CONFIG.API_URL}destination/`, {
+          headers: {Authorization: `Bearer ${this.props.token}`},
+        }),
+      ])
+      .then(
+        axios.spread((resActivity, resCity, resDestination) => {
+          // gather results
+          const activities = resActivity.data;
+          const destinations = resDestination.data;
+          const cities = resCity.data;
+          // transform and combine
+          const res = activities
+            .map((a) => {
+              return {
+                name: a.name,
+                coverImage: a.coverImage.resourceId,
+                dataType: 'Activity',
+                id: a.activityId,
+              };
+            })
+            .concat(
+              destinations.map((d) => {
+                return {
+                  name: d.name,
+                  coverImage: d.coverImage.resourceId,
+                  dataType: 'Destination',
+                  id: d.destinationId,
+                };
+              }),
+            )
+            .concat(
+              cities.map((c) => {
+                return {
+                  name: c.name,
+                  coverImage: c.coverImage.resourceId,
+                  dataType: 'City',
+                  id: c.cityId,
+                };
+              }),
+            );
+          this.setResult(res);
+        }),
+      )
       .catch((res) => {
         console.log(res);
         this.setState({error: 'Error Loading content', loading: false});
@@ -95,9 +118,6 @@ export class SearchScreen extends Component {
       this.state.data = this.state.temp.filter(function (item) {
         return item.name.toUpperCase().includes(search.toUpperCase());
       });
-      //.map(function ({ name }) {
-      //  return { name };
-      // });
     });
   };
 
@@ -121,18 +141,11 @@ export class SearchScreen extends Component {
           renderItem={({item}) => (
             <ListItem
               onPress={() => {
-                if (item.dataType == 'City') {
-                  // this.props.navigation.replace('City', {
-                  //   cityId: item.id,
-                  // });
+                if (item.dataType === 'City') {
                   this.props.navigation.navigate('City', {
                     cityId: item.id,
                   });
                 } else {
-                  // this.props.navigation.replace('Content', {
-                  //   contentId: item.id,
-                  //   type: item.dataType,
-                  // });
                   this.props.navigation.navigate('Content', {
                     contentId: item.id,
                     type: item.dataType,

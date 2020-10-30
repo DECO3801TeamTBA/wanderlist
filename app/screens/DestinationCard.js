@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import {Text, Card, Divider} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 
 export default class DestinationCard extends Component {
-
   render() {
     return (
       <View style={{paddingHorizontal: 15, paddingTop: 20}}>

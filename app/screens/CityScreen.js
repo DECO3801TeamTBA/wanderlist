@@ -26,9 +26,9 @@ export default function CityScreen({route, navigation}) {
   const {cityId} = route.params;
 
   useEffect(() => {
-    //gather content list.
+    // gather content list.
     // TODO: have API return 2 lists, one for destinations
-    // and the other for activity?
+    // and the other for activity
     async function onCityLoad() {
       await axios.all([
           axios.get(`${CONFIG.API_URL}city/${cityId}`, {
@@ -39,7 +39,7 @@ export default function CityScreen({route, navigation}) {
           }),
         ])
         .then(
-          //expecting 2 lists
+          // expecting 2 lists
           // setActivities(res.data.activities);
           // setDestinations(res.data.destinations);
           axios.spread((resCity, resContent) => {
@@ -61,21 +61,6 @@ export default function CityScreen({route, navigation}) {
 
   return (
     <View>
-      {/*<FlatList*/}
-      {/*  style={styles.videoPlayer}*/}
-      {/*  data={videos}*/}
-      {/*  keyExtractor={(item, index) => item.id}*/}
-      {/*  extraData={{videos}}*/}
-      {/*  renderItem={({item}) => {*/}
-      {/*    return (*/}
-      {/*      <YouTube*/}
-      {/*        apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"*/}
-      {/*        videoId="eW7Twd85m2g" // The YouTube video ID*/}
-      {/*        play={false}*/}
-      {/*      />*/}
-      {/*    );*/}
-      {/*  }}*/}
-      {/*/>*/}
       <YouTube
         apiKey="AIzaSyAJHQRNfY2BNIn7P6TN2Maza0GQVhIdYUc"
         videoId={video} // The YouTube video ID

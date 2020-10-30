@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
   Pressable,
-  ImageBackground,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import CONFIG from '../../config';
 import axios from 'axios';
 import DestinationCard from '../DestinationCard';
-import { Modal, Portal } from 'react-native-paper';
+import {Modal, Portal} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 
-const window = Dimensions.get('window');
-
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
   const user = useSelector((state) => state.userReducer.user);
   const [cities, setCities] = useState([]);
@@ -32,29 +28,29 @@ export default function HomeScreen({ navigation }) {
     axios
       .post(
         `${CONFIG.API_URL}QR/`,
-        { qrCode: e.data, userId: user.id },
-        { headers: { Authorization: `Bearer ${token}` } },
+        {qrCode: e.data, userId: user.id},
+        {headers: {Authorization: `Bearer ${token}`}},
       )
       .then((res) => {
-        //scan succeeded, alert user?
+        // scan succeeded, alert user
         // show a message then
-        alert("QR scan successful.")
+        alert('QR scan successful.');
       })
       .catch((res) => {
         console.log('QR failed cause: ' + res);
         //scan failed, alert user as to reason
-        console.log(res.response.data)
+        console.log(res.response.data);
         if (res.response.data.message) {
-          let msg = res.response.data.message
-          if (msg.includes("has already been to this location")) {
-            alert("You have already scanned at this location.")
-          } else if (msg.includes("has expired")) {
-            alert("That code is expired.")
+          let msg = res.response.data.message;
+          if (msg.includes('has already been to this location')) {
+            alert('You have already scanned at this location.');
+          } else if (msg.includes('has expired')) {
+            alert('That code is expired.');
           } else {
-            alert("Error scanning code.")
+            alert('Error scanning code.');
           }
         } else {
-          alert("Error scanning code.")
+          alert('Error scanning code.');
         }
       })
       .finally(() => {
@@ -64,11 +60,11 @@ export default function HomeScreen({ navigation }) {
       });
   };
   useEffect(() => {
-    //gather cities
+    // gather cities
     async function onHomeLoad() {
       await axios
         .get(`${CONFIG.API_URL}city`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {Authorization: `Bearer ${token}`},
         })
         .then(async (res) => {
           //expecting a list of cities
@@ -86,34 +82,32 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <Portal.Host>
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={styles.heading}>Discovery</Text>
-        <Pressable
-          onPress={() => {
-            setModalShow(true);
-          }}
-          style={styles.buttonScan}>
-          {/*<TouchableOpacity style={styles.qr}>*/}
-          <Icon name="scan-circle-outline" size={32}></Icon>
-          {/*</TouchableOpacity>*/}
-        </Pressable>
-      </View>
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
+      <View style={styles.container}>
+        <View style={styles.topBar}>
+          <Text style={styles.heading}>Discovery</Text>
+          <Pressable
+            onPress={() => {
+              setModalShow(true);
+            }}
+            style={styles.buttonScan}>
+            <Icon name="scan-circle-outline" size={32} />
+          </Pressable>
+        </View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
           <FlatList
             data={cities}
             keyExtractor={(item, index) => item.cityId}
-            extraData={{ cities }}
-            renderItem={({ item }) => {
+            extraData={{cities}}
+            renderItem={({item}) => {
               return (
                 <DestinationCard
                   detail={item}
                   location={item.name}
                   source={{
                     uri: `${CONFIG.API_URL}resource/${item.coverImage.resourceId}`,
-                    headers: { Authorization: `Bearer ${token}` },
+                    headers: {Authorization: `Bearer ${token}`},
                   }}
                   navigation={navigation}
                 />
@@ -121,26 +115,26 @@ export default function HomeScreen({ navigation }) {
             }}
           />
         )}
-            <Portal>
-      <Modal visible={modalShow}
-      onDismiss= { () => {
-        setModalShow(false)
-      }
-      }
-      dismissable={true}
-      >
-        <View style={{
-          marginTop:-200
-        }}>
-        <QRCodeScanner
-          onRead={onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
-          topContent={<Text style={styles.centerText}>Scan QR</Text>}
-        />
-        </View>
-      </Modal>
-      </Portal>
-    </View>
+        <Portal>
+          <Modal
+            visible={modalShow}
+            onDismiss={() => {
+              setModalShow(false);
+            }}
+            dismissable={true}>
+            <View
+              style={{
+                marginTop: -200,
+              }}>
+              <QRCodeScanner
+                onRead={onSuccess}
+                flashMode={RNCamera.Constants.FlashMode.torch}
+                topContent={<Text style={styles.centerText}>Scan QR</Text>}
+              />
+            </View>
+          </Modal>
+        </Portal>
+      </View>
     </Portal.Host>
   );
 }
@@ -157,7 +151,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   centerText: {
     flex: 1,
@@ -174,9 +168,9 @@ const styles = StyleSheet.create({
     color: 'rgb(0,122,255)',
   },
   buttonScan: {
-    marginTop:30,
-    marginRight:15,
-    alignSelf:'center'
+    marginTop: 30,
+    marginRight: 15,
+    alignSelf: 'center',
   },
   buttonCancel: {
     marginTop: -100,

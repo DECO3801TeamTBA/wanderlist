@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Pressable,
-  TouchableOpacity, Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {userReducer} from '../reducers/userReducer';
@@ -15,8 +14,6 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-const window = Dimensions.get('window');
 
 export default function QRScannerModal() {
   const user = useSelector((state) => state.userReducer.user);
@@ -45,17 +42,18 @@ export default function QRScannerModal() {
       });
   };
   return (
-    <View style={{
-      marginTop:10,
-      alignSelf:'center'
-    }}>
+    <View
+      style={{
+        marginTop: 10,
+        alignSelf: 'center',
+      }}>
       <Pressable
         onPress={() => {
           setModalShow(true);
         }}
         style={styles.buttonScan}>
         {/*<TouchableOpacity style={styles.qr}>*/}
-        <Icon name="scan-circle-outline" size={32}></Icon>
+        <Icon name="scan-circle-outline" size={32} />
         {/*</TouchableOpacity>*/}
       </Pressable>
       <View style={styles.modal}>
@@ -124,10 +122,3 @@ const styles = StyleSheet.create({
     marginTop: -450,
   },
 });
-
-/*
-<LinearGradient colors={['#81c784', '#4caf50']} style={styles.qr}>
-          <Text style={styles.textQR}>Scan QR Code</Text>
-        </LinearGradient>
-
-*/

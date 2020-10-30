@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DrawerScreen from './app/screens/DrawerScreen';
 import {useDispatch, useSelector} from 'react-redux';
 
-import RootStackScreen from './app/screens/RootStackScreen';
 import {useEffect} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {setExpiry, setToken, setUser, setIsAuth} from './app/actions/user';
@@ -25,7 +24,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const dispatch = useDispatch();
-  //const [isAuth, setIsAuth] = React.useState(false);
   const isAuth = useSelector((state) => state.userReducer.isAuth);
 
   useEffect(() => {
@@ -34,14 +32,14 @@ export default function App() {
         const value = await AsyncStorage.getItem('persistentAuth');
         if (value !== null) {
           const auth = JSON.parse(value);
-          //have to compare them as ISO strings
+          // have to compare them as ISO strings
           const result = auth.expiry.toString() < new Date().toISOString();
-          //check if expired
+          // check if expired
           if (result) {
-            //setIsAuth(false);
+            // setIsAuth(false);
             dispatch(setIsAuth(false));
           } else {
-            //set global state
+            // set global state
             dispatch(setUser(auth.user));
             dispatch(setToken(auth.authToken));
             dispatch(setExpiry(auth.expiry));
@@ -49,7 +47,7 @@ export default function App() {
             dispatch(setIsAuth(true));
           }
         } else {
-          //setIsAuth(false);
+          // setIsAuth(false);
           dispatch(setIsAuth(false));
         }
       } catch (e) {

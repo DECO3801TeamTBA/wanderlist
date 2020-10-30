@@ -8,8 +8,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  Image,
-  ScrollView,
   Pressable,
   ActivityIndicator,
   ImageBackground,
@@ -31,7 +29,6 @@ export default function ProfileScreen({navigation}) {
   const token = useSelector((state) => state.userReducer.authToken);
   const [userState, setUserState] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  //const [avatarSource, setAvatarSource] = useState(null)
 
   function uploadImage(image) {
     const imageData = {

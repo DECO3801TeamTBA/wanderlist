@@ -4,25 +4,16 @@ import {
   Text,
   View,
   ActivityIndicator,
-  FlatList,
-  Image,
-  Dimensions,
   ImageBackground,
-  useWindowDimensions,
 } from 'react-native';
 import CONFIG from '../config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import QRCode from 'react-native-qrcode-generator';
-import {CardStyleInterpolators} from '@react-navigation/stack';
 import {TextShadow} from 'text-shadow-component';
 
-const window = Dimensions.get('window');
-
-export default function RewardsDetailsScreen({route, navigation}) {
+export default function RewardsDetailsScreen({route}) {
   const token = useSelector((state) => state.userReducer.authToken);
-  const user = useSelector((state) => state.userReducer.user);
   const [isLoading, setIsLoading] = useState(true);
   const [reward, setReward] = useState(null);
   const {rewardId} = route.params;
@@ -91,14 +82,6 @@ export default function RewardsDetailsScreen({route, navigation}) {
     </View>
   );
 }
-
-// <View style={{borderStyle: 'solid'}}>
-//   {item.redeemed ? (
-//     <Text>{`${item.name} and ${item.value} YO BEEN HERE`}</Text>
-//   ) : (
-//     <Text>{`${item.name} and ${item.value} YO AINT BEEN HERE`}</Text>
-//   )}
-// </View>
 
 const styles = StyleSheet.create({
   mainContainer: {

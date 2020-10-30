@@ -1,42 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   View,
   FlatList,
   TouchableWithoutFeedback,
   Image,
-  Platform,
 } from 'react-native';
 
-import {SearchBar} from 'react-native-elements';
 import CONFIG from '../config';
-import axios from 'axios';
-// import RewardsScreen from '../side-screens/RewardsScreen';
 
 export default function ListScreen({route, navigation}) {
-  const {shortlistId} = route.params;
-  const {listName} = route.params;
   const {collection} = route.params;
 
   const {token} = route.params;
 
   return (
     <View style={styles.viewStyle}>
-      {/* <Text style={styles.bigBlackCentre}>{listName}</Text> */}
-
-      {/*<View>*/}
-      {/*  <SearchBar*/}
-      {/*    showLoading={false}*/}
-      {/*    platform={Platform.OS}*/}
-      {/*    clearIcon={true}*/}
-      {/*    round*/}
-      {/*    searchIcon={{size: 20}}*/}
-      {/*    placeholder="Search Your Lists"*/}
-      {/*  />*/}
-      {/*</View>*/}
-
       <View>
         <Text style={styles.bigBlack}>Collection</Text>
       </View>
@@ -45,8 +25,7 @@ export default function ListScreen({route, navigation}) {
         data={collection}
         renderItem={({item}) => {
           return (
-            // Single Comes here which will be repeatative for the FlatListItems
-
+            // Single Comes here which will be repetitive for the FlatListItems
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('Content', {
@@ -85,7 +64,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 2,
     backgroundColor: 'white',
-    // marginTop: Platform.OS == 'ios' ? 30 : 0,
   },
   textStyle: {
     padding: 10,

@@ -5,10 +5,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeStackScreen from './stack-screens/HomeStackScreen';
 import WanderStackScreen from './stack-screens/WanderStackScreen';
-import RewardsStackScreen from './stack-screens/RewardsStackScreen';
-import ProfileStackScreen from './stack-screens/ProfileStackScreen';
-import ProfileScreen from './tab-screens/ProfileScreen'
-
+import ProfileScreen from './tab-screens/ProfileScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,16 +33,6 @@ const MainTabScreen = () => (
       }}
     />
 
-    {/*<Tab.Screen*/}
-    {/*  name="Rewards"*/}
-    {/*  component={RewardsStackScreen}*/}
-    {/*  options={{*/}
-    {/*    tabBarIcon: ({color}) => (*/}
-    {/*      <Icon name="scan-circle" color={color} size={24} />*/}
-    {/*    ),*/}
-    {/*  }}*/}
-    {/*/>*/}
-
     <Tab.Screen
       name="Profile"
       component={ProfileScreen}
@@ -53,8 +40,6 @@ const MainTabScreen = () => (
         tabBarIcon: ({color}) => <Icon name="person" color={color} size={24} />,
       }}
     />
-
-
   </Tab.Navigator>
 );
 
