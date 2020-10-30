@@ -63,7 +63,7 @@ wanderlist/app/config.js
 ## Testing
 
 ```sh
-TBD
+We are currently using manual testing.
 ```
 
 ## Author
@@ -71,16 +71,17 @@ TBD
 👤 **TEAM TBA**
 
 * (UI/UX)Designers: 
-* Front-end (React Native)Developers: 
+* Front-end (React Native)Developers: @thanhtrv, @Steven-Yulong-Yan
 * Back-end (.Net and C#)Developers of https://github.com/johnpaulsmith87/TBABackend can be found here.
 <!--
 * Github: [@Unavailable](https://github.com/Unavailable)
 -->
 
-## Short docs
+## Notes
 
 App.js is responsible for the main navigation of the app.<br>
-RegisterScreen.js is the registration screen.
+All of the main screens are located in wanderlist/app
+package.json includes required packages
 
 ## 📝 License
 
