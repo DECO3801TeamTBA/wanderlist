@@ -18,8 +18,15 @@
 ### ✨ [Demo](Unavailable)
 
 ## Environment Set-up
+### Details
 
 [React Native CLI QuickStart](https://reactnative.dev/docs/environment-setup)
+
+### Next steps (after the environment set-up)
+```sh
+//to install required packages
+npm install
+```
 
 ## Run Instructions
 
@@ -43,6 +50,12 @@ Run instructions for Android:
 Run instructions for Windows and macOS:
 
 • See https://aka.ms/ReactNative for the latest up-to-date instructions.
+```
+## config.js (if you want to use another API)
+```sh
+//using cd to the url below
+wanderlist/app/config.js
+//then change it to your own api
 ```
 
 ## Testing
